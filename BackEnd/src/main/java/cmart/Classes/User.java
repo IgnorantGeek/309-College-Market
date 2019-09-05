@@ -18,7 +18,6 @@ public class User
 
     // Getters
     public int getId()                      { return this.id; }
-    public String getName()                 { return this.first + this.last; }
     public String getFirst()                { return this.first; }
     public String getLast()                 { return this.last; }
 

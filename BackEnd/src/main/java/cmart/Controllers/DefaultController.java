@@ -1,5 +1,6 @@
 package cmart.Controllers;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,5 +19,14 @@ public class DefaultController
         Random rand = new Random();
         int id = rand.nextInt(256);
         return new User(firstname, lastname, id);
+    }
+
+    @RequestMapping("/users")
+    public ArrayList<User> users(@RequestParam(value = "id", required = false, defaultValue = "-1") int id)
+    {
+        ArrayList<User> users = new ArrayList<User>();
+        // Store users in DB... eventually but do we need it in a rt variable somewhere?
+        users.add(new User("Nick", "Heisler", id));
+        return users;
     }
 }
