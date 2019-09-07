@@ -3,6 +3,9 @@ package cmart.app.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Controller for navigating and using the web app
+ */
 @Controller
 @RequestMapping("/web")
 public class WebController
@@ -17,5 +20,11 @@ public class WebController
     public String back()
     {
         return "back";
+    }
+
+    @RequestMapping("/test")
+    public String test()
+    {
+        return "test";
     }
 }
