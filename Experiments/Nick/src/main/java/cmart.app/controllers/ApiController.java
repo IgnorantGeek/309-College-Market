@@ -15,17 +15,16 @@ import cmart.app.classes.*;
 @RequestMapping("/api")
 public class ApiController
 {
-    @RequestMapping("/home")
+    @RequestMapping("")
     public String home()
     {
-        return "ayo";
+        return "Mobile API Entry, go to /api/testUser to see sample JSON.";
     }
-
     @RequestMapping("/testUser")
-    public User testUser(@RequestParam(value = "name", defaultValue = "JohnDoe", required = false) String name)
+    public User testUser(@RequestParam(value = "name", defaultValue = "JohnDoe", required = false) String username)
     {
         Random rand = new Random();
-        User u = new User(name, rand.nextInt(1024));
+        User u = new User(username, rand.nextInt(1024));
         Post p = new Post();
         u.addPost(p);
         return u;
