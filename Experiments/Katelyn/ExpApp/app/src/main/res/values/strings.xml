@@ -9,4 +9,9 @@
     <string name="picture">Picture</string>
     <string name="Sign_up">Sign Up</string>
     <string name="Log_in">Log In</string>
+    <string name="Username">Enter your username</string>
+    <string name="Password">Enter your password</string>
+    <string name="Confirm_Password">Confirm your password</string>
+    <string name="Email">Enter your email</string>
+    <string name="welcome">Welcome, </string>
 </resources>

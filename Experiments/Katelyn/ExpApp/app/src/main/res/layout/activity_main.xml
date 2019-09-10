@@ -16,7 +16,8 @@
         app:layout_constraintHorizontal_bias="0.828"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />
+        app:srcCompat="@drawable/marketcartoon"
+        tools:srcCompat="@drawable/marketcartoon" />
 
     <TextView
         android:id="@+id/textView"
@@ -57,7 +58,8 @@
         android:contentDescription="@string/picture"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
+        app:srcCompat="@drawable/marketcartoon"
+        tools:srcCompat="@drawable/marketcartoon" />
 
     <TextView
         android:id="@+id/textView4"
@@ -82,7 +84,8 @@
         android:contentDescription="@string/picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:srcCompat="@tools:sample/backgrounds/scenic[18]" />
+        app:srcCompat="@drawable/marketcartoon"
+        tools:srcCompat="@drawable/marketcartoon" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -94,6 +97,31 @@
         app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:srcCompat="@tools:sample/backgrounds/scenic[19]" />
+        app:srcCompat="@drawable/marketcartoon"
+        tools:srcCompat="@drawable/marketcartoon" />
+
+    <Button
+        android:id="@+id/LogInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="16dp"
+        android:onClick="logIn"
+        android:text="@string/Log_in"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <Button
+        android:id="@+id/SignUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginRight="108dp"
+        android:onClick="signUp"
+        android:text="@string/Sign_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
