@@ -7,4 +7,6 @@
     <string name="Login_welcome">Welcome to Campus Market</string>
     <string name="Login_get_started">Ready to get started?</string>
     <string name="picture">Picture</string>
+    <string name="Sign_up">Sign Up</string>
+    <string name="Log_in">Log In</string>
 </resources>
