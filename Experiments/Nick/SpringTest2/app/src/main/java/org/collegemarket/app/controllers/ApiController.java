@@ -15,7 +15,7 @@ public class ApiController
         return "Welcome to the CollegeMarket API.";
     }
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String defHello()
+    public String defaultHello()
     {
         return "Hello User! In the URL field above, enter your name after the slash!";
     }
