@@ -1,0 +1,3 @@
+[submodule "Experiments/Lily/SpringExpr/petclinic-mysql"]
+	path = Experiments/Lily/SpringExpr/petclinic-mysql
+	url = https://git.linux.iastate.edu/tghosh/petclinic-mysql.git
