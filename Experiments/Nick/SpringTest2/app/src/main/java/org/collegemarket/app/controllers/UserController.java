@@ -30,14 +30,6 @@ public class UserController
     {
         users.save(user);
     }
-    @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public void removeUser(@RequestBody final List<User> userCouple)
-    {
-        if (userCouple.get(0).getAdmin() == 1)
-        {
-            users.deleteById(userCouple.get(1).getId());
-        }
-    }
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String defaultHello(@RequestParam(name = "name", defaultValue = "Dave", required = false) String name)
     {

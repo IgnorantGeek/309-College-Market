@@ -3,6 +3,7 @@ package org.collegemarket.app.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,7 +13,7 @@ public class User
 {
     /*--- Class Variables ---*/
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int     Id;
     @Column(name = "user_name")
@@ -23,8 +24,6 @@ public class User
     private String  firstName;
     @Column(name = "last_name")
     private String  lastName;
-    @Column(name = "admin")
-    private int    admin;
     
     /*--- Constructors ---*/
     public User() { }
@@ -50,10 +49,6 @@ public class User
     public int getId()
     {
         return this.Id;
-    }
-    public int getAdmin()
-    {
-        return this.admin;
     }
     public void setuserName(String userName)
     {
@@ -89,10 +84,5 @@ public class User
                             this.firstName,
                             this.lastName);
         return ret;
-    }
-
-    public void makeAdmin(User add)
-    {
-        // Made whatever user is specified an admin
     }
 }
