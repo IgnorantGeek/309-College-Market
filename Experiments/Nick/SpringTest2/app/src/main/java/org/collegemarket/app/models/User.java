@@ -17,12 +17,14 @@ public class User
     private int     Id;
     @Column(name = "user_name")
     private String  userName;
+    @Column(name = "password")
+    private String password;
     @Column(name = "first_name")
     private String  firstName;
     @Column(name = "last_name")
     private String  lastName;
     @Column(name = "admin")
-    private int admin;
+    private int    admin;
     
     /*--- Constructors ---*/
     public User() { }
@@ -32,6 +34,10 @@ public class User
     public String getuserName()
     {
         return this.userName;
+    }
+    public String getPassword()
+    {
+        return this.password;
     }
     public String getfirstName()
     {
@@ -52,6 +58,10 @@ public class User
     public void setuserName(String userName)
     {
         this.userName = userName;
+    }
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
     public void setfirstName(String firstName)
     {
