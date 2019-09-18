@@ -34,6 +34,11 @@ public class UserController
     {
         users.save(user);
     }
+    @RequestMapping(value = "/admins", method = RequestMethod.GET)
+    public List<User> getAdmins()
+    {
+        return admins.findAll();
+    }
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String defaultHello(@RequestParam(name = "name", defaultValue = "Dave", required = false) String name)
     {
