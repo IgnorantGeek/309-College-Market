@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='CampusMarket'
+rootProject.name='LoginExperiment'
