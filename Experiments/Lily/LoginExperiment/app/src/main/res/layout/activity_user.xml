@@ -6,4 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".UserActivity">
 
+    <EditText
+        android:id="@+id/etUniversity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="University"
+        app:layout_constraintTop_toBottomOf="@+id/tvWelcomeMsg"
+        tools:layout_editor_absoluteX="31dp" />
+
+    <TextView
+        android:id="@+id/tvWelcomeMsg"
+        android:layout_width="200dp"
+        android:layout_height="47dp"
+        android:text="Welcome"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="28dp" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Username"
+        app:layout_constraintTop_toBottomOf="@+id/tvWelcomeMsg"
+        tools:layout_editor_absoluteX="31dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
