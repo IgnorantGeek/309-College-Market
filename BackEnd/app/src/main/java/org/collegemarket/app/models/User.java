@@ -98,10 +98,10 @@ public class User
         String ret = new String();
         // Convert the class info into a string format
         ret = String.format("{Username:%1$s}\n{Id:%2$d}\n{Firstname:%3$s}\n{Lastname:%4$s}\n{Email:%5$s}\n{University:%6$s}  ",
-                            this.userName,
+                            this.user_name,
                             this.Id,
-                            this.firstName,
-                            this.lastName,
+                            this.first_name,
+                            this.last_name,
                             this.email,
                             this.university
                             );
