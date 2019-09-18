@@ -27,3 +27,4 @@ overridedb.*
 .idea
 *.jar
 **/*.DS_Store
+local.properties
