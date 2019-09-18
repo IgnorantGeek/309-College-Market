@@ -17,13 +17,13 @@ public class User
     @Column(name = "id")
     private int     Id;
     @Column(name = "user_name")
-    private String  userName;
+    private String  user_name;
     @Column(name = "password")
     private String password;
     @Column(name = "first_name")
-    private String  firstName;
+    private String  first_name;
     @Column(name = "last_name")
-    private String  lastName;
+    private String  last_name;
     
     /*--- Constructors ---*/
     public User() { }
@@ -32,7 +32,7 @@ public class User
     /*--- Getters/Setters ---*/
     public String getuserName()
     {
-        return this.userName;
+        return this.user_name;
     }
     public String getPassword()
     {
@@ -40,11 +40,11 @@ public class User
     }
     public String getfirstName()
     {
-        return this.firstName;
+        return this.first_name;
     }
     public String getlastName()
     {
-        return this.lastName;
+        return this.last_name;
     }
     public int getId()
     {
@@ -52,7 +52,7 @@ public class User
     }
     public void setuserName(String userName)
     {
-        this.userName = userName;
+        this.user_name = userName;
     }
     public void setPassword(String password)
     {
@@ -60,11 +60,11 @@ public class User
     }
     public void setfirstName(String firstName)
     {
-        this.firstName = firstName;
+        this.first_name = firstName;
     }
     public void setlastName(String lastName)
     {
-        this.lastName = lastName;
+        this.last_name = lastName;
     }
     public void setId(int Id)
     {
@@ -79,10 +79,10 @@ public class User
         String ret = new String();
         // Convert the class info into a string format
         ret = String.format("{Username:%1$s}\n{Id:%2$d}\n{Firstname:%3$s}\n{Lastname:%4$s}",
-                            this.userName,
+                            this.user_name,
                             this.Id,
-                            this.firstName,
-                            this.lastName);
+                            this.first_name,
+                            this.last_name);
         return ret;
     }
 }
