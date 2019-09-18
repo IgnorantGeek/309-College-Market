@@ -3,7 +3,6 @@ package org.collegemarket.app.controllers;
 import java.util.List;
 
 import org.collegemarket.app.models.User;
-import org.collegemarket.db.repositories.AdminsRepository;
 import org.collegemarket.db.repositories.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,6 @@ public class UserController
     @Autowired
     UsersRepository users;
 
-    @Autowired
-    AdminsRepository admins;
-
     @RequestMapping("/all")
     public List<User> getAll()
     {
@@ -33,11 +29,6 @@ public class UserController
     public void newUser(@RequestBody final User user)
     {
         users.save(user);
-    }
-    @RequestMapping(value = "/admins", method = RequestMethod.GET)
-    public List<User> getAdmins()
-    {
-        return admins.findAll();
     }
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String defaultHello(@RequestParam(name = "name", defaultValue = "Dave", required = false) String name)
