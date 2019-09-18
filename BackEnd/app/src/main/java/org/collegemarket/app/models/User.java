@@ -24,6 +24,10 @@ public class User
     private String  first_name;
     @Column(name = "last_name")
     private String  last_name;
+    @Column(name = "email")
+    private String  email;
+    @Column(name = "university")
+    private String  university;
     
     /*--- Constructors ---*/
     public User() { }
@@ -50,6 +54,14 @@ public class User
     {
         return this.Id;
     }
+    public String getUniversity()
+    {
+        return this.university;
+    }
+    public String getEmail()
+    {
+        return this.email;
+    }
     public void setuserName(String userName)
     {
         this.user_name = userName;
@@ -70,7 +82,14 @@ public class User
     {
         this.Id = Id;
     }
-    // No setter for admin.
+    public void setUniversity(String university) 
+    {
+        this.university = university;
+    }
+    public void setEmail(String email) 
+    {
+        this.email = email;
+    }
 
     /*--- Class Methods ---*/
     @Override
