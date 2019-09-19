@@ -28,3 +28,4 @@ overridedb.*
 *.jar
 **/*.DS_Store
 local.properties
+.metadata/
