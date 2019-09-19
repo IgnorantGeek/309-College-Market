@@ -1,4 +1,4 @@
-package org.collegemarket.app;
+package org.campusmarket.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,6 @@
-package org.collegemarket.db.repositories;
+package org.campusmarket.db.repositories;
 
-import org.collegemarket.app.models.User;
+import org.campusmarket.app.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UsersRepository extends JpaRepository<User, Integer>

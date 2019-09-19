@@ -1,9 +1,9 @@
-package org.collegemarket.app.controllers;
+package org.campusmarket.app.controllers;
 
 import java.util.List;
 
-import org.collegemarket.app.models.User;
-import org.collegemarket.db.repositories.UsersRepository;
+import org.campusmarket.app.models.User;
+import org.campusmarket.db.repositories.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

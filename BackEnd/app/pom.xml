@@ -7,11 +7,11 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.6.RELEASE</version>
 	</parent>
-	<groupId>org.collegemarket</groupId>
+	<groupId>org.campusmarket</groupId>
 	<artifactId>cmarket</artifactId>
 	<version>0.1.2</version>
-	<name>CollegeMarket</name>
-	<description>Alpha College Market build</description>
+	<name>CampusMarket</name>
+	<description>Alpha Campus Market build</description>
 
 	<properties>
 		<java.version>1.8</java.version>

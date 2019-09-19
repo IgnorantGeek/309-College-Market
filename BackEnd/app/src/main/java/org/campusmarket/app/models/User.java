@@ -1,4 +1,4 @@
-package org.collegemarket.app.models;
+package org.campusmarket.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
