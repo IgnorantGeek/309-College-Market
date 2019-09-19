@@ -8,8 +8,8 @@
 		<version>2.1.6.RELEASE</version>
 	</parent>
 	<groupId>org.collegemarket</groupId>
-	<artifactId>app</artifactId>
-	<version>0.0.1</version>
+	<artifactId>cmarket</artifactId>
+	<version>0.1.2</version>
 	<name>CollegeMarket</name>
 	<description>Alpha College Market build</description>
 

@@ -1,5 +1,7 @@
 package org.collegemarket.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User
 {
     /*--- Class Variables ---*/
@@ -97,7 +100,7 @@ public class User
     {
         String ret = new String();
         // Convert the class info into a string format
-        ret = String.format("{Username:%1$s}\n{Id:%2$d}\n{Firstname:%3$s}\n{Lastname:%4$s}\n{Email:%5$s}\n{University:%6$s}  ",
+        ret = String.format("{Username:%1$s}\n{Id:%2$d}\n{Firstname:%3$s}\n{Lastname:%4$s}\n{Email:%5$s}\n{University:%6$s}\n\n",
                             this.user_name,
                             this.Id,
                             this.first_name,

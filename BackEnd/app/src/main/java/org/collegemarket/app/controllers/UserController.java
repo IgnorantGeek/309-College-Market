@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@RequestMapping("/users") // This can be default to "/" because we dont care about web
+@RequestMapping("/users")
 public class UserController
 {
     @Autowired
@@ -24,6 +24,11 @@ public class UserController
     public List<User> getAll()
     {
         return users.findAll();
+    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public User findUser(@PathVariable("id") int id)
+    {
+        return users.getOne(id);
     }
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public void newUser(@RequestBody final User user)
