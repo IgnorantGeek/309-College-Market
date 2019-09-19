@@ -37,7 +37,7 @@ public class User
     // Do we need more constructors?
 
     /*--- Getters/Setters ---*/
-    public String getuserName()
+    public String getUser_name()
     {
         return this.user_name;
     }
@@ -45,11 +45,11 @@ public class User
     {
         return this.password;
     }
-    public String getfirstName()
+    public String getFirst_name()
     {
         return this.first_name;
     }
-    public String getlastName()
+    public String getLast_name()
     {
         return this.last_name;
     }
@@ -65,7 +65,7 @@ public class User
     {
         return this.email;
     }
-    public void setuserName(String userName)
+    public void setUser_name(String userName)
     {
         this.user_name = userName;
     }
@@ -73,11 +73,11 @@ public class User
     {
         this.password = password;
     }
-    public void setfirstName(String firstName)
+    public void setFirst_name(String firstName)
     {
         this.first_name = firstName;
     }
-    public void setlastName(String lastName)
+    public void setLast_name(String lastName)
     {
         this.last_name = lastName;
     }

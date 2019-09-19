@@ -1,4 +1,4 @@
-package org.collegemarket.app;
+package org.campusmarket.app;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
