@@ -29,4 +29,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Called when user finishes logging in
+    public void finishLogIn(View view) {
+        Intent intent = new Intent(this, UserActivity.class);
+        EditText editText = (EditText) findViewById(R.id.etUsername);
+        String message = editText.getText().toString();
+        intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
 }
