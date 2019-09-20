@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 @RestController
 @RequestMapping("/users")
 public class UserController
@@ -29,12 +30,29 @@ public class UserController
     public User findUser(@PathVariable("id") int id)
     {
         return users.getOne(id);
+        
     }
+   
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public void newUser(@RequestBody final User user)
     {
         users.save(user);
     }
+    
+    
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable("id") int id)
+    {
+         users.deleteById(id);    
+    }
+    
+    @RequestMapping(value = "/deleteAll" ,method = RequestMethod.DELETE)
+    public void deleteAll()
+    {
+         users.deleteAll();   
+    }
+    
+    
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String defaultHello(@RequestParam(name = "name", defaultValue = "Dave", required = false) String name)
     {
