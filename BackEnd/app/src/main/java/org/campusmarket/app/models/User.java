@@ -19,8 +19,8 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int     Id;
-    @Column(name = "user_name")
-    private String  user_name;
+    @Column(name = "username")
+    private String  username;
     @Column(name = "password")
     private String password;
     @Column(name = "first_name")
@@ -39,7 +39,7 @@ public class User
     /*--- Getters/Setters ---*/
     public String getUser_name()
     {
-        return this.user_name;
+        return this.username;
     }
     public String getPassword()
     {
@@ -67,7 +67,7 @@ public class User
     }
     public void setUser_name(String userName)
     {
-        this.user_name = userName;
+        this.username = userName;
     }
     public void setPassword(String password)
     {
@@ -101,7 +101,7 @@ public class User
         String ret = new String();
         // Convert the class info into a string format
         ret = String.format("{Username:%1$s}\n{Id:%2$d}\n{Firstname:%3$s}\n{Lastname:%4$s}\n{Email:%5$s}\n{University:%6$s}\n\n",
-                            this.user_name,
+                            this.username,
                             this.Id,
                             this.first_name,
                             this.last_name,
