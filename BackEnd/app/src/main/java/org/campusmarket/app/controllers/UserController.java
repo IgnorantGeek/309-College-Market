@@ -2,9 +2,7 @@ package org.campusmarket.app.controllers;
 
 import java.util.List;
 
-import javax.persistence.Column;
-
-import org.campusmarket.app.models.User;
+import org.campusmarket.app.models.*;
 import org.campusmarket.db.repositories.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +45,7 @@ public class UserController
         return users.findByEmail(email);
         
     }
-    
+
     @GetMapping("username/{username}")
     public User findUserByUserName(@PathVariable("username") String username)
     {

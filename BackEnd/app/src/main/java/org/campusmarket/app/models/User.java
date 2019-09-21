@@ -37,7 +37,7 @@ public class User
     // Do we need more constructors?
 
     /*--- Getters/Setters ---*/
-    public String getUser_name()
+    public String getUsername()
     {
         return this.username;
     }

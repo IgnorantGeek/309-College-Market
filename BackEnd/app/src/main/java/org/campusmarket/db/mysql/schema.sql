@@ -10,3 +10,6 @@ CREATE TABLE IF NOT EXISTS users(
     UNIQUE (username),
     UNIQUE (email)
 );
+CREATE TABLE IF NOT EXISTS sessions(
+    sessid   VARCHAR(30) NOT NULL PRIMARY KEY
+);
