@@ -15,8 +15,5 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     User findByEmail(@Param("email") String email);
     User findByUsername(@Param("username") String username);
     
-    User save(User owner);
-
-
-	
+    User save(User owner);	
 }

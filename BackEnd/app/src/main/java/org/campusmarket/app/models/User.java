@@ -23,10 +23,10 @@ public class User
     private String  username;
     @Column(name = "password")
     private String password;
-    @Column(name = "first_name")
-    private String  first_name;
-    @Column(name = "last_name")
-    private String  last_name;
+    @Column(name = "firstname")
+    private String  firstname;
+    @Column(name = "lastname")
+    private String  lastname;
     @Column(name = "email")
     private String  email;
     @Column(name = "university")
@@ -45,13 +45,13 @@ public class User
     {
         return this.password;
     }
-    public String getFirst_name()
+    public String getFirstname()
     {
-        return this.first_name;
+        return this.firstname;
     }
-    public String getLast_name()
+    public String getLastname()
     {
-        return this.last_name;
+        return this.lastname;
     }
     public int getId()
     {
@@ -65,7 +65,7 @@ public class User
     {
         return this.email;
     }
-    public void setUser_name(String userName)
+    public void setUsername(String userName)
     {
         this.username = userName;
     }
@@ -73,13 +73,13 @@ public class User
     {
         this.password = password;
     }
-    public void setFirst_name(String firstName)
+    public void setFirstname(String firstName)
     {
-        this.first_name = firstName;
+        this.firstname = firstName;
     }
-    public void setLast_name(String lastName)
+    public void setLastname(String lastName)
     {
-        this.last_name = lastName;
+        this.lastname = lastName;
     }
     public void setId(int Id)
     {
@@ -103,8 +103,8 @@ public class User
         ret = String.format("{Username:%1$s}\n{Id:%2$d}\n{Firstname:%3$s}\n{Lastname:%4$s}\n{Email:%5$s}\n{University:%6$s}\n\n",
                             this.username,
                             this.Id,
-                            this.first_name,
-                            this.last_name,
+                            this.firstname,
+                            this.lastname,
                             this.email,
                             this.university
                             );
