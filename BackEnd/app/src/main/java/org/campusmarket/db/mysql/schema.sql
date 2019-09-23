@@ -13,3 +13,12 @@ CREATE TABLE IF NOT EXISTS users(
 CREATE TABLE IF NOT EXISTS sessions(
     sessid   VARCHAR(30) NOT NULL PRIMARY KEY
 );
+
+CREATE TABLE IF NOT EXISTS items(
+		refnum VARCHAR(10) NOT NULL PRIMARY KEY,
+		name VARCHAR (20),
+		price DOUBLE(6,2),
+		category VARCHAR (10),
+		condition VARCHAR (10)
+
+);
