@@ -4,14 +4,16 @@ import java.util.List;
 
 import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.UsersRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+
 
 
 @RestController
@@ -19,20 +21,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController
 {
     @Autowired
-    UsersRepository users;
+    private UsersRepository users;
+    
 
-    @RequestMapping("/all")
+
+   @RequestMapping("/all")
     public List<User> getAll()
     {
         return users.findAll();
     }
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public User findUser(@PathVariable("id") int id)
+     
+    @GetMapping("id/{id}")
+    public User findUserById(@PathVariable("id") int id)
     {
-        return users.getOne(id);
+        return users.findById(id);
         
     }
-   
+    
+    @GetMapping("email/{email}")
+    public User findUserByEmail(@PathVariable("email") String email)
+    {
+        return users.findByEmail(email);
+        
+    }
+
+    @GetMapping("username/{username}")
+    public User findUserByUserName(@PathVariable("username") String username)
+    {
+        return users.findByUsername(username);
+        
+    }
+    
+  
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public void newUser(@RequestBody final User user)
     {
