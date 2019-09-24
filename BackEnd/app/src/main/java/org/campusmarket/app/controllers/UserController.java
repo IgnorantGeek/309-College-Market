@@ -23,8 +23,7 @@ public class UserController
     @Autowired
     private UsersRepository users;
     
-
-
+    
    @RequestMapping("/all")
     public List<User> getAll()
     {
@@ -52,13 +51,11 @@ public class UserController
         
     }
     
-  
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public void newUser(@RequestBody final User user)
     {
         users.save(user);
     }
-    
     
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable("id") int id)
@@ -71,7 +68,6 @@ public class UserController
     {
          users.deleteAll();   
     }
-    
     
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String defaultHello(@RequestParam(name = "name", defaultValue = "Dave", required = false) String name)

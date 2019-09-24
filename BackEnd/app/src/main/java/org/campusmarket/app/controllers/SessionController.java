@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class SessionController
 {
     @Autowired
-    UsersRepository users;
+    private UsersRepository users;
 
     @Autowired
-    SessionsRepository sessions;
+    private SessionsRepository sessions;
     
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String newSession(@RequestBody final LoginRequest req)
@@ -41,14 +41,14 @@ public class SessionController
         }
         else 
         {
-            int lowerlet = 65;
-            int upperlet = 90;
-            int lowernum = 48;
-            int uppernum = 57;
-            int targetStringLength = 16;
+            int lowerlet  = 65;
+            int upperlet  = 90;
+            int lowernum  = 48;
+            int uppernum  = 57;
+            int sessidlen = 16;
             Random random = new Random();
-            StringBuilder buffer = new StringBuilder(targetStringLength);
-            for (int i = 0; i < targetStringLength; i++) 
+            StringBuilder buffer = new StringBuilder(sessidlen);
+            for (int i = 0; i < sessidlen; i++) 
             {
                 int rand = random.nextInt();
                 int randomLimitedInt;
