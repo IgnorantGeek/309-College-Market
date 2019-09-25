@@ -11,4 +11,6 @@
     <string name="Confirm_Password">Confirm your password</string>
     <string name="Email">Enter your email</string>
     <string name="welcome">Welcome, </string>
+    <string name="search_hint">hint</string>
+    <string name="app_label">search_label</string>
 </resources>
