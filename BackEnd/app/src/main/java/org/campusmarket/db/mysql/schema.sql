@@ -19,6 +19,6 @@ CREATE TABLE IF NOT EXISTS items(
 		name VARCHAR (20),
 		price DOUBLE(6,2),
 		category VARCHAR (10),
-		condition VARCHAR (10)
+		cond VARCHAR (10)
 
 );

@@ -24,8 +24,8 @@ public class Item {
     private double price;
     @Column (name="category")
     private String category;
-    @Column (name="condition")
-    private String condition;
+    @Column (name="cond")
+    private String cond;
     
    public Item() {
 	   
@@ -46,7 +46,7 @@ public class Item {
 	   return this.category;
    }
    public String getCondition() {
-	   return this.condition;
+	   return this.cond;
    }
    
    public void setRefnum(String refnum) {
@@ -64,7 +64,19 @@ public class Item {
 	   this.category=category;
    }
    public void setCondition(String condition) {
-	   this.condition=condition;
+	   this.cond=condition;
    }
-   
+   @Override
+   public String toString()
+   {
+       String ret = new String();
+       ret = String.format("{Refnum:%1$s}\n{Name:%2$d}\n{Price:%3$s}\n{Category:%4$s}\n{Condition:%5$s}\n\n",
+                           this.refnum,
+                           this.name,
+                           this.price,
+                           this.category,
+                           this.cond
+                           );
+       return ret;
+   }
 }
