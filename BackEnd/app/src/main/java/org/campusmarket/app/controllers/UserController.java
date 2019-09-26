@@ -63,7 +63,7 @@ public class UserController
          users.deleteById(id);    
     }
     
-    @RequestMapping(value = "/deleteAll" ,method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
     public void deleteAll()
     {
          users.deleteAll();   
