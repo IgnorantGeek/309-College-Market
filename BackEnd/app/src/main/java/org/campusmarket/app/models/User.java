@@ -2,12 +2,10 @@ package org.campusmarket.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+import java.util.ArrayList;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -31,6 +29,10 @@ public class User
     private String  email;
     @Column(name = "university")
     private String  university;
+
+    @OneToMany(cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    private List<Session> sessions = new ArrayList<Session>();
     
     /*--- Constructors ---*/
     public User() { }
