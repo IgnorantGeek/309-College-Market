@@ -1,0 +1,4 @@
+How to fix current error on develop branch
+How to link one repo to many foreign keys
+Best practice for determining who is and isn't an admin
+Adding custom queries to jpa repos (see SessionsRepository)
