@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -31,6 +32,9 @@ public class User
     private String  email;
     @Column(name = "university")
     private String  university;
+
+    @OneToOne(mappedBy = "user")
+    private Session session;
     
     /*--- Constructors ---*/
     public User() { }

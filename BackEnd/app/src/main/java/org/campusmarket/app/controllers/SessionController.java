@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/sessions")
@@ -31,6 +32,7 @@ public class SessionController
     public String newSession(@RequestBody final LoginRequest req)
     {
         User find = users.findByUsername(req.getUsername());
+        // Check for errors
         if (find == null)
         {
             return "Logon Error: username or password incorrect.";
@@ -39,7 +41,13 @@ public class SessionController
         {
             return "Logon Error: username or password incorrect.";
         }
-        else 
+
+        Session active = sessions.findByUser(find.getId());
+        if (active != null)
+        {
+            return active.getId();
+        }
+        else
         {
             int lowerlet  = 65;
             int upperlet  = 90;
@@ -56,14 +64,14 @@ public class SessionController
                 {
                     randomLimitedInt = random.nextInt(upperlet-lowerlet) + lowerlet;
                 }
-                else 
+                else
                 {
                     randomLimitedInt = random.nextInt(uppernum-lowernum) + lowernum;
                 }
                 buffer.append((char) randomLimitedInt);
             }
             String generatedString = buffer.toString();
-            final Session sess = new Session(generatedString);
+            final Session sess = new Session(generatedString, find);
             sessions.save(sess);
             return generatedString;
         }
@@ -73,5 +81,11 @@ public class SessionController
     public List<Session> getAll()
     {
         return sessions.findAll();
+    }
+
+    @RequestMapping(value = "/close", method = RequestMethod.GET)
+    public void closeSession(@RequestParam(name = "sessID", required = true) String sessID)
+    {
+        sessions.findById(sessID);
     }
 }
