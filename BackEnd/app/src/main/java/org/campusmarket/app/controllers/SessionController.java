@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/sessions")
@@ -40,12 +40,6 @@ public class SessionController
         else if (!find.getPassword().equals(req.getPassword()))
         {
             return "Logon Error: username or password incorrect.";
-        }
-
-        Session active = sessions.findByUser(find.getId());
-        if (active != null)
-        {
-            return active.getId();
         }
         else
         {
@@ -77,14 +71,20 @@ public class SessionController
         }
     }
 
+    @RequestMapping(value = "/sessid/{sessid}", method = RequestMethod.GET)
+    public Session findById(@PathVariable("sessid") String sessid)
+    {
+        return sessions.findBySessId(sessid);
+    }
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Session> getAll()
     {
         return sessions.findAll();
     }
 
-    @RequestMapping(value = "/close", method = RequestMethod.GET)
-    public void closeSession(@RequestParam(name = "sessID", required = true) String sessID)
+    @RequestMapping(value = "/close/{sessID}", method = RequestMethod.GET)
+    public void closeSession(@PathVariable("sessID") String sessID)
     {
         sessions.findById(sessID);
     }

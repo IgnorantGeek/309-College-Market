@@ -4,8 +4,9 @@ import org.campusmarket.app.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public interface UsersRepository extends JpaRepository<User, Integer>
 {
 
