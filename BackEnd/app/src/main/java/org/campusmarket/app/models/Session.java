@@ -1,9 +1,6 @@
 package org.campusmarket.app.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -14,27 +11,51 @@ public class Session
 {
     @Id
     @Column(name = "sessid")
-    private String Id;
+    private String sessId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid", referencedColumnName = "id")
+    private User user;
+
+
+    /*---Constructors---*/
     public Session() { }
     
-    public Session(String Id)
+    public Session(String Id, User user)
     {
-        this.Id = Id;
+        this.sessId = Id;
+        this.user = user;
     }
+
+
+    /*---Getters and Setters--*/
     
     /**
      * @return the id
      */
     public String getId()
     {
-        return Id;
+        return sessId;
     }
     /**
      * @param id the id to set
      */
     public void setId(String id)
     {
-        Id = id;
+        sessId = id;
+    }
+    /**
+     * @return the user
+     */
+    public User getUser() 
+    {
+        return user;
+    }
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 }

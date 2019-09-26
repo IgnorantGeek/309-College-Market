@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -64,7 +63,7 @@ public class UserController
          users.deleteById(id);    
     }
     
-    @RequestMapping(value = "/deleteAll" ,method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
     public void deleteAll()
     {
          users.deleteAll();   
