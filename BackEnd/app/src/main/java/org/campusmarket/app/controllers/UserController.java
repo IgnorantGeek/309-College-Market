@@ -79,14 +79,9 @@ public class UserController
 		oldUser.setPassword(u.getPassword());
 		oldUser.setUniversity(u.getUniversity());
 
-		users.save(oldUser);
-		
-    }
-
     @RequestMapping(value = "/toString/{id}")
     public String PrintUserId(@PathVariable("id") int id)
     {
-        System.out.println(users.findById(id).toString());
         return users.findById(id).toString();
     }
 }
