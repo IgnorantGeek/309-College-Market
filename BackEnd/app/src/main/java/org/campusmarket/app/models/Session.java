@@ -13,7 +13,7 @@ public class Session
     @Column(name = "sessid")
     private String sessId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid", referencedColumnName = "id")
     private User user;
 

@@ -2,6 +2,9 @@ package org.campusmarket.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -30,8 +33,9 @@ public class User
     private boolean admin;
 
     /*--- Links to Other Repositories ---*/
-    @OneToOne(mappedBy = "user")
-    private Session session;
+    @OneToMany(cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    private List<Session> sessions = new ArrayList<Session>();
 
     
     /*--- Constructors ---*/
