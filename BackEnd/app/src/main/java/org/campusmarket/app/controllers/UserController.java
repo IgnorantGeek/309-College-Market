@@ -30,21 +30,21 @@ public class UserController
         return users.findAll();
     }
      
-    @GetMapping("id/{id}")
+    @GetMapping("/id/{id}")
     public User findUserById(@PathVariable("id") int id)
     {
         return users.findById(id);
         
     }
     
-    @GetMapping("email/{email}")
+    @GetMapping("/email/{email}")
     public User findUserByEmail(@PathVariable("email") String email)
     {
         return users.findByEmail(email);
         
     }
 
-    @GetMapping("username/{username}")
+    @GetMapping("/username/{username}")
     public User findUserByUserName(@PathVariable("username") String username)
     {
         return users.findByUsername(username);
@@ -57,13 +57,13 @@ public class UserController
         users.save(user);
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable("id") int id)
     {
          users.deleteById(id);    
     }
     
-    @RequestMapping(value = "/deleteAll", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
     public void deleteAll()
     {
          users.deleteAll();   
@@ -83,9 +83,10 @@ public class UserController
 		
     }
 
-    @RequestMapping(value = "/hello/{name}", method = RequestMethod.GET)
-    public String sayHello(@PathVariable("name") String name)
+    @RequestMapping(value = "/toString/{id}")
+    public String PrintUserId(@PathVariable("id") int id)
     {
-        return "Hello there, " + name + "!";
+        System.out.println(users.findById(id).toString());
+        return users.findById(id).toString();
     }
 }
