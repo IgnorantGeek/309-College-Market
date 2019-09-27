@@ -4,11 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    EditText etFirstName;
+    EditText etLastName;
+    EditText etUsername;
+    EditText etPassword;
+    EditText etUniversity;
+    EditText etEmail;
+    Button bRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,15 +26,55 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
-        final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
-        final EditText etLastName = (EditText) findViewById(R.id.etLastName);
-        final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final EditText etUniversity = (EditText) findViewById(R.id.etUniversity);
-        final EditText etEmail = (EditText) findViewById(R.id.etEmail);
+        etFirstName = findViewById(R.id.etFirstName);
+        etLastName = findViewById(R.id.etLastName);
+        etUsername = findViewById(R.id.etUsername);
+        etPassword = findViewById(R.id.etPassword);
+        etUniversity = findViewById(R.id.etUniversity);
+        etEmail = findViewById(R.id.etEmail);
 
-        final Button bRegister = (Button) findViewById(R.id.bRegister);
+        bRegister = findViewById(R.id.bRegister);
     }
+
+
+//        // Starts the button's onCLick validation process when button is clicked
+//        bRegister.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                checkDataEntry();
+//            }
+//        });
+//    }
+//
+//    boolean isEmail(EditText text) {
+//        CharSequence etEmail = text.getText().toString();
+//        return (!TextUtils.isEmpty(etEmail) && Patterns.EMAIL_ADDRESS.matcher(etEmail).matches());
+//    }
+//
+//    // Checks for empty field / no entry
+//    boolean isEmpty(EditText text) {
+//        CharSequence str = text.getText().toString();
+//        return TextUtils.isEmpty(str);
+//    }
+//
+//
+//
+//
+//    // Goes through each implemented field and determines validity - then prints a message if invalid
+//    void checkDataEntry() {
+//        if (isEmpty(etFirstName)) {
+//            etFirstName.setError("Enter first name");
+//        }
+//
+//        if (isEmpty(etLastName)) {
+//            etLastName.setError("Last name is required");
+//        }
+//
+//        if (isEmail(etEmail) == false) {
+//            etEmail.setError("Enter a valid email");
+//        }
+//
+//    }
+
 
     // Called when user finishes signing up
     public void finishSignUp(View view) {
@@ -35,3 +85,4 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
