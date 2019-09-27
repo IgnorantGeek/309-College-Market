@@ -11,7 +11,7 @@ public class Session
 {
     @Id
     @Column(name = "sessid")
-    private String Id;
+    private String sessId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userid", referencedColumnName = "id")
@@ -23,7 +23,7 @@ public class Session
     
     public Session(String Id, User user)
     {
-        this.Id = Id;
+        this.sessId = Id;
         this.user = user;
     }
 
@@ -35,14 +35,14 @@ public class Session
      */
     public String getId()
     {
-        return Id;
+        return sessId;
     }
     /**
      * @param id the id to set
      */
     public void setId(String id)
     {
-        Id = id;
+        sessId = id;
     }
     /**
      * @return the user

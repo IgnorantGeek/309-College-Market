@@ -13,4 +13,9 @@
     <string name="welcome">Welcome, </string>
     <string name="search_hint">hint</string>
     <string name="app_label">search_label</string>
+    <string-array name="listItems">
+        <item>Couch</item>
+        <item>Chair</item>
+        <item>Phone</item>
+    </string-array>
 </resources>

@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.text.TextUtils;
-import android.util.Patterns;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -34,32 +34,17 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
 
         bRegister = findViewById(R.id.bRegister);
-
     }
-
-        // Called when user finishes signing up
-        public void finishSignUp (View view){
-            Intent intent = new Intent(this, UserActivity.class);
-            EditText editText = (EditText) findViewById(R.id.etUsername);
-            String message = editText.getText().toString();
-            intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
-            startActivity(intent);
-
-        }
-    }
-
 
 
 //        // Starts the button's onCLick validation process when button is clicked
 //        bRegister.setOnClickListener(new View.OnClickListener() {
-//            @Override
 //            public void onClick(View view) {
 //                checkDataEntry();
-//        }
-//    });
-//}
-
-//    // Checks for valid email address entry
+//            }
+//        });
+//    }
+//
 //    boolean isEmail(EditText text) {
 //        CharSequence etEmail = text.getText().toString();
 //        return (!TextUtils.isEmpty(etEmail) && Patterns.EMAIL_ADDRESS.matcher(etEmail).matches());
@@ -70,7 +55,10 @@ public class RegisterActivity extends AppCompatActivity {
 //        CharSequence str = text.getText().toString();
 //        return TextUtils.isEmpty(str);
 //    }
-
+//
+//
+//
+//
 //    // Goes through each implemented field and determines validity - then prints a message if invalid
 //    void checkDataEntry() {
 //        if (isEmpty(etFirstName)) {
@@ -86,4 +74,15 @@ public class RegisterActivity extends AppCompatActivity {
 //        }
 //
 //    }
+
+
+    // Called when user finishes signing up
+    public void finishSignUp(View view) {
+        Intent intent = new Intent(this, UserActivity.class);
+        EditText editText = (EditText) findViewById(R.id.etUsername);
+        String message = editText.getText().toString();
+        intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+}
 
