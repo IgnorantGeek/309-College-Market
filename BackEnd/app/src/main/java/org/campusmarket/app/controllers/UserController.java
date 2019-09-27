@@ -7,6 +7,7 @@ import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,6 +67,20 @@ public class UserController
     public void deleteAll()
     {
          users.deleteAll();   
+    }
+    @PutMapping("/{id}")
+    public void updateUser(@RequestBody User u,@PathVariable("id") int id) {
+		User oldUser=users.findById(id);
+		
+		oldUser.setEmail(u.getEmail());
+		oldUser.setUsername(u.getUsername());
+		oldUser.setFirstname(u.getFirstname());
+		oldUser.setLastname(u.getLastname());
+		oldUser.setPassword(u.getPassword());
+		oldUser.setUniversity(u.getUniversity());
+
+		users.save(oldUser);
+		
     }
 
     @RequestMapping(value = "/hello/{name}", method = RequestMethod.GET)

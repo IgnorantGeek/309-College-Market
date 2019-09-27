@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users(
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username  VARCHAR(20) NOT NULL,  #needed to get rid of the underscore for searching by user name
+    username  VARCHAR(20) NOT NULL,  
     password   VARCHAR(16) NOT NULL,
     firstname VARCHAR(20),
     lastname  VARCHAR(20),
@@ -21,6 +21,6 @@ CREATE TABLE IF NOT EXISTS items(
 		name VARCHAR (20),
 		price DOUBLE(6,2),
 		category VARCHAR (10),
-		condition VARCHAR (10)
+		cond VARCHAR (10)
 
 );
