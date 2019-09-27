@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>org.campusmarket</groupId>
 	<artifactId>cmarketserver</artifactId>
-	<version>0.2.3</version>
+	<version>0.2.4</version>
 	<name>campusmarket</name>
 	<description>Alpha Campus Market server build</description>
 
