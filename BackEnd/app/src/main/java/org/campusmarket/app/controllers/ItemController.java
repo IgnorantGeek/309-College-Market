@@ -1,5 +1,6 @@
 package org.campusmarket.app.controllers;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.campusmarket.app.models.Item;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -33,20 +35,30 @@ public class ItemController {
     }
 
     @GetMapping("name/{name}")
-    public Item findItemByName(@PathVariable("name") String name) {
+    public Collection<Item> findItemByName(@PathVariable("name") String name) {
     	return items.findByName(name);
     }
-    
+     
     @GetMapping("category/{category}")
-    public Item findItemByCategory(@PathVariable("category") String category) {
+    public Collection<Item> findItemByCategory(@PathVariable("category") String category) {
     	return items.findByCategory(category);
     }
     
-    /* issue if result is not unique 
+    
     @GetMapping("cond/{cond}")
-    public Item findItemByCondition(@PathVariable("cond") String cond) {
+    public Collection<Item> findItemByCondition(@PathVariable("cond") String cond) {
     	return items.findByCond(cond);
     }
-     */
-	
+     
+    @GetMapping("name/{name}/cond/{cond}")
+    public Collection<Item>findByCondAndName(@PathVariable("name") String name ,@PathVariable("cond") String cond){
+		return items.findByCondAndName(name, cond);
+    	
+    }
+    
+    @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
+    public void deleteAll()
+    {
+         items.deleteAll();   
+    }
 }

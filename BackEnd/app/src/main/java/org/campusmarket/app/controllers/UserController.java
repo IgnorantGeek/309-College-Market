@@ -78,7 +78,7 @@ public class UserController
 		oldUser.setLastname(u.getLastname());
 		oldUser.setPassword(u.getPassword());
 		oldUser.setUniversity(u.getUniversity());
-
+    }
     @RequestMapping(value = "/toString/{id}")
     public String PrintUserId(@PathVariable("id") int id)
     {

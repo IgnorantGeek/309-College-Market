@@ -68,7 +68,7 @@ public class Item {
    public String toString()
    {
        String ret = new String();
-       ret = String.format("{Refnum:%1$s}\n{Name:%2$d}\n{Price:%3$s}\n{Category:%4$s}\n{Condition:%5$s}\n\n",
+       ret = String.format("{Refnum:%1$s}\n{Name:%2$s}\n{Price:%3$d}\n{Category:%4$s}\n{Condition:%5$s}\n\n",
                            this.refnum,
                            this.name,
                            this.price,
