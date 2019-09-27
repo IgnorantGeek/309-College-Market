@@ -2,6 +2,7 @@ package com.example.campusmarket;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class JsonRequestActivity extends Activity implements OnClickListener {
 
     private String TAG = JsonRequestActivity.class.getSimpleName();
-    private Button btnJsonObj, btnJsonArray;
+    private Button btnJsonObj, btnJsonArray, btnContinue;
     private TextView msgResponse;
     private ProgressDialog pDialog;
 
@@ -42,6 +43,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
 
         btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
         btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
+        btnContinue = (Button) findViewById(R.id.btnContinue);
         msgResponse = (TextView) findViewById(R.id.msgResponse);
 
         pDialog = new ProgressDialog(this);
@@ -50,6 +52,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
 
         btnJsonObj.setOnClickListener(this);
         btnJsonArray.setOnClickListener(this);
+        btnContinue.setOnClickListener(this);
     }
 
     private void showProgressDialog() {
@@ -154,8 +157,10 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
             case R.id.btnJsonArray:
                 makeJsonArryReq();
                 break;
+            case R.id.btnContinue:
+                Intent intent = new Intent(this, DropDownActivity.class);
+                startActivity(intent);
         }
-
     }
 
 }
