@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.springframework.core.style.ToStringCreator;
+
+
 
 @Entity
 @Table(name = "items")
@@ -50,6 +53,7 @@ public class Item {
    public void setRefnum(String refnum) {
 	   this.refnum=refnum;
    }
+   
    public void setName(String name) {
 	   this.name=name;
    }
@@ -61,20 +65,19 @@ public class Item {
    public void setCategory(String category) {
 	   this.category=category;
    }
+   
    public void setCondition(String condition) {
 	   this.cond=condition;
    }
+   
    @Override
    public String toString()
    {
-       String ret = new String();
-       ret = String.format("{Refnum:%1$s}\n{Name:%2$s}\n{Price:%3$d}\n{Category:%4$s}\n{Condition:%5$s}\n\n",
-                           this.refnum,
-                           this.name,
-                           this.price,
-                           this.category,
-                           this.cond
-                           );
-       return ret;
+	   return new ToStringCreator(this)
+			   .append("Refnum",this.getRefnum())
+			   .append("Name",this.getName())
+			   .append("Price",this.getPrice())
+			   .append("Category",this.getCategory())
+			   .append("Condition",this.getCondition()).append(System.lineSeparator()).toString(); 
    }
 }
