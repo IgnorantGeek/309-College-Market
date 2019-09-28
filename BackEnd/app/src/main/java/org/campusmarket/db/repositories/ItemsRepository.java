@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ItemsRepository extends JpaRepository<Item, Integer>
 {
 	
-	@Query(nativeQuery = true, value="SELECT * FROM items WHERE name LIKE %:name%")
+	@Query(nativeQuery = true, value="SELECT * FROM items WHERE name LIKE %:name% ORDER BY price")
     @Transactional(readOnly = true)
 	Collection<Item>findByName(@Param("name") String name);
     
