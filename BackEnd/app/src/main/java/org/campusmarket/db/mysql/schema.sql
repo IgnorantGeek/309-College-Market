@@ -10,13 +10,13 @@ CREATE TABLE IF NOT EXISTS users(
 
     UNIQUE (username),
     UNIQUE (email)
-);
+) engine=InnoDB;
 
 CREATE TABLE IF NOT EXISTS sessions(
     sessid   VARCHAR(30) NOT NULL PRIMARY KEY,
     userid   INT UNSIGNED NOT NULL,
     FOREIGN KEY (userid) REFERENCES users(id)
-);
+) engine=InnoDB;
 
 CREATE TABLE IF NOT EXISTS items(
 		refnum VARCHAR(10) NOT NULL PRIMARY KEY,
@@ -25,4 +25,4 @@ CREATE TABLE IF NOT EXISTS items(
 		category VARCHAR (10),
 		cond VARCHAR (10)
 
-);
+) engine=InnoDB;

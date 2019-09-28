@@ -56,6 +56,13 @@ public class ItemController {
     	
     }
     
+    @GetMapping("category/{category}/cond/{cond}/price/{price}")
+    public Collection<Item>findByCondPriceCategory(@PathVariable("cond") String cond ,@PathVariable("category") String category, @PathVariable("price") double price){
+		return items.findByCondAndCategoryAndPrice(cond, category, price);
+    	
+    }
+    
+    
     @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
     public void deleteAll()
     {
