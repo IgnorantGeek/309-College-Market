@@ -31,11 +31,16 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.google.common.collect.Range;
 
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = RegisterActivity.class.getSimpleName();
+    private AwesomeValidation awesomeValidation;
+
     EditText etFirstName;
     EditText etLastName;
     EditText etUsername;
@@ -43,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText etUniversity;
     EditText etEmail;
     Button bRegister;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,54 +64,48 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
 
         bRegister = findViewById(R.id.bRegister);
+
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+
+        awesomeValidation.addValidation(this, R.id.etFirstName, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.firstNameError);
+        awesomeValidation.addValidation(this, R.id.etLastName, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.lastNameError);
+        awesomeValidation.addValidation(this, R.id.etUsername, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.userNameError);
+        awesomeValidation.addValidation(this, R.id.etPassword, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.passwordError);
+        awesomeValidation.addValidation(this, R.id.etUniversity, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.universityError);
+        awesomeValidation.addValidation(this, R.id.etEmail, Patterns.EMAIL_ADDRESS, R.string.emailError);
+//       awesomeValidation.addValidation(this, R.id.etPhone, "^[2-9]{2}[0-9]{8}$", R.string.mobileError);
+
+
+        bRegister.setOnClickListener(this);
+
     }
 
+    private void validateForm() {
+        // first validate the form then move ahead
+        // if this becomes true that means validation is successful
+        if (awesomeValidation.validate()) {
+            Intent intent = new Intent(this, UserActivity.class);
+            EditText editText = (EditText) findViewById(R.id.etUsername);
+            String message = editText.getText().toString();
+            intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
+            startActivity(intent);
+            // send the user to the "start a json request" page
+        }
+    }
 
-//        // Starts the button's onCLick validation process when button is clicked
-//        bRegister.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//                checkDataEntry();
-//            }
-//        });
-//    }
-//
-//    boolean isEmail(EditText text) {
-//        CharSequence etEmail = text.getText().toString();
-//        return (!TextUtils.isEmpty(etEmail) && Patterns.EMAIL_ADDRESS.matcher(etEmail).matches());
-//    }
-//
-//    // Checks for empty field / no entry
-//    boolean isEmpty(EditText text) {
-//        CharSequence str = text.getText().toString();
-//        return TextUtils.isEmpty(str);
-//    }
-//
-//
-//
-//
-//    // Goes through each implemented field and determines validity - then prints a message if invalid
-//    void checkDataEntry() {
-//        if (isEmpty(etFirstName)) {
-//            etFirstName.setError("Enter first name");
-//        }
-//
-//        if (isEmpty(etLastName)) {
-//            etLastName.setError("Last name is required");
-//        }
-//
-//        if (isEmail(etEmail) == false) {
-//            etEmail.setError("Enter a valid email");
-//        }
-//
-//    }
-
+    @Override
+    public void onClick(View view) {
+        if (view == bRegister) {
+            validateForm();
+        }
+    }
 
     // Called when user finishes signing up
     public void finishSignUp(View view) {
         JSONObject js = new JSONObject();
         try {
-            js.put("username",(etUsername.getText()).toString());
-            js.put("password",(etPassword.getText()).toString());
+            js.put("username", (etUsername.getText()).toString());
+            js.put("password", (etPassword.getText()).toString());
             js.put("firstname", (etFirstName.getText()).toString());
             js.put("lastname", (etLastName.getText()).toString());
             js.put("email", (etEmail.getText()).toString());
@@ -143,8 +143,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("username",(etUsername.getText()).toString());
-                params.put("password",(etPassword.getText()).toString());
+                params.put("username", (etUsername.getText()).toString());
+                params.put("password", (etPassword.getText()).toString());
                 params.put("firstname", (etFirstName.getText()).toString());
                 params.put("lastname", (etLastName.getText()).toString());
                 params.put("email", (etEmail.getText()).toString());
@@ -164,4 +164,3 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
