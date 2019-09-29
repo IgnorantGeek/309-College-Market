@@ -16,7 +16,7 @@ public interface ItemsRepository extends JpaRepository<Item, Integer>
     @Transactional(readOnly = true)
 	Collection<Item>findByName(@Param("name") String name);
     
-    @Query(nativeQuery = true, value="SELECT * FROM items WHERE category=:category")
+    @Query(nativeQuery = true, value="SELECT * FROM items WHERE category=:category ORDER BY price")
     @Transactional(readOnly = true)
     Collection<Item> findByCategory(@Param("category") String category);
     
