@@ -13,7 +13,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="3dp"
         android:layout_marginRight="3dp"
-        android:text="JSON Array Request"
+        android:text="@string/display_users"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView5"
@@ -24,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Response: "
+        android:text="@string/response"
         app:layout_constraintEnd_toEndOf="@+id/msgResponse"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/msgResponse"
@@ -49,7 +49,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="60dp"
         android:onClick="onClick"
-        android:text="Continue"
+        android:text="@string/cont"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/msgResponse" />
 

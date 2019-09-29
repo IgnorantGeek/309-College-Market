@@ -11,6 +11,11 @@
     <string name="Confirm_Password">Confirm your password</string>
     <string name="Email">Enter your email</string>
     <string name="welcome">Welcome, </string>
+    <string name="cont">Continue</string>
+    <string name="display_users">Display all users</string>
+    <string name="response">Response:</string>
+    <string name="select_item">Select an Item:</string>
+    <string name="result">Result:</string>
     <string name="search_hint">hint</string>
     <string name="app_label">search_label</string>
     <string-array name="listItems">
