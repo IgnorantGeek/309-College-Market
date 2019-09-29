@@ -35,10 +35,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         awesomeValidation.addValidation(this, R.id.etUsername, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.userNameError);
-        awesomeValidation.addValidation(this, R.id.etPassword, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.passwordError);
+        // Password regex: at least one lower case, one upper case, and one number - must be at least 8 characters long
+        awesomeValidation.addValidation(this, R.id.etPassword, "^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=\\S+$).{4,}$", R.string.passwordError);
 
-        // ^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$ -- this may work better in future
-        
         bLogin.setOnClickListener(this);
 
         registerLink.setOnClickListener(new View.OnClickListener() {
