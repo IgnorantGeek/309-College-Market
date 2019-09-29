@@ -22,7 +22,7 @@
     <string name="firstNameError">Enter Valid First Name</string>
     <string name="lastNameError">Enter Valid Last Name</string>
     <string name="userNameError">Enter Valid Username</string>
-    <string name="passwordError">Enter a Password</string>
+    <string name="passwordError">Enter Valid Password</string>
     <string name="universityError">Enter Valid University Name</string>
     <string name="emailError">Enter Valid Email</string>
 <!--    <string name="mobileError">Enter Valid Mobile Number</string>-->
