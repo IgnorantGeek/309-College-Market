@@ -80,6 +80,7 @@ public class DropDownActivity extends AppCompatActivity implements AdapterView.O
     private void makeJsonArryReq(String url, final TextView msgResponse) {
         String tag_json_arry = "jarray_req";
         showProgressDialog();
+        //creating the array request
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
