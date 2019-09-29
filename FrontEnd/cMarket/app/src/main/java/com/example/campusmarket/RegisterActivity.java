@@ -85,12 +85,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         // first validate the form then move ahead
         // if this becomes true that means validation is successful
         if (awesomeValidation.validate()) {
-            Intent intent = new Intent(this, UserActivity.class);
-            EditText editText = (EditText) findViewById(R.id.etUsername);
-            String message = editText.getText().toString();
-            intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
-            startActivity(intent);
-            // send the user to the "start a json request" page
+            // now make the user info into json object & push to database.
+            // then, send the user to the "start a json request" page
+            finishSignUp();
         }
     }
 
@@ -102,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     // Called when user finishes signing up
-    public void finishSignUp(View view) {
+    public void finishSignUp() {
         JSONObject js = new JSONObject();
         try {
             js.put("username", (etUsername.getText()).toString());
@@ -158,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
 
+        // sending user to the next page
         Intent intent = new Intent(this, UserActivity.class);
         EditText editText = (EditText) findViewById(R.id.etUsername);
         String message = editText.getText().toString();
