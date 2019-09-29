@@ -41,7 +41,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.json_request);
 
-        btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
+        //btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
         btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
         btnContinue = (Button) findViewById(R.id.btnContinue);
         msgResponse = (TextView) findViewById(R.id.msgResponse);
@@ -50,7 +50,7 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-        btnJsonObj.setOnClickListener(this);
+        //btnJsonObj.setOnClickListener(this);
         btnJsonArray.setOnClickListener(this);
         btnContinue.setOnClickListener(this);
     }
@@ -151,9 +151,9 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnJsonObj:
-                makeJsonObjReq();
-                break;
+//            case R.id.btnJsonObj:
+//                makeJsonObjReq();
+//                break;
             case R.id.btnJsonArray:
                 makeJsonArryReq();
                 break;
