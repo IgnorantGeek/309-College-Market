@@ -54,4 +54,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDropdown" />
+
+    <TextView
+        android:id="@+id/itemMsgResponse"
+        android:layout_width="329dp"
+        android:layout_height="397dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResult" />
 </androidx.constraintlayout.widget.ConstraintLayout>
