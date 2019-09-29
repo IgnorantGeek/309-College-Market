@@ -48,13 +48,14 @@ public class DropDownActivity extends AppCompatActivity implements AdapterView.O
         String text = parent.getItemAtPosition(position).toString();
         Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
 
-        // call to make json array
+        // set up the correct url for the request
         String url = "";
         if (text.equals("Phone"))
             url = Const.URL_ITEM_CATEGORY + "/" + text;
         else
             url = Const.URL_ITEM_NAME + "/" + text;
 
+        // call to make json array
         TextView msgResponse = findViewById(R.id.itemMsgResponse);
         makeJsonArryReq(url, msgResponse);
     }
