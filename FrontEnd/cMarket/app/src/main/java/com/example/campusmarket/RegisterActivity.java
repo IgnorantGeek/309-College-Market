@@ -31,10 +31,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+// Recommended validation library:
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.google.common.collect.Range;
-
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,8 +65,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         bRegister = findViewById(R.id.bRegister);
 
+        // initializing awesomeValidation library
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
+        // assigning regex expressions for each login field
         awesomeValidation.addValidation(this, R.id.etFirstName, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.firstNameError);
         awesomeValidation.addValidation(this, R.id.etLastName, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.lastNameError);
         awesomeValidation.addValidation(this, R.id.etUsername, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.userNameError);
@@ -82,8 +84,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void validateForm() {
-        // first validate the form then move ahead
-        // if this becomes true that means validation is successful
+        // first validate the form, then move ahead
+        // if this becomes true, validation is successful
         if (awesomeValidation.validate()) {
             // now make the user info into json object & push to database.
             // then, send the user to the "start a json request" page
@@ -94,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view == bRegister) {
+            // call the validateForm function to finish user sign up and load the next page
             validateForm();
         }
     }
@@ -155,10 +158,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
 
-        // sending user to the next page
+        // sending user to the next page by creating a new intent
         Intent intent = new Intent(this, UserActivity.class);
         EditText editText = (EditText) findViewById(R.id.etUsername);
         String message = editText.getText().toString();
+        // stores username and displays it in a welcome message on the next page;
         intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
         startActivity(intent);
     }

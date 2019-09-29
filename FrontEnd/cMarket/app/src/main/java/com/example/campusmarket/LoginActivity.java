@@ -8,10 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+// Recommended validation library
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
-import com.google.common.collect.Range;
-
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,7 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         bLogin = findViewById(R.id.bLogin);
         registerLink = findViewById(R.id.tvRegisterHere);
 
-
+        // initializing awesomeValidation library
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         awesomeValidation.addValidation(this, R.id.etUsername, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.userNameError);
@@ -40,6 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         bLogin.setOnClickListener(this);
 
+        // creating a new intent to handle page redirection to register for the app when link is clicked
         registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,12 +66,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (view == bLogin) {
+            // call the validateForm function to finish user sign up and load the next page
             validateForm();
         }
     }
 
     // Called when user finishes logging in
     public void finishLogIn(View view) {
+        // creating a new intent to signal page redirection
         Intent intent = new Intent(this, UserActivity.class);
         EditText editText = (EditText) findViewById(R.id.etUsername);
         String message = editText.getText().toString();
