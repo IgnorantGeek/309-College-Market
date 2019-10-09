@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class UserActivity extends Activity implements OnClickListener {
-    private Button btnJson;
+    private Button btnJson, btnDashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,8 @@ public class UserActivity extends Activity implements OnClickListener {
 
         btnJson = (Button) findViewById(R.id.btnJsonRequest);
         btnJson.setOnClickListener(this);
+        btnDashboard = (Button) findViewById(R.id.btnGoToDashboard);
+        btnDashboard.setOnClickListener(this);
     }
 
 

@@ -70,7 +70,6 @@ public class DashboardActivity extends AppCompatActivity {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(req,
                 tag_json_arry);
-
         // Cancelling request
         // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
     }
