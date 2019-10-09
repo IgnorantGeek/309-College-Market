@@ -22,7 +22,7 @@ maven-build:
 maven-test:
   stage: maventest
   tags:
-    - shell
+    - spring_tag
   script:
     - cd Spring
     - mvn test
@@ -35,7 +35,7 @@ maven-test:
 autoDeploy:
   stage: autodeploy
   tags:
-   - shell
+   - spring_tag
   script:
     - cd Spring
     - mvn package
@@ -55,7 +55,7 @@ android-build:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./Android_test/gradlew
   tags:
-   - android_tag1
+   - android_tag
   script:
     - cd Android_test
     - ./gradlew assemble
@@ -71,7 +71,7 @@ unitTests:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./Android_test/gradlew
   tags:
-   - android_tag1
+   - android_tag
   script:
     - cd Android_test
     - ./gradlew test
