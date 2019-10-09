@@ -16,6 +16,8 @@ import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -56,7 +58,8 @@ public class DashboardActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
-                        msgResponse.setText(response.toString());
+                        addItemNames(response);
+//                        msgResponse.setText(response.toString());
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
@@ -72,5 +75,21 @@ public class DashboardActivity extends AppCompatActivity {
                 tag_json_arry);
         // Cancelling request
         // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
+    }
+
+    private void addItemNames(JSONArray response) {
+        String message = "";//msgResponse.toString();
+        for (int i = 0; i < response.length(); i++)
+        {
+            try {
+                JSONObject obj = response.getJSONObject(i);
+                String add = obj.getString("name");
+                message += add;
+                message += "\n";
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        msgResponse.setText(message);
     }
 }
