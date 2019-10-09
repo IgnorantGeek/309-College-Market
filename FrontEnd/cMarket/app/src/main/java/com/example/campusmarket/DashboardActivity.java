@@ -77,6 +77,9 @@ public class DashboardActivity extends AppCompatActivity {
         // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
     }
 
+    /*
+    * Parse the JSON item array so you only add the item names.
+     */
     private void addItemNames(JSONArray response) {
         String message = "";//msgResponse.toString();
         for (int i = 0; i < response.length(); i++)
