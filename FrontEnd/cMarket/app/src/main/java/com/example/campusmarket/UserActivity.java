@@ -47,6 +47,10 @@ public class UserActivity extends Activity implements OnClickListener {
                 startActivity(new Intent(UserActivity.this,
                         JsonRequestActivity.class));
                 break;
+            case R.id.btnGoToDashboard:
+                startActivity(new Intent(UserActivity.this,
+                        DashboardActivity.class));
+                break;
             default:
                 break;
         }
