@@ -30,4 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
+
+    public String testMockitoFunction(String s) {
+        return s.toLowerCase();
+    }
 }
