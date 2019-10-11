@@ -14,7 +14,7 @@ maven-build:
   tags:
     - spring_tag
   script:
-    - cd Spring
+    - cd Backend/app
     - mvn package -B
   
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
@@ -24,7 +24,7 @@ maven-test:
   tags:
     - spring_tag
   script:
-    - cd Spring
+    - cd Backend/app
     - mvn test
   artifacts:
     paths:
@@ -37,7 +37,7 @@ autoDeploy:
   tags:
    - spring_tag
   script:
-    - cd Spring
+    - cd Backend/app
     - mvn package
     - sudo mv target/*.jar /target/web-demo.jar 
     - sudo systemctl stop systemd-web-demo
