@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".UserActivity">
 
+    <Button
+        android:id="@+id/btnNewPost"
+        android:layout_width="333dp"
+        android:layout_height="52dp"
+        android:text="Make a New Post"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnJsonRequest"
+        app:layout_constraintVertical_bias="0.653" />
+
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="171dp"
