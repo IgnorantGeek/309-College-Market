@@ -53,7 +53,7 @@ android-build:
   stage: androidbuild
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Android_test/gradlew
+    - chmod +x ./FrontEnd/cMarket/gradlew
   tags:
    - android_tag
   script:
@@ -61,7 +61,7 @@ android-build:
     - ./gradlew assemble
   artifacts:
     paths:
-    - Android_test/app/build/outputs/
+    - FrontEnd/cMarket/app/build/outputs/
     
 # To run Android unit tests.   
 unitTests:
@@ -69,7 +69,7 @@ unitTests:
   stage: androidtest
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Android_test/gradlew
+    - chmod +x ./FrontEnd/cMarket/gradlew
   tags:
    - android_tag
   script:
