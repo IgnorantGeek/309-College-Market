@@ -57,7 +57,7 @@ android-build:
   tags:
    - android_tag
   script:
-    - cd Android_test
+    - cd FrontEnd/cMarket
     - ./gradlew assemble
   artifacts:
     paths:
@@ -73,5 +73,5 @@ unitTests:
   tags:
    - android_tag
   script:
-    - cd Android_test
+    - cd FrontEnd/cMarket
     - ./gradlew test
