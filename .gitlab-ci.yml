@@ -14,7 +14,7 @@ maven-build:
   tags:
     - spring_tag
   script:
-    - cd Backend/app
+    - ls
     - mvn package -B
   
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
