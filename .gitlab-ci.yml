@@ -41,8 +41,9 @@ autoDeploy:
     - mvn package
     - sudo mv target/*.jar /target/web-demo.jar
     - sudo systemctl daemon-reload
-    - sudo systemctl stop systemd-web-demo
     - sudo systemctl start systemd-web-demo
+    - sudo systemctl stop systemd-web-demo
+    
 
     
 # To build android projects
