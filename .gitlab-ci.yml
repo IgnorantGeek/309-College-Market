@@ -57,7 +57,7 @@ android-build:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./FrontEnd/cMarket/gradlew
   tags:
-   - android_tag
+   - andriod_tag
   script:
     - cd FrontEnd/cMarket
     - ./gradlew assemble
@@ -73,7 +73,7 @@ unitTests:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./FrontEnd/cMarket/gradlew
   tags:
-   - android_tag
+   - andriod_tag
   script:
     - cd FrontEnd/cMarket
     - ./gradlew test
