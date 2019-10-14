@@ -105,7 +105,7 @@ public class MockitoExampleTest {
 
         //stubbing
         when(mockedList.get(0)).thenReturn("first");
-        when(mockedList.get(1)).thenThrow(new RuntimeException());
+//        when(mockedList.get(1)).thenThrow(new RuntimeException());
 
         //following prints "first"
         System.out.println(mockedList.get(0));

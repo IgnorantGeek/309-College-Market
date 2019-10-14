@@ -101,8 +101,60 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public boolean make_register_request(final JSONObject js) {
+
+        final boolean[] success = {false};
+        // Make request for JSONObject
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.POST, Const.URL_NEW_USER, js,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        success[0] = true;
+                        Log.d(TAG, response.toString() + " posted");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                success[0] = false;
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                try {
+                    params.put("username", js.getString("username"));
+                    params.put("password", js.getString("password"));
+                    params.put("firstname", js.getString("firstname"));
+                    params.put("lastname", js.getString("lastname"));
+                    params.put("email", js.getString("email"));
+                    params.put("university", js.getString("university"));
+                    params.put("admin", "false");
+                }  catch (JSONException e) {
+                e.printStackTrace();
+            }
+                return params;
+            }
+
+        };
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
+
+        return success[0];
+
+    }
     // Called when user finishes signing up
     public void finishSignUp() {
+
         JSONObject js = new JSONObject();
         try {
             js.put("username", (etUsername.getText()).toString());
@@ -116,47 +168,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             e.printStackTrace();
         }
 
-        // Make request for JSONObject
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                Request.Method.POST, Const.URL_NEW_USER, js,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString() + " i am queen");
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        }) {
-
-            /**
-             * Passing some request headers
-             */
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("username", (etUsername.getText()).toString());
-                params.put("password", (etPassword.getText()).toString());
-                params.put("firstname", (etFirstName.getText()).toString());
-                params.put("lastname", (etLastName.getText()).toString());
-                params.put("email", (etEmail.getText()).toString());
-                params.put("university", (etUniversity.getText()).toString());
-                params.put("admin", "false");
-                return params;
-            }
-
-        };
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
+        // Post the new user
+        make_register_request(js);
 
         // sending user to the next page by creating a new intent
         Intent intent = new Intent(this, UserActivity.class);
