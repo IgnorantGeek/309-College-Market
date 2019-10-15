@@ -18,7 +18,7 @@ import org.springframework.core.style.ToStringCreator;
 public class Item {
 	@Id
     @Column(name = "refnum")
-    private String refnum;
+    private int refnum;
     @Column(name = "name")
     private String  name;
     @Column(name = "price")
@@ -32,7 +32,7 @@ public class Item {
 	   
    }
     
-   public String getRefnum() {
+   public int getRefnum() {
 	   return this.refnum;
    }
     
@@ -50,7 +50,7 @@ public class Item {
 	   return this.cond;
    }
    
-   public void setRefnum(String refnum) {
+   public void setRefnum(int refnum) {
 	   this.refnum=refnum;
    }
    
