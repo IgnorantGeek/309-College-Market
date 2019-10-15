@@ -45,8 +45,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         etCondition = findViewById(R.id.etCondition);
         etCategory = findViewById(R.id.etCategory);
 
-//        priceBar.findViewById(R.id.priceBar);
-//        priceBar.setMax(200); // 200 maximum value for the Seek bar
     }
 
 
@@ -77,7 +75,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        // Make request for JSONObject
+        // Make request for JSONObject:
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.POST, Const.URL_NEW_ITEM, js,
                 new Response.Listener<JSONObject>() {
@@ -110,7 +108,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 params.put("price", (etPrice.getText()).toString());
                 params.put("condition", (etCondition.getText()).toString());
                 params.put("category", (etCategory.getText()).toString());
-//                params.put("seller", ("YEET"));
+//              params.put("seller", ("YEET"));
                 return params;
             }
 

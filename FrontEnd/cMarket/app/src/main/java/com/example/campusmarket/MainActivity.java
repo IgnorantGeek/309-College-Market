@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void testButton(View view) {
-        Intent intent = new Intent(this, UserActivity.class);
-        startActivity(intent);
-    }
+//    public void testButton(View view) {
+//        Intent intent = new Intent(this, UserActivity.class);
+//        startActivity(intent);
+//    }
 
     public String testMockitoFunction(String s) {
         test = s;
