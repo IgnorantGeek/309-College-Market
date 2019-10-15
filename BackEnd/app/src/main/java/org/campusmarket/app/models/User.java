@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -31,6 +32,11 @@ public class User
     private String  university;
     @Column(name = "admin")
     private boolean admin;
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set <Item> items;
+
 
     /*--- Links to Other Repositories ---*/
     @OneToMany(cascade = CascadeType.ALL,

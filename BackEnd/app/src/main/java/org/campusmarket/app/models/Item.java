@@ -27,6 +27,10 @@ public class Item {
     private String category;
     @Column (name="cond")
     private String cond;
+    @Column (name="seller")
+    private String seller;
+
+    
     
    public Item() {
 	   
@@ -49,6 +53,9 @@ public class Item {
    public String getCondition() {
 	   return this.cond;
    }
+   public String getSeller() {
+	   return this.seller;
+   }
    
    public void setRefnum(String refnum) {
 	   this.refnum=refnum;
@@ -69,6 +76,9 @@ public class Item {
    public void setCondition(String condition) {
 	   this.cond=condition;
    }
+   public void setSeller(String seller) {
+	   this.seller=seller;
+   }
    
    @Override
    public String toString()
@@ -78,6 +88,6 @@ public class Item {
 			   .append("Name",this.getName())
 			   .append("Price",this.getPrice())
 			   .append("Category",this.getCategory())
-			   .append("Condition",this.getCondition()).append(System.lineSeparator()).toString(); 
+			   .append("Condition",this.getCondition()).append(System.lineSeparator()).append ("Seller",this.getSeller()).toString(); 
    }
 }
