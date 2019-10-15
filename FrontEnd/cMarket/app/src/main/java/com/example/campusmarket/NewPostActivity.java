@@ -110,6 +110,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 params.put("price", (etPrice.getText()).toString());
                 params.put("condition", (etCondition.getText()).toString());
                 params.put("category", (etCategory.getText()).toString());
+//                params.put("seller", ("YEET"));
                 return params;
             }
 
