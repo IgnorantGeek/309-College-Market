@@ -54,6 +54,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSubmitPost:
+                postItem();
                 startActivity(new Intent(NewPostActivity.this,
                         DashboardActivity.class));
                 break;
