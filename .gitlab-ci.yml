@@ -14,7 +14,7 @@ maven-build:
   tags:
     - spring_tag
   script:
-    - cd Backend/app
+    - cd BackEnd/app
     - mvn package -B
   
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
@@ -24,7 +24,7 @@ maven-test:
   tags:
     - spring_tag
   script:
-    - cd Backend/app
+    - cd BackEnd/app
     - mvn test
   artifacts:
     paths:
@@ -37,11 +37,13 @@ autoDeploy:
   tags:
    - spring_tag
   script:
-    - cd Backend/app
+    - cd BackEnd/app
     - mvn package
-    - sudo mv target/*.jar /target/web-demo.jar 
-    - sudo systemctl stop systemd-web-demo
-    - sudo systemctl start systemd-web-demo
+    - sudo mv target/*.jar /target/web-demo.jar
+    #- sudo systemctl daemon-reload
+    - sudo systemctl stop system-web-demo
+    - sudo systemctl start system-web-demo
+    
 
     
 # To build android projects
@@ -53,15 +55,15 @@ android-build:
   stage: androidbuild
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Android_test/gradlew
+    - chmod +x ./FrontEnd/cMarket/gradlew
   tags:
-   - android_tag
+   - andriod_tag
   script:
-    - cd Android_test
+    - cd FrontEnd/cMarket
     - ./gradlew assemble
   artifacts:
     paths:
-    - Android_test/app/build/outputs/
+    - FrontEnd/cMarket/app/build/outputs/
     
 # To run Android unit tests.   
 unitTests:
@@ -69,9 +71,9 @@ unitTests:
   stage: androidtest
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Android_test/gradlew
+    - chmod +x ./FrontEnd/cMarket/gradlew
   tags:
-   - android_tag
+   - andriod_tag
   script:
-    - cd Android_test
+    - cd FrontEnd/cMarket
     - ./gradlew test
