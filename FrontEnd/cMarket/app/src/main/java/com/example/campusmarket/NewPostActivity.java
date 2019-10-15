@@ -36,6 +36,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
         }
+        //pls work
     }
 }
 
