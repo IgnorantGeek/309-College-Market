@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class UserActivity extends Activity implements OnClickListener {
-    private Button btnJson, btnDashboard, btnNewPost;
+    private Button btnJson, btnDashboard, btnNewPost, btnProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,8 @@ public class UserActivity extends Activity implements OnClickListener {
         btnDashboard.setOnClickListener(this);
         btnNewPost = (Button) findViewById(R.id.btnNewPost);
         btnNewPost.setOnClickListener(this);
+        btnProfile = (Button) findViewById(R.id.btnGoToProfile);
+        btnProfile.setOnClickListener(this);
 
     }
 
@@ -59,6 +61,10 @@ public class UserActivity extends Activity implements OnClickListener {
             case R.id.btnNewPost:
                 startActivity(new Intent(UserActivity.this,
                         NewPostActivity.class));
+                break;
+            case R.id.btnGoToProfile:
+                startActivity(new Intent(UserActivity.this,
+                        ProfileActivity.class));
                 break;
             default:
                 break;

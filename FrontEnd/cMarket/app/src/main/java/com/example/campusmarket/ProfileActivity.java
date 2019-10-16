@@ -30,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        profileItemResponse = (TextView) findViewById(R.id.msgDashboardResponse);
+        profileItemResponse = (TextView) findViewById(R.id.profileItemResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
