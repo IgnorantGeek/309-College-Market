@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
         showProgressDialog();
         // what we actually want, once seller thing is active :)
 //        String url = Const.URL_ITEM_SELLER;
-//        url += "their_username";
+//        url += UserActivity.loggedInUsername;
 
         // make the request
         JsonArrayRequest req = new JsonArrayRequest(url,

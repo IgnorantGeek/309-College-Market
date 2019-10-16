@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 public class UserActivity extends Activity implements OnClickListener {
     private Button btnJson, btnDashboard, btnNewPost, btnProfile;
+    public static String loggedInUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +28,13 @@ public class UserActivity extends Activity implements OnClickListener {
         // String url = "http://coms-309-jr-1.misc.iastate.edu:8080/users/username/" + message;
 
         // Get the Intent that started this activity and extract the string
+        // Set the string as the username
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        loggedInUsername = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.usernameWelcome);
-        textView.setText(message);
+        textView.setText(loggedInUsername);
 
 
         btnJson = (Button) findViewById(R.id.btnJsonRequest);
