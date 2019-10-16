@@ -3,11 +3,8 @@ package com.example.campusmarket;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -21,30 +18,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity {
 
-    private String TAG = DashboardActivity.class.getSimpleName();
+    private TextView profileItemResponse;
+    private String TAG = ProfileActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-    private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
-    private Button btnProfile, btnSearchSpecific;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_profile);
 
-        btnProfile = (Button) findViewById(R.id.btnViewProfile);
-        btnProfile.setOnClickListener(this);
-        btnSearchSpecific = (Button) findViewById(R.id.btnSearchSpecific);
-        btnSearchSpecific.setOnClickListener(this);
-
-
-        msgResponse = (TextView) findViewById(R.id.msgDashboardResponse);
+        profileItemResponse = (TextView) findViewById(R.id.profileItemResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
-        makeJsonArryReq();
+        showSoldItemsProfile();
     }
 
     private void showProgressDialog() {
@@ -57,18 +47,25 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             pDialog.hide();
     }
 
-    /**
-     * Making json array request
-     * */
-    private void makeJsonArryReq() {
+    /*
+    Displays all of the items that this user has sold by making a request
+    to the url "items/seller/their_username"
+     */
+    private void showSoldItemsProfile() {
+        String url = Const.URL_ITEM_ALL;
+
         showProgressDialog();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_ITEM_ALL,
+        // what we actually want, once seller thing is active :)
+//        String url = Const.URL_ITEM_SELLER;
+//        url += UserActivity.loggedInUsername;
+
+        // make the request
+        JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
                         addItemNames(response);
-//                        msgResponse.setText(response.toString());
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
@@ -82,15 +79,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(req,
                 tag_json_arry);
-        // Cancelling request
-        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
     }
 
     /*
-    * Parse the JSON item array so you only add the item names.
+     * Parse the JSON item array so you only add the item names.
      */
     private void addItemNames(JSONArray response) {
-        String message = "";//msgResponse.toString();
+        String message = "";
         for (int i = 0; i < response.length(); i++)
         {
             try {
@@ -102,22 +97,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 e.printStackTrace();
             }
         }
-        msgResponse.setText(message);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnSearchSpecific:
-                startActivity(new Intent(DashboardActivity.this,
-                        DropDownActivity.class));
-                break;
-            case R.id.btnViewProfile:
-                startActivity(new Intent(DashboardActivity.this,
-                        ProfileActivity.class));
-                break;
-            default:
-                break;
-        }
+        profileItemResponse.setText(message);
     }
 }
