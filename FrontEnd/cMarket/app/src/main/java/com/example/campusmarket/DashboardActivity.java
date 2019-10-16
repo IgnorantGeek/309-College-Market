@@ -3,8 +3,10 @@ package com.example.campusmarket;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,17 +21,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
+    private Button btnProfile, btnSearchSpecific;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        btnProfile = (Button) findViewById(R.id.btnViewProfile);
+        btnProfile.setOnClickListener(this);
+        btnSearchSpecific = (Button) findViewById(R.id.btnSearchSpecific);
+        btnSearchSpecific.setOnClickListener(this);
+
 
         msgResponse = (TextView) findViewById(R.id.msgDashboardResponse);
         pDialog = new ProgressDialog(this);
@@ -94,5 +103,21 @@ public class DashboardActivity extends AppCompatActivity {
             }
         }
         msgResponse.setText(message);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnSearchSpecific:
+                startActivity(new Intent(DashboardActivity.this,
+                        DropDownActivity.class));
+                break;
+            case R.id.btnViewProfile:
+                startActivity(new Intent(DashboardActivity.this,
+                        ProfileActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }
