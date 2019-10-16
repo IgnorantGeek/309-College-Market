@@ -36,7 +36,7 @@
         android:hint="Category"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etFirstName"
+        app:layout_constraintStart_toEndOf="@+id/etCondition"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -53,7 +53,7 @@
         android:hint="Item Name"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/etCondition"
-        app:layout_constraintEnd_toStartOf="@+id/etLastName"
+        app:layout_constraintEnd_toStartOf="@+id/etPrice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -72,7 +72,7 @@
         android:hint="Condition"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/btnSubmitPost"
-        app:layout_constraintEnd_toStartOf="@+id/etLastName"
+        app:layout_constraintEnd_toStartOf="@+id/etCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
