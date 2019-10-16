@@ -3,6 +3,7 @@ package org.campusmarket.db.repositories;
 import java.util.Collection;
 
 import org.campusmarket.app.models.Item;
+import org.campusmarket.app.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface ItemsRepository extends JpaRepository<Item, Integer>
 {
+	
+	
+	 Item findByRefnum(@Param("refnum") int refnum);
 	
 	@Query(nativeQuery = true, value="SELECT * FROM items WHERE name LIKE %:name% ORDER BY price")
     @Transactional(readOnly = true)

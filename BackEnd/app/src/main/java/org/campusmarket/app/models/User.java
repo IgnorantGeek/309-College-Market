@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -18,24 +19,34 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int     Id;
-    @Column(name = "username")
+    
+    @NotNull
+    @Column(name = "username", unique = true)
     private String  username;
+    
+    
+    @NotNull
     @Column(name = "password")
     private String password;
+    
     @Column(name = "firstname")
     private String  firstname;
+    
     @Column(name = "lastname")
     private String  lastname;
-    @Column(name = "email")
+    
+    @Column(name = "email", unique = true)
     private String  email;
+    
     @Column(name = "university")
     private String  university;
+    
     @Column(name = "admin")
     private boolean admin;
     
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set <Item> items;
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    //private List <Item> items;
 
 
     /*--- Links to Other Repositories ---*/
