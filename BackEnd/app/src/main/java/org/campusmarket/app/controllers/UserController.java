@@ -2,9 +2,12 @@ package org.campusmarket.app.controllers;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 
 
@@ -22,66 +26,144 @@ public class UserController
 {
     @Autowired
     private UsersRepository users;
+
+
+    Log log = LogFactory.getLog(UserController.class);
     
     
    @RequestMapping("/all")
     public List<User> getAll()
     {
-        return users.findAll();
+        try
+        {
+            return users.findAll();
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found.");
+        }
     }
      
     @GetMapping("/id/{id}")
     public User findUserById(@PathVariable("id") int id)
     {
-        return users.findById(id);
-        
+        try
+        {
+            return users.findById(id);
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
+        }
     }
     
     @GetMapping("/email/{email}")
     public User findUserByEmail(@PathVariable("email") String email)
     {
-        return users.findByEmail(email);
-        
+        try
+        {
+            return users.findByEmail(email);
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
+        }
     }
 
     @GetMapping("/username/{username}")
     public User findUserByUserName(@PathVariable("username") String username)
     {
-        return users.findByUsername(username);
-        
+        try
+        {
+            return users.findByUsername(username);
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
+        }
     }
     
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public void newUser(@RequestBody final User user)
     {
-        users.save(user);
+        try
+        {
+            users.save(user);
+            log.info("Data Entry Successful: New user created with ID " + user.getId());
+        }
+        catch(Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad JSON format.", e);
+        }
     }
     
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable("id") int id)
     {
-         users.deleteById(id);    
+        try
+        {
+            users.deleteById(id);
+            log.info("User Removal Successful: User with ID " + id + " removed.");
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found.", e);
+        }
     }
     
     @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
     public void deleteAll()
     {
-         users.deleteAll();   
+        try
+        {
+            users.deleteAll();
+            log.info("User Table Cleared: all users removed.");
+        }
+        catch(Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No users in database to remove.");
+        }
     }
-    @PutMapping("/{id}")
-    public void updateUser(@RequestBody User u,@PathVariable("id") int id) {
-		User oldUser=users.findById(id);
-		
-		oldUser.setEmail(u.getEmail());
-		oldUser.setUsername(u.getUsername());
-		oldUser.setFirstname(u.getFirstname());
-		oldUser.setLastname(u.getLastname());
-		oldUser.setPassword(u.getPassword());
-		oldUser.setUniversity(u.getUniversity());
+    @PutMapping("/update/{id}")
+    public void updateUser(@RequestBody User u, @PathVariable("id") int id) 
+    {
+        try
+        {
+            User oldUser=users.findById(id);
+            
+            oldUser.setEmail(u.getEmail());
+            oldUser.setUsername(u.getUsername());
+            oldUser.setFirstname(u.getFirstname());
+            oldUser.setLastname(u.getLastname());
+            oldUser.setPassword(u.getPassword());
+            oldUser.setUniversity(u.getUniversity());
+            users.save(oldUser);
+            log.info("Data Entry Successful: User with ID " + id + " updated.");
+        }
+        catch(Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update the user with id: " + id);
+        }
     }
     @RequestMapping(value = "/toString/{id}")
     public String PrintUserId(@PathVariable("id") int id)
     {
-        return users.findById(id).toString();
+        try
+        {
+            return users.findById(id).toString();
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find the user with id: " + id);
+        }
     }
 }
