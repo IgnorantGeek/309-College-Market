@@ -47,7 +47,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         items = new ArrayList<String>();
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, items);
         listView.setAdapter(adapter);
 
         makeJsonArryReq();
@@ -101,11 +101,17 @@ public class DashboardActivity extends AppCompatActivity {
         {
             try {
                 JSONObject obj = response.getJSONObject(i);
-                String add = obj.getString("name");
-                message += add;
+                String name = obj.getString("name");
+                message += name;
                 message += "\n";
-                // add the items to the array list:
-                items.add(add);
+//                String price = obj.getString("price");
+//                message += price;
+//                message += "\n";
+                // add the items to the array list
+
+                items.add(name);
+//                items.add(price);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
