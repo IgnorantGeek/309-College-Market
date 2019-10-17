@@ -19,12 +19,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DashboardActivity extends AppCompatActivity {
 
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
+    private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
