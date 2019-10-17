@@ -31,9 +31,9 @@ public class DashboardActivity extends AppCompatActivity {
     private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
     private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
-    private ArrayList<String> items;
-    private ArrayAdapter adapter;
-    private ListView listView;
+    ArrayList<String> items;
+    ArrayAdapter adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +104,15 @@ public class DashboardActivity extends AppCompatActivity {
                 String add = obj.getString("name");
                 message += add;
                 message += "\n";
+                // add the items to the array list:
+                items.add(add);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            // this line is the key --> we use the adapter to render the item names in their own sections individually
+            adapter.notifyDataSetChanged();
         }
-        msgResponse.setText(message);
+
+//        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 }
