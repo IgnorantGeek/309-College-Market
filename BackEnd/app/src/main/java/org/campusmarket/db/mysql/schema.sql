@@ -23,6 +23,9 @@ CREATE TABLE IF NOT EXISTS items(
 		name VARCHAR (20),
 		price DOUBLE(6,2),
 		category VARCHAR (10),
-		cond VARCHAR (10)
+		cond VARCHAR (10),
+		seller VARCHAR (30) NOT NULL,
+		
+		 FOREIGN KEY (seller) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) engine=InnoDB;

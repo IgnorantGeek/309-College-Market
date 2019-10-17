@@ -3,9 +3,11 @@ package com.example.campusmarket;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity {
-
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private TextView msgResponse;
@@ -119,5 +120,21 @@ public class DashboardActivity extends AppCompatActivity {
         }
 
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnSearchSpecific:
+                startActivity(new Intent(DashboardActivity.this,
+                        DropDownActivity.class));
+                break;
+            case R.id.btnViewProfile:
+                startActivity(new Intent(DashboardActivity.this,
+                        ProfileActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -2,35 +2,52 @@ package org.campusmarket.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User
+public class User  implements Serializable
 {
     /*--- Class Variables ---*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int     Id;
-    @Column(name = "username")
+    
+    @NotNull
+    @Column(name = "username", unique = true)
     private String  username;
+    
+    
+    @NotNull
     @Column(name = "password")
     private String password;
+    
     @Column(name = "firstname")
     private String  firstname;
+    
     @Column(name = "lastname")
     private String  lastname;
-    @Column(name = "email")
+    
+    @Column(name = "email", unique = true)
     private String  email;
+    
     @Column(name = "university")
     private String  university;
+    
     @Column(name = "admin")
     private boolean admin;
+    
+    
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    //private List <Item> items;
+
 
     /*--- Links to Other Repositories ---*/
     @OneToMany(cascade = CascadeType.ALL,
