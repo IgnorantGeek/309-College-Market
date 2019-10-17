@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User  implements Serializable
+public class User implements Serializable
 {
     /*--- Class Variables ---*/
     @Id
