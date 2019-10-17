@@ -3,12 +3,9 @@ package com.example.campusmarket;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,7 +30,7 @@ public class DashboardActivity extends AppCompatActivity {
     private String  tag_json_arry = "jarray_req";
     private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
     ArrayList<String> items;
-    ArrayAdapter adapter;
+    ArrayAdapter<String> adapter;
     ListView listView;
 
     @Override
@@ -48,7 +45,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         items = new ArrayList<String>();
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
 
         makeJsonArryReq();
@@ -122,19 +119,19 @@ public class DashboardActivity extends AppCompatActivity {
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnSearchSpecific:
-                startActivity(new Intent(DashboardActivity.this,
-                        DropDownActivity.class));
-                break;
-            case R.id.btnViewProfile:
-                startActivity(new Intent(DashboardActivity.this,
-                        ProfileActivity.class));
-                break;
-            default:
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.btnSearchSpecific:
+//                startActivity(new Intent(DashboardActivity.this,
+//                        DropDownActivity.class));
+//                break;
+//            case R.id.btnViewProfile:
+//                startActivity(new Intent(DashboardActivity.this,
+//                        ProfileActivity.class));
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 }
