@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -29,16 +31,25 @@ public class DashboardActivity extends AppCompatActivity {
     private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
     private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
+    private ArrayList<String> items;
+    private ArrayAdapter adapter;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        msgResponse = (TextView) findViewById(R.id.msgDashboardResponse);
+        msgResponse = findViewById(R.id.msgDashboardResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
+
+        listView = findViewById(R.id.listView);
+        items = new ArrayList<String>();
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+        listView.setAdapter(adapter);
+
         makeJsonArryReq();
     }
 
