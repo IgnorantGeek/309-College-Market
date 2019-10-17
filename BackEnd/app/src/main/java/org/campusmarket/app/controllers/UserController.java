@@ -32,6 +32,9 @@ public class UserController
     Log log = LogFactory.getLog(UserController.class);
     
     
+    static final int MAX_USER_ENTITY =100;
+    
+    
    @RequestMapping("/all")
     public List<User> getAll()
     {
@@ -109,7 +112,7 @@ public class UserController
         try
         {
             users.deleteById(id);
-            log.info("User Removal Successful: User with ID " + id + " removed.");
+            log.info("User Removal Successful: User with ID " + id + " removed and its subsequent items as well ");
         }
         catch (Exception e)
         {
@@ -123,7 +126,12 @@ public class UserController
     {
         try
         {
-            users.deleteAll();
+        	int id=1;
+        	while (id <= MAX_USER_ENTITY) { //assuming that this is the max num of entity. Could've used users.count but id doesn't reset at 0 for a adding a new item after deleting everything or could've written a customized query
+        		users.deleteById(id);
+        		id++;
+        	}
+        	
             log.info("User Table Cleared: all users removed.");
         }
         catch(Exception e)
@@ -145,6 +153,7 @@ public class UserController
             oldUser.setLastname(u.getLastname());
             oldUser.setPassword(u.getPassword());
             oldUser.setUniversity(u.getUniversity());
+            users.save(oldUser);
             log.info("Data Entry Successful: User with ID " + id + " updated.");
         }
         catch(Exception e)

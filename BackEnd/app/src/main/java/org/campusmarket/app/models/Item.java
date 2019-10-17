@@ -1,12 +1,16 @@
 package org.campusmarket.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.persistence.Table;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.core.style.ToStringCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
@@ -17,6 +21,7 @@ import org.springframework.core.style.ToStringCreator;
 
 public class Item {
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "refnum")
     private int refnum;
     @Column(name = "name")
@@ -28,10 +33,30 @@ public class Item {
     @Column (name="cond")
     private String cond;
     
+
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "seller", referencedColumnName = "username", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private User user;
+
+    
+    
+    
    public Item() {
 	   
    }
-    
+   
+   public Item(int refnum, String name, double price, String category, User user) {
+	   this.refnum=refnum;
+	   this.name=name;
+	   this.price=price;
+	   this.category=category;
+	   this.user=user;
+	   
+   }
+   
    public int getRefnum() {
 	   return this.refnum;
    }
@@ -48,6 +73,9 @@ public class Item {
    }
    public String getCondition() {
 	   return this.cond;
+   }
+   public User getUser() {
+	   return this.user;
    }
    
    public void setRefnum(int refnum) {
@@ -69,6 +97,9 @@ public class Item {
    public void setCondition(String condition) {
 	   this.cond=condition;
    }
+   public void setUser(User user) {
+	   this.user=user;
+   }
    
    @Override
    public String toString()
@@ -78,6 +109,7 @@ public class Item {
 			   .append("Name",this.getName())
 			   .append("Price",this.getPrice())
 			   .append("Category",this.getCategory())
-			   .append("Condition",this.getCondition()).append(System.lineSeparator()).toString(); 
+			   .append("Condition",this.getCondition()).append(System.lineSeparator())
+			   .append ("Seller",this.getUser().getUsername()).toString(); 
    }
 }
