@@ -33,15 +33,15 @@ public class Item {
     @Column (name="cond")
     private String cond;
     
+    
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "seller", referencedColumnName = "username", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private User user;
 
-    
+  
     
     
    public Item() {
