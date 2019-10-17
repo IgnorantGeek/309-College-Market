@@ -29,7 +29,7 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     void deleteById (@Param("id") int id);
     
     
-    @Query(nativeQuery = true, value="SELECT EXISTS (SELECT * from users where username=:username ")
+    @Query(nativeQuery = true, value="SELECT EXISTS (SELECT * from users where username=:username)")
     @Transactional(readOnly = true)
 	int existsByUserName(@Param("username") String username);
     
