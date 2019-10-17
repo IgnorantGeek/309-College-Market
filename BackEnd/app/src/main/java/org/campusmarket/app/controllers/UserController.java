@@ -36,6 +36,9 @@ public class UserController
     Log log = LogFactory.getLog(UserController.class);
     
     
+    static final int MAX_USER_ENTITY =100;
+    
+    
    @RequestMapping("/all")
     public List<User> getAll(@RequestParam(name = "sessid", required = true) String sessid)
     {
