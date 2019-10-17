@@ -33,8 +33,7 @@ public class Item {
     @Column (name="cond")
     private String cond;
     
-    //@Column (name="seller",insert="false" update="false")
-   // private String seller;
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "seller", referencedColumnName = "username", nullable = false)

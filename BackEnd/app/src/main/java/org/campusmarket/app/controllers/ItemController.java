@@ -10,6 +10,7 @@ import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.ItemsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,22 +81,37 @@ public class ItemController {
 			 @PathVariable (value = "refnum") int refnum) {
     
     	try {
+    		
+    		if(users.existsByUserName(username)==0) {
+    			 
+    			log.error("There's no such user with this username in our system so sorry we can't update this item");
+    			return;
+
+    		}
+    		  		
+    	
     	Item oldItem=items.findByRefnum(refnum);
+    	
+    	if(oldItem.getUser().getUsername().equals(username)){
+    	
     	oldItem.setName(item.getName());
     	oldItem.setPrice(item.getPrice());
     	oldItem.setCategory(item.getCategory());
     	oldItem.setCondition(item.getCondition());
     	items.save(oldItem);
-        log.info(" success: the item with a reference number of " + refnum +" was updated");
-    	}
-    	  catch(Exception e)
-        {
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update the item with refnum: " + refnum);
-        }
-    }
     	
+        log.info(" success: the item with a reference number of " + refnum +" was updated");
+        
+    	}
+    	
+    	} catch (Exception e) {
+    		 log.error(e.getMessage());
+    		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, " Failure: Could not update the item with refnum: " + refnum);
+    		
+        }
 
+    }
+    
     @GetMapping("name/{name}")
     public Collection<Item> findItemByName(@PathVariable("name") String name, @RequestBody Item item) {
     	
