@@ -47,7 +47,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         items = new ArrayList<String>();
-        adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, items);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
 
         makeJsonArryReq();
@@ -108,7 +108,6 @@ public class DashboardActivity extends AppCompatActivity {
 //                message += price;
 //                message += "\n";
                 // add the items to the array list
-
                 items.add(name);
 //                items.add(price);
 
