@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -18,22 +20,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView profileItemResponse;
     private String TAG = ProfileActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String  tag_json_arry = "jarray_req";
+    private LinearLayout item_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        profileItemResponse = (TextView) findViewById(R.id.profileItemResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
+
+        item_layout =  findViewById(R.id.profile_item_layout);
+        item_layout.setOrientation(LinearLayout.VERTICAL);
         showSoldItemsProfile();
     }
 
@@ -85,18 +91,18 @@ public class ProfileActivity extends AppCompatActivity {
      * Parse the JSON item array so you only add the item names.
      */
     private void addItemNames(JSONArray response) {
-        String message = "";
         for (int i = 0; i < response.length(); i++)
         {
             try {
                 JSONObject obj = response.getJSONObject(i);
-                String add = obj.getString("name");
-                message += add;
-                message += "\n";
+                String theString = obj.getString("name");
+                // create a new Button
+                Button theButton = new Button(this);
+                theButton.setText(theString);
+                item_layout.addView(theButton);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        profileItemResponse.setText(message);
     }
 }
