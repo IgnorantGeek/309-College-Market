@@ -6,8 +6,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -21,29 +23,34 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.List;
 
+public class DashboardActivity extends AppCompatActivity {
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
-    private Button btnProfile, btnSearchSpecific;
+    private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
+    ArrayList<String> items;
+    ArrayAdapter adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        btnProfile = (Button) findViewById(R.id.btnViewProfile);
-        btnProfile.setOnClickListener(this);
-        btnSearchSpecific = (Button) findViewById(R.id.btnSearchSpecific);
-        btnSearchSpecific.setOnClickListener(this);
-
-
-        msgResponse = (TextView) findViewById(R.id.msgDashboardResponse);
+        msgResponse = findViewById(R.id.msgDashboardResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
+
+        listView = findViewById(R.id.listView);
+        items = new ArrayList<String>();
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+        listView.setAdapter(adapter);
+
         makeJsonArryReq();
     }
 
@@ -95,14 +102,24 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         {
             try {
                 JSONObject obj = response.getJSONObject(i);
-                String add = obj.getString("name");
-                message += add;
+                String name = obj.getString("name");
+                message += name;
                 message += "\n";
+//                String price = obj.getString("price");
+//                message += price;
+//                message += "\n";
+                // add the items to the array list
+                items.add(name);
+//                items.add(price);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            // this line is the key --> we use the adapter to render the item names in their own sections individually
+            adapter.notifyDataSetChanged();
         }
-        msgResponse.setText(message);
+
+//        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
     @Override
