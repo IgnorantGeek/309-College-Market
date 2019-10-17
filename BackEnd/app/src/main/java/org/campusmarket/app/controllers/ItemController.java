@@ -46,6 +46,7 @@ public class ItemController {
 	public List<Item> getAll(){
 		try {
 			
+			
 	    return items.findAll();
 		}
 		   catch (Exception e){
@@ -55,7 +56,7 @@ public class ItemController {
     }
 
 	 
-	@PostMapping("/users/{username}/items")
+	@PostMapping("/users/{username}/items/new")
 	public void newItem(@RequestBody Item item, @PathVariable (value = "username") String username)
 	{
 		try {
@@ -69,7 +70,7 @@ public class ItemController {
 		}
 		   catch (Exception e){
 	            log.error(e.getMessage());
-	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error: adding an item was not successful. Bad JSON format",e);
+	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There's no such user with this username so sorry we won't be able to add your item :(",e);
 	        }
 	    }
 	

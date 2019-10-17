@@ -2,6 +2,7 @@ package org.campusmarket.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User
+public class User  implements Serializable
 {
     /*--- Class Variables ---*/
     @Id
