@@ -13,12 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DashboardActivity"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".DashboardActivity" />
         <activity android:name=".UserActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".JsonRequestActivity" />
         <activity android:name=".DropDownActivity" />
+        <activity android:name=".NewPostActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

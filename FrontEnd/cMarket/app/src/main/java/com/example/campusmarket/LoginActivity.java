@@ -50,10 +50,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+    /* To be implemented function
+     * Verify that user exists in the database.
+     * Return true if they do, otherwise return false
+     */
+    public boolean check_login_user(String username, String password)
+    {
+        return false;
+    }
+
     private void validateForm() {
         // first validate the form then move ahead
         // if this becomes true that means validation is successful
         if (awesomeValidation.validate()) {
+            check_login_user((etUsername.getText()).toString(), (etPassword.getText()).toString());
+
             Intent intent = new Intent(this, UserActivity.class);
             EditText editText = (EditText) findViewById(R.id.etUsername);
             String message = editText.getText().toString();

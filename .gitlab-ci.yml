@@ -16,6 +16,8 @@ maven-build:
   script:
     - cd BackEnd/app
     - mvn package -B
+  only:
+    - master
   
 # artifacts are created when job executes successfully, and can be manually downloaded from GitLab GUI.
 # artifacts are not mandatory, buts it good practice, in case auto deploy fails, you can manually download the jar.
@@ -26,6 +28,8 @@ maven-test:
   script:
     - cd BackEnd/app
     - mvn test
+  only:
+    - master
   artifacts:
     paths:
       - Spring/target/*.jar
@@ -43,7 +47,8 @@ autoDeploy:
     #- sudo systemctl daemon-reload
     - sudo systemctl stop system-web-demo
     - sudo systemctl start system-web-demo
-    
+  only:
+    - master    
 
     
 # To build android projects
@@ -61,6 +66,8 @@ android-build:
   script:
     - cd FrontEnd/cMarket
     - ./gradlew assemble
+  only:
+    - master
   artifacts:
     paths:
     - FrontEnd/cMarket/app/build/outputs/
@@ -77,3 +84,5 @@ unitTests:
   script:
     - cd FrontEnd/cMarket
     - ./gradlew test
+  only:
+    - master

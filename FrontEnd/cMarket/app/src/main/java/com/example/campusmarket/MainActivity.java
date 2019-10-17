@@ -1,14 +1,17 @@
 package com.example.campusmarket;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
 
     public static final String EXTRA_MESSAGE = "com.example.campusmarket.MESSAGE";
+    public String test;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,5 +32,15 @@ public class MainActivity extends AppCompatActivity {
     public void signUp(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+//    public void testButton(View view) {
+//        Intent intent = new Intent(this, UserActivity.class);
+//        startActivity(intent);
+//    }
+
+    public String testMockitoFunction(String s) {
+        test = s;
+        return s.toLowerCase();
     }
 }
