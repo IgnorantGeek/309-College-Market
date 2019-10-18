@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,6 +35,7 @@ public class DashboardActivity extends AppCompatActivity {
     ArrayList<String> items;
     ArrayAdapter<String> adapter;
     ListView listView;
+    EditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,26 @@ public class DashboardActivity extends AppCompatActivity {
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
+        etSearch = findViewById(R.id.etSearch);
 
         makeJsonArryReq();
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     private void showProgressDialog() {
@@ -134,4 +156,6 @@ public class DashboardActivity extends AppCompatActivity {
 //                break;
 //        }
 //    }
+
+
 }
