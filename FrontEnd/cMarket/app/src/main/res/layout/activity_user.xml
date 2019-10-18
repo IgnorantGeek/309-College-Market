@@ -11,51 +11,48 @@
         android:id="@+id/btnNewPost"
         android:layout_width="333dp"
         android:layout_height="52dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="40dp"
         android:text="Make a New Post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnGoToDashboard" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="171dp"
-        android:layout_height="116dp"
-        android:layout_marginTop="36dp"
-        android:contentDescription="@string/Picture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/campus_market_logo" />
-
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="87dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="108dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="116dp"
         android:text="@string/welcome"
         android:textColor="#673AB7"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnJsonRequest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/usernameWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="498dp"
         android:textColor="#673AB7"
         android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.125" />
 
     <Button
         android:id="@+id/btnJsonRequest"
         android:layout_width="333dp"
         android:layout_height="52dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="108dp"
         android:text="@string/cont"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +62,7 @@
         android:id="@+id/btnGoToDashboard"
         android:layout_width="333dp"
         android:layout_height="52dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="40dp"
         android:text="Go To Dashboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,11 +72,13 @@
         android:id="@+id/btnGoToProfile"
         android:layout_width="333dp"
         android:layout_height="52dp"
+        android:layout_marginTop="40dp"
         android:text="Go To Profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnNewPost" />
+        app:layout_constraintTop_toBottomOf="@+id/btnNewPost"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
