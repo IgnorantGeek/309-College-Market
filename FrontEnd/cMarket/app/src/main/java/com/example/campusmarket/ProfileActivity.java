@@ -67,8 +67,9 @@ public class ProfileActivity extends AppCompatActivity {
      *     to the url "items/seller/their_username"
      */
     private void showSoldItemsProfile() {
-        String url = Const.URL_ITEM_ALL;
+//        String url = Const.URL_ITEM_ALL;
 
+        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/sellers";
         showProgressDialog();
         // what we actually want, once seller thing is active :)
 //        String url = Const.URL_ITEM_SELLER;
