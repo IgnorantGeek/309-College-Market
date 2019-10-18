@@ -46,12 +46,12 @@ public class User implements Serializable
     
 
     /*--- Links to Other Repositories ---*/
-    @OneToMany(cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    private List<Session> sessions = new ArrayList<Session>();
+    // @OneToMany(cascade = CascadeType.ALL,
+    //            orphanRemoval = true)
+    // private List<Session> sessions = new ArrayList<Session>();
 
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    //private List <Item> items;
+    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    // private List <Item> items;
 
     
     /*--- Constructors ---*/

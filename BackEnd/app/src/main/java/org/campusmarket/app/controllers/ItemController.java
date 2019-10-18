@@ -65,21 +65,20 @@ public class ItemController
     }
 
 	// purple
-	@RequestMapping(value = "/new", method = RequestMethod.POST)
-	public void newItem(@RequestBody Item item, @RequestParam(name = "sessid", required = true) String sessid)
+	@RequestMapping(value = "user/{username}/new", method = RequestMethod.POST)
+	public void newItem(@RequestBody Item item, @PathVariable("username") String username, @RequestParam(name = "sessid", required = true) String sessid)
 	{
 		if (sessid.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
+		}
+		Session active = sessions.findBySessId(sessid);
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 		
-		try 
-		{	
-			User u= active.getUser();
-			item.setUser(u);
-			System.out.println(item.getUser().getUsername());
+		try
+		{
+			User n = active.getUser();
+			item.setUser(n);
 			items.save(item);
 			
         	log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
@@ -90,10 +89,9 @@ public class ItemController
 	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add item to the database.");
 	    }
 	}
-	
 	// Blue
     @RequestMapping(value = "/update/{refnum}", method = RequestMethod.PUT)
-	public void updateItem(@RequestBody Item item, 
+	public void updateItem(@RequestBody Item item,
 						   @RequestParam(name = "sessid", required = true) String sessid, 
 							@PathVariable (value = "refnum") int refnum)
 	{
