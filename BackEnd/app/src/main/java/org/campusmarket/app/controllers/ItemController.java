@@ -17,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +43,7 @@ public class ItemController
 	Log log = LogFactory.getLog(ItemController.class);
 
 	// green
-	@RequestMapping(value = "/items/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public List<Item> getAll(@RequestParam(name = "sessid", required = true) String sessid)
 	{
 		if (sessid.isEmpty())
@@ -81,6 +79,7 @@ public class ItemController
 		{	
 			User u= active.getUser();
 			item.setUser(u);
+			System.out.println(item.getUser().getUsername());
 			items.save(item);
 			
         	log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
@@ -88,9 +87,9 @@ public class ItemController
 		catch (Exception e)
 		{
 	        log.error(e.getMessage());
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add user to the database.");
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add item to the database.");
 	    }
-	    }
+	}
 	
 	// Blue
     @RequestMapping(value = "/update/{refnum}", method = RequestMethod.PUT)
@@ -213,7 +212,7 @@ public class ItemController
 										   @RequestParam(name = "name") String name,
 										   @RequestParam(name = "category") String category,
 										   @RequestParam(name = "condition") String condition,
-										   @RequestParam(name = "price") double price)
+										   @RequestParam(name = "price") String price)
 	{
 		if (sessid.isEmpty())
         {
@@ -228,7 +227,8 @@ public class ItemController
 			if (category == null || category.isEmpty()) category = "*";
 			if (condition == null || condition.isEmpty()) condition = "*";
 			
-			return items.sortQuery(name, condition, category, price);
+			if (price == null || price.isEmpty()) return items.sortQuery(name, condition, category);
+			else return items.sortQuery(name, condition, category, Double.parseDouble(price));
 		}
 		catch(Exception e)
 		{

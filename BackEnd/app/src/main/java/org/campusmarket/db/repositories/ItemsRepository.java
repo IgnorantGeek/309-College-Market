@@ -44,6 +44,10 @@ public interface ItemsRepository extends JpaRepository<Item, Integer>
     @Query(nativeQuery = true, value="SELECT * FROM items WHERE name LIKE %:name% AND cond=:cond AND category=:category AND price<=:price")
     @Transactional(readOnly = true)
     Collection<Item>sortQuery(@Param("name") String name, @Param("cond") String cond, @Param("category")String category, @Param("price") double price);
+
+    @Query(nativeQuery = true, value="SELECT * FROM items WHERE name LIKE %:name% AND cond=:cond AND category=:category")
+    @Transactional(readOnly = true)
+    Collection<Item>sortQuery(@Param("name") String name, @Param("cond") String cond, @Param("category")String category);
     
 
 	
