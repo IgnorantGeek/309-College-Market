@@ -58,16 +58,17 @@ public class DashboardActivity extends AppCompatActivity {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                // don't need to change anything here for now
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                (DashboardActivity.this).adapter.getFilter().filter(charSequence);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                // don't need to change anything here for now
 
             }
         });

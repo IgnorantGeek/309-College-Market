@@ -7,17 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".DashboardActivity">
 
-<!--    <Button-->
-<!--        android:id="@+id/btnSearchItem"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginStart="78dp"-->
-<!--        android:layout_marginLeft="78dp"-->
-<!--        android:layout_marginTop="100dp"-->
-<!--        android:text="Search For Specific Item" />-->
-
     <TextView
         android:id="@+id/tvDashboard"
         android:layout_width="wrap_content"
