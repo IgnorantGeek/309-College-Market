@@ -62,13 +62,14 @@ public class ProfileActivity extends AppCompatActivity {
             pDialog.hide();
     }
 
-    /*
-    Displays all of the items that this user has sold by making a request
-    to the url "items/seller/their_username"
+    /**
+     * Displays all of the items that this user has sold by making a request
+     *     to the url "items/seller/their_username"
      */
     private void showSoldItemsProfile() {
-        String url = Const.URL_ITEM_ALL;
+//        String url = Const.URL_ITEM_ALL;
 
+        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/sellers";
         showProgressDialog();
         // what we actually want, once seller thing is active :)
 //        String url = Const.URL_ITEM_SELLER;
@@ -96,8 +97,9 @@ public class ProfileActivity extends AppCompatActivity {
                 tag_json_arry);
     }
 
-    /*
+    /**
      * Parse the JSON item array so you only add the item names.
+     * @param response
      */
     private void addItemNames(JSONArray response) {
         for (int i = 0; i < response.length(); i++)
@@ -119,7 +121,12 @@ public class ProfileActivity extends AppCompatActivity {
         createListeners(myButtons, myItems);
     }
 
-    /* Create a listener for each button and goes to a new activity when it is clicked */
+
+    /**
+     * Create a listener for each button and goes to a new activity when it is clicked
+     * @param buttons
+     * @param items
+     */
     private void createListeners(ArrayList<Button> buttons, ArrayList<JSONObject> items)
     {
         for (int i = 0; i < buttons.size(); i++)
