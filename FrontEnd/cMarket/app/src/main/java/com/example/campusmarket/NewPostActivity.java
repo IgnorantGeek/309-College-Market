@@ -66,6 +66,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public void postItem(){
         //make json object
         //make json object req
+        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/new";
         JSONObject js = new JSONObject();
         try {
             js.put("name", (etName.getText()).toString());
@@ -78,7 +79,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
         // Make request for JSONObject:
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                Request.Method.POST, Const.URL_NEW_ITEM, js,
+                Request.Method.POST, url, js,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
