@@ -37,7 +37,7 @@ public class DashboardActivity extends AppCompatActivity {
 //    ArrayList<String> items;
     ArrayAdapter<String> arrayadapter;
 //    ListView listView;
-    EditText etSearch;
+//    EditText etSearch;
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
@@ -59,7 +59,7 @@ public class DashboardActivity extends AppCompatActivity {
 //        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
 //        listView.setAdapter(adapter);
 
-        etSearch = findViewById(R.id.etSearch);
+//        etSearch = findViewById(R.id.etSearch);
 
         makeJsonArryReq();
 
@@ -124,24 +124,24 @@ public class DashboardActivity extends AppCompatActivity {
                 //adding the adapter to listview
                 listView.setAdapter(adapter);
 
-                etSearch.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        // don't need to change anything here for now
-
-                    }
-                });
+//                etSearch.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(Editable editable) {
+//                        // don't need to change anything here for now
+//
+//                    }
+//                });
 
 
 

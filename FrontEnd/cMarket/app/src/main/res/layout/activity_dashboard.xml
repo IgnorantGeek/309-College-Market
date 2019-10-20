@@ -39,15 +39,15 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp" />
 
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="91dp"
-        android:ems="10"
-        android:hint="Search for an Item..."
-        android:inputType="textPersonName" />
+<!--    <EditText-->
+<!--        android:id="@+id/etSearch"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="91dp"-->
+<!--        android:ems="10"-->
+<!--        android:hint="Search for an Item..."-->
+<!--        android:inputType="textPersonName" />-->
 
 </RelativeLayout>
