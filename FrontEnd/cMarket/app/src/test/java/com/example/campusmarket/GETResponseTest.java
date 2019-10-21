@@ -2,6 +2,7 @@ package com.example.campusmarket;
 
 
 import android.os.Build;
+import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,17 +15,21 @@ import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.O_MR1)
 public class GETResponseTest {
 
+    private View.OnClickListener onClickListener;
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Test
-    public void getResponseTest_register() throws JSONException {
+    public void register_response_test1() throws JSONException {
         //This creates a Mock Object of the class that we have not fully implemented
         RegisterActivity regAct = mock(RegisterActivity.class);
 
@@ -50,16 +55,36 @@ public class GETResponseTest {
     }
 
     @Test
-    public void getResponseTest_login() throws JSONException {
-        //This creates a Mock Object of the class that we have not fully implemented
-        LoginActivity logAct = mock(LoginActivity.class);
-
+    public void register_response_test_2() throws JSONException {
+        RegisterActivity regActivity = mock(RegisterActivity.class);
         // Create the user JSON Object
         String usernameCorrect = "Sponge123";
         String passwordCorrect = "Password123";
+        String firstNameCorrect = "Spongebob";
+        String lastNameCorrect = "SqaurePants";
+        String schoolCorrect = "Bikini Bottom University";
+        String emailCorrect = "spongebob@gmail.com";
 
-        when(logAct.check_login_user(usernameCorrect, passwordCorrect)).thenReturn(true);
-        Assert.assertEquals(true, logAct.check_login_user(usernameCorrect, passwordCorrect));
+        JSONObject response = new JSONObject();
+        response.put("username", usernameCorrect);
+        response.put("password", passwordCorrect);
+        response.put("firstname", firstNameCorrect);
+        response.put("lastname", lastNameCorrect);
+        response.put("email", schoolCorrect);
+        response.put("university", emailCorrect);
+        response.put("admin", "false");
+
+        regActivity.finishSignUp();
+        verify(regActivity,  times(1)).finishSignUp();
     }
 
+    @Test
+    public void valid_syntax_login()
+    {
+        LoginActivity logActivity = mock(LoginActivity.class);
+        String usernameCorrect = "Sponge123";
+        String passwordCorrect = "Password123";
+        when(logActivity.validateForm()).thenReturn(true);
+        Assert.assertEquals(true, logActivity.validateForm());
+    }
 }
