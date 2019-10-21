@@ -32,6 +32,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     EditText etName, etPrice, etCondition, etCategory;
     JSONObject objectToEdit;
     Button btnSubmit;
+    Button btnDelete;
     private ProgressDialog pDialog;
 
     @Override
@@ -64,6 +65,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         // make submit button clickable
         btnSubmit = findViewById(R.id.btnEditSubmit);
         btnSubmit.setOnClickListener(this);
+        btnDelete = findViewById(R.id.btnEditDelete);
+        btnDelete.setOnClickListener(this);
     }
 
     /**
@@ -175,6 +178,73 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
     }
 
+    private void deletePost()
+    {
+        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/";
+        JSONObject js = new JSONObject();
+
+        try {
+            js.put("refnum", objectToEdit.getString("refnum"));
+            js.put("name", objectToEdit.getString("name"));
+            js.put("price", objectToEdit.getString("price"));
+            js.put("category", objectToEdit.getString("category"));
+            js.put("user", objectToEdit.getJSONObject("user"));
+            js.put("condition", objectToEdit.getString("condition"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            url += js.getString("refnum") + "/delete";
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        showProgressDialog();
+        // Make request for JSONObject
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.DELETE, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString() + " deleted");
+                        hideProgressDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                hideProgressDialog();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//                try {
+//                    params.put("refnum", js.getString("refnum"));
+//                    params.put("name", js.getString("name"));
+//                    params.put("price", js.getString("price"));
+//                    params.put("category", js.getString("category"));
+//                    params.put("user", js.getString("user"));
+//                    params.put("condition", js.getString("condition"));
+//                }  catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                return params;
+//            }
+
+        };
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
+    }
 
 
     @Override
@@ -182,6 +252,13 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.btnEditSubmit:
                 updateItemInformation(objectToEdit);
+                Intent intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnEditDelete:
+                deletePost();
+                Intent intent2 = new Intent(this, ProfileActivity.class);
+                startActivity(intent2);
                 break;
             default:
                 break;

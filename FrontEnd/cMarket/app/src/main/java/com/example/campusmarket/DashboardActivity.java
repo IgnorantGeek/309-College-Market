@@ -2,7 +2,9 @@ package com.example.campusmarket;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,49 +31,39 @@ import java.util.List;
 public class DashboardActivity extends AppCompatActivity {
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-    private TextView msgResponse;
+//    private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
-    private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
-    ArrayList<String> items;
-    ArrayAdapter<String> adapter;
+//    private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
+//    ArrayList<String> items;
+    ArrayAdapter<String> arrayadapter;
+//    ListView listView;
+//    EditText etSearch;
     ListView listView;
-    EditText etSearch;
+    Activity activity;
+    List<DashItemsActivity> ItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        msgResponse = findViewById(R.id.msgDashboardResponse);
+//        msgResponse = findViewById(R.id.msgDashboardResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
         listView = findViewById(R.id.listView);
-        items = new ArrayList<String>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        listView.setAdapter(adapter);
-        etSearch = findViewById(R.id.etSearch);
+        ItemList = new ArrayList<>();
+
+//        items = new ArrayList<String>();
+//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+//        listView.setAdapter(adapter);
+
+//        etSearch = findViewById(R.id.etSearch);
 
         makeJsonArryReq();
 
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // don't need to change anything here for now
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                (DashboardActivity.this).adapter.getFilter().filter(charSequence);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                // don't need to change anything here for now
-
-            }
-        });
+        // Start search:
     }
 
     private void showProgressDialog() {
@@ -121,26 +113,52 @@ public class DashboardActivity extends AppCompatActivity {
         for (int i = 0; i < response.length(); i++)
         {
             try {
-                JSONObject obj = response.getJSONObject(i);
-                String name = obj.getString("name");
-                message += name;
-                message += "\n";
-//                String price = obj.getString("price");
-//                message += price;
-//                message += "\n";
-                // add the items to the array list
-                items.add(name);
-//                items.add(price);
+
+                JSONObject demoObject = response.getJSONObject(i);
+                DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"), demoObject.getString("price"), demoObject.getString("condition"), demoObject.getString("category"));
+                ItemList.add(item);
+//              message += item;
+
+                final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext());
+
+                //adding the adapter to listview
+                listView.setAdapter(adapter);
+
+//                etSearch.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(Editable editable) {
+//                        // don't need to change anything here for now
+//
+//                    }
+//                });
+
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+
+
             // this line is the key --> we use the adapter to render the item names in their own sections individually
-            adapter.notifyDataSetChanged();
+//            adapter.notifyDataSetChanged();
         }
 
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
+
+
 
 //    @Override
 //    public void onClick(View v) {

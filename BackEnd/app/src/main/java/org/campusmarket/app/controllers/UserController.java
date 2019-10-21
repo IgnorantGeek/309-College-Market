@@ -1,20 +1,21 @@
 package org.campusmarket.app.controllers;
 
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.campusmarket.app.models.Session;
 import org.campusmarket.app.models.User;
+import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,6 +28,9 @@ public class UserController
 {
     @Autowired
     private UsersRepository users;
+
+    @Autowired
+    private SessionsRepository sessions;
 
 
     Log log = LogFactory.getLog(UserController.class);
@@ -107,17 +111,17 @@ public class UserController
     }
     
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable("id") int id)
+    public void deleteUser(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
     {
         try
         {
             users.deleteById(id);
-            log.info("User Removal Successful: User with ID " + id + " removed and its subsequent items as well ");
+            log.info("User Removal Successful: User with ID: " + id + " removed.");
         }
         catch (Exception e)
         {
             log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + id + " not found.", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not remove the user with id: " + id);
         }
     }
     
@@ -126,12 +130,7 @@ public class UserController
     {
         try
         {
-        	int id=1;
-        	while (id <= MAX_USER_ENTITY) { //assuming that this is the max num of entity. Could've used users.count but id doesn't reset at 0 for a adding a new item after deleting everything or could've written a customized query
-        		users.deleteById(id);
-        		id++;
-        	}
-        	
+            users.deleteAll();
             log.info("User Table Cleared: all users removed.");
         }
         catch(Exception e)
@@ -140,21 +139,28 @@ public class UserController
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No users in database to remove.");
         }
     }
-    @PutMapping("/update/{id}")
-    public void updateUser(@RequestBody User u, @PathVariable("id") int id) 
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public void updateUser(@RequestBody User u,
+                           @PathVariable("id") int id)
     {
         try
         {
             User oldUser=users.findById(id);
-            
+
             oldUser.setEmail(u.getEmail());
             oldUser.setUsername(u.getUsername());
             oldUser.setFirstname(u.getFirstname());
             oldUser.setLastname(u.getLastname());
             oldUser.setPassword(u.getPassword());
             oldUser.setUniversity(u.getUniversity());
+
             users.save(oldUser);
+                
             log.info("Data Entry Successful: User with ID " + id + " updated.");
+
+            // Exit
+            return;
         }
         catch(Exception e)
         {
@@ -162,6 +168,7 @@ public class UserController
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update the user with id: " + id);
         }
     }
+    
     @RequestMapping(value = "/toString/{id}")
     public String PrintUserId(@PathVariable("id") int id)
     {

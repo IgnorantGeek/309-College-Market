@@ -1,13 +1,11 @@
 package org.campusmarket.db.repositories;
 
-import org.campusmarket.app.models.Item;
 import org.campusmarket.app.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -24,7 +22,7 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     User findByEmail(@Param("email") String email);
     User findByUsername(@Param("username") String username);
     
-    @Query(nativeQuery = true, value="DELETE FROM users WHERE id=:id ")
+    @Query(nativeQuery = true, value="DELETE FROM users WHERE id=:id")
     @Modifying
     void deleteById (@Param("id") int id);
     
