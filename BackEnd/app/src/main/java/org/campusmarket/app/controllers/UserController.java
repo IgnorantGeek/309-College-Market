@@ -1,40 +1,68 @@
 package org.campusmarket.app.controllers;
 
-import java.util.*;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+//import org.campusmarket.app.models.LoginRequest;
 import org.campusmarket.app.models.Session;
 import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+//import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
 
 
 
 @RestController
-@SessionAttributes("user")
 @RequestMapping("/users")
 public class UserController
 {
     @Autowired
     private UsersRepository users;
 
-    @Autowired
-    private SessionsRepository sessions;
+    @Autowired SessionsRepository sessions;
+
+    // private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
+
+    // @Autowired
+    // public UserController(InMemoryUserDetailsManager inMemoryUserDetailsManager)
+    // {
+    //     this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
+    // }
+
+    // @RequestMapping(value = "/loggedin/{username}")
+    // public boolean checkLogIn(@PathVariable("username") String username)
+    // {
+    //     return inMemoryUserDetailsManager.userExists(username);
+    // }
+
+    // @RequestMapping(value = "/login", method = RequestMethod.POST)
+    // public String login(@RequestBody LoginRequest request)
+    // {
+    //     String username = request.getUsername();
+    //     String password = request.getPassword();
+    //     User find = users.findByUsername(username);
+    //     if (find != null)
+    //     {
+    //         String role;
+    //         if (find.getAdmin()) role = "admin";
+    //         else role = "USER";
+    //         inMemoryUserDetailsManager.createUser(org.springframework.security.core.userdetails.User.withUsername(username).password(password).roles(role).build());
+    //         return "User logged in.";
+    //     }
+    //     else return "User not found in database.";
+    // }
 
 
     Log log = LogFactory.getLog(UserController.class);
