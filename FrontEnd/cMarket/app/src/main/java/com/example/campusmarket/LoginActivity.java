@@ -143,25 +143,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Checks if the username and password fields meet our syntax requirements
-     * If they do, check if the user exists in the DB
-     * If they don't, tell the user what they need to change
+     * @return True if syntax is valid, False is syntax is invalid
      */
-    private void validateForm() {
-        // first validate the form then move ahead
-        // if this becomes true that means validation is successful
-        if (awesomeValidation.validate()) {
-            check_login_user((etUsername.getText()).toString(), (etPassword.getText()).toString());
-        }
+    public boolean validateForm() {
+        return awesomeValidation.validate();
     }
 
     /**
      * When the user tries to click "Log In", make sure the fields are valid
+     * If syntax is valid, check if the user exists in the DB
+     * If syntax is not valid, tell the user what they need to change
      * @param view
      */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.bLogin) {
-            validateForm();
+            if (validateForm())
+            {
+                check_login_user((etUsername.getText()).toString(), (etPassword.getText()).toString());
+            }
         }
     }
 
