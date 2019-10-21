@@ -130,7 +130,12 @@ public class UserController
     {
         try
         {
-            users.deleteAll();
+        	int id=1;
+        	while (id <= MAX_USER_ENTITY) { //assuming that this is the max num of entity. Could've used users.count but id doesn't reset at 0 for a adding a new item after deleting everything or could've written a customized query
+        		users.deleteById(id);
+        		id++;
+        	}
+        	
             log.info("User Table Cleared: all users removed.");
         }
         catch(Exception e)
