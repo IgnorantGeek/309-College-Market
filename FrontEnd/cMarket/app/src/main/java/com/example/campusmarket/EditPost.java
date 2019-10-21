@@ -32,6 +32,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     EditText etName, etPrice, etCondition, etCategory;
     JSONObject objectToEdit;
     Button btnSubmit;
+    Button btnDelete;
     private ProgressDialog pDialog;
 
     @Override
@@ -64,6 +65,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         // make submit button clickable
         btnSubmit = findViewById(R.id.btnEditSubmit);
         btnSubmit.setOnClickListener(this);
+        btnDelete = findViewById(R.id.btnEditDelete);
+        btnDelete.setOnClickListener(this);
     }
 
     /**
@@ -182,6 +185,10 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.btnEditSubmit:
                 updateItemInformation(objectToEdit);
+                break;
+            case R.id.btnEditDelete:
+                startActivity(new Intent(EditPost.this,
+                     DeletePost.class));
                 break;
             default:
                 break;
