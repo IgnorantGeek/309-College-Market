@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User  implements Serializable
+public class User implements Serializable
 {
     /*--- Class Variables ---*/
     @Id
@@ -44,15 +44,14 @@ public class User  implements Serializable
     @Column(name = "admin")
     private boolean admin;
     
-    
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    //private List <Item> items;
-
 
     /*--- Links to Other Repositories ---*/
-    @OneToMany(cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    private List<Session> sessions = new ArrayList<Session>();
+    // @OneToMany(cascade = CascadeType.ALL,
+    //            orphanRemoval = true)
+    // private List<Session> sessions = new ArrayList<Session>();
+
+    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    // private List <Item> items;
 
     
     /*--- Constructors ---*/

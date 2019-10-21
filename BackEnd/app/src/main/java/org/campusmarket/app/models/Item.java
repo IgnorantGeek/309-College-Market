@@ -1,6 +1,5 @@
 package org.campusmarket.app.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -10,7 +9,6 @@ import javax.persistence.Entity;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.core.style.ToStringCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
