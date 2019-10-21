@@ -111,7 +111,7 @@ public class UserController
     }
     
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
+    public void deleteUser(@PathVariable("id") int id)
     {
         try
         {
