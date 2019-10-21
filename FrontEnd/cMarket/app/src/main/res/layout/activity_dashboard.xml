@@ -17,7 +17,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="34dp"
         android:text="Campus Market Dashboard"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/msgDashboardResponse"
