@@ -15,7 +15,7 @@ public interface ItemsRepository extends JpaRepository<Item, Integer>
 {
 	
 	
-	 Item findByRefnum(@Param("refnum") int refnum);
+	Item findByRefnum(@Param("refnum") int refnum);
 	 
 	@Query(nativeQuery = true, value="SELECT * FROM items WHERE name LIKE %:name% ORDER BY price")
     @Transactional(readOnly = true)
