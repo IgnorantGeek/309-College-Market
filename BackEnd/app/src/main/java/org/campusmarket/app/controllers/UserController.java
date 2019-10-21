@@ -40,111 +40,59 @@ public class UserController
     
     
    @RequestMapping("/all")
-    public List<User> getAll(@RequestParam(name = "sessid", required = true) String sessid)
+    public List<User> getAll()
     {
-        if (sessid.isEmpty())
+        try
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            return users.findAll();
         }
-
-        Session active = sessions.findBySessId(sessid);
-
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-        if (active.getUser().getAdmin())
+        catch (Exception e)
         {
-            try
-            {
-                return users.findAll();
-            }
-            catch (Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found.");
-            }
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found.");
         }
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is limited to admin users. Please log in to an admin account.");
     }
      
     @GetMapping("/id/{id}")
-    public User findUserById(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
+    public User findUserById(@PathVariable("id") int id)
     {
-        if (sessid.isEmpty())
+        try
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            return users.findById(id);
         }
-
-        Session active = sessions.findBySessId(sessid);
-
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-        if (active.getUser().getAdmin() || active.getUser() == users.findById(id))
+        catch (Exception e)
         {
-            try
-            {
-                return users.findById(id);
-            }
-            catch (Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
-            }
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
         }
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is limited to admin users, or the user that is being searched for.");
     }
     
     @GetMapping("/email/{email}")
-    public User findUserByEmail(@PathVariable("email") String email, @RequestParam(name = "sessid", required = true) String sessid)
+    public User findUserByEmail(@PathVariable("email") String email)
     {
-        if (sessid.isEmpty())
+        try
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            return users.findByEmail(email);
         }
-
-        Session active = sessions.findBySessId(sessid);
-
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-        if (active.getUser().getAdmin() || active.getUser() == users.findByEmail(email))
+        catch (Exception e)
         {
-            try
-            {
-                return users.findByEmail(email);
-            }
-            catch (Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
-            }
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
         }
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is limited to admin users, or the user that is being searched for.");
     }
 
     @GetMapping("/username/{username}")
-    public User findUserByUserName(@PathVariable("username") String username, @RequestParam(name = "sessid", required = true) String sessid)
+    public User findUserByUserName(@PathVariable("username") String username)
     {
-        if (sessid.isEmpty())
+        try
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            return users.findByUsername(username);
         }
-
-        Session active = sessions.findBySessId(sessid);
-
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-        if (active.getUser().getAdmin() || active.getUser() == users.findByUsername(username))
+        catch (Exception e)
         {
-            try
-            {
-                return users.findByUsername(username);
-            }
-            catch (Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
-            }
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
         }
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is limited to admin users, or the user that is being searched for.");
     }
     
     @RequestMapping(value = "/new", method = RequestMethod.POST)
@@ -165,95 +113,59 @@ public class UserController
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
     {
-        if (sessid.isEmpty())
+        try
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            users.deleteById(id);
+            log.info("User Removal Successful: User with ID: " + id + " removed.");
         }
-
-        Session active = sessions.findBySessId(sessid);
-
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-        
-        if (active.getUser().getAdmin() || active.getUser() == users.findById(id));
+        catch (Exception e)
         {
-            try
-            {
-                users.deleteById(id);
-                log.info("User Removal Successful: User with ID: " + id + " removed.");
-            }
-            catch (Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not remove the user with id: " + id);
-            }
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not remove the user with id: " + id);
         }
     }
     
     @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
-    public void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
+    public void deleteAll()
     {
-        if (sessid.isEmpty())
+        try
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            users.deleteAll();
+            log.info("User Table Cleared: all users removed.");
         }
-
-        Session active = sessions.findBySessId(sessid);
-        
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-        if (active.getUser().getAdmin())
+        catch(Exception e)
         {
-            try
-            {
-                users.deleteAll();
-                log.info("User Table Cleared: all users removed.");
-            }
-            catch(Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No users in database to remove.");
-            }
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No users in database to remove.");
         }
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public void updateUser(@RequestBody User u,
-                           @PathVariable("id") int id,
-                           @RequestParam(name = "sessid", required = true) String sessid)
+                           @PathVariable("id") int id)
     {
-        if (sessid.isEmpty())
+        try
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-        
-        if (active.getUser() == users.findById(id)
-         || active.getUser().getAdmin())
-        {
-            try
-            {
-                User oldUser=users.findById(id);
+            User oldUser=users.findById(id);
 
-                oldUser.setEmail(u.getEmail());
-                oldUser.setUsername(u.getUsername());
-                oldUser.setFirstname(u.getFirstname());
-                oldUser.setLastname(u.getLastname());
-                oldUser.setPassword(u.getPassword());
-                oldUser.setUniversity(u.getUniversity());
+            oldUser.setEmail(u.getEmail());
+            oldUser.setUsername(u.getUsername());
+            oldUser.setFirstname(u.getFirstname());
+            oldUser.setLastname(u.getLastname());
+            oldUser.setPassword(u.getPassword());
+            oldUser.setUniversity(u.getUniversity());
 
-                users.save(oldUser);
+            users.save(oldUser);
                 
-                log.info("Data Entry Successful: User with ID " + id + " updated.");
+            log.info("Data Entry Successful: User with ID " + id + " updated.");
 
-                // Exit
-                return;
-            }
-            catch(Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update the user with id: " + id);
-            }
+            // Exit
+            return;
+        }
+        catch(Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not update the user with id: " + id);
         }
     }
     
