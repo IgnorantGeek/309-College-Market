@@ -180,10 +180,22 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
     private void deletePost()
     {
-        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/delete";
+        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/";
         JSONObject js = new JSONObject();
+
         try {
-            url += js.getString("refnum");
+            js.put("refnum", objectToEdit.getString("refnum"));
+            js.put("name", objectToEdit.getString("name"));
+            js.put("price", objectToEdit.getString("price"));
+            js.put("category", objectToEdit.getString("category"));
+            js.put("user", objectToEdit.getJSONObject("user"));
+            js.put("condition", objectToEdit.getString("condition"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            url += js.getString("refnum") + "/delete";
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -191,7 +203,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         showProgressDialog();
         // Make request for JSONObject
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                Request.Method.DELETE, url, js,
+                Request.Method.DELETE, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -240,9 +252,13 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.btnEditSubmit:
                 updateItemInformation(objectToEdit);
+                Intent intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btnEditDelete:
                 deletePost();
+                Intent intent2 = new Intent(this, ProfileActivity.class);
+                startActivity(intent2);
                 break;
             default:
                 break;
