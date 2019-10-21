@@ -2,6 +2,7 @@ package com.example.campusmarket;
 
 
 import android.os.Build;
+import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,37 +31,47 @@ import static org.mockito.Mockito.when;
 
 public class MockitoTestL {
 
-        @Mock
-        private List<String> mockList;
+    private View.OnClickListener onClickListener;
+    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-//     @Test
-//     void test() {
-//        List<String> mockList = mock(List.class);
-//        mockList.add("Pankaj");
-//        mockList.size();
-//
-//        verify(mockList).add("Pankaj");
-//    }
-//
-//        @Test
-//        public void testMockListAdd() {
-//            String addString = "some string";
-//            mockList.add(addString);
-//
-//            //verify that the add method was called with argument 'some string'
-//            verify(mockList).add(addString);
-//        }
-//
-//        @Test
-//        public void testMockListAddMultiple() {
-//            String addString = "some string multiple";
-//            mockList.add(addString);
-//            mockList.add(addString);
-//            mockList.add(addString);
-//
-//            //verify that the add method was called with argument 'some string'
-//            verify(mockList, times(3)).add(addString);
-//        }
-
-
+    @Test
+    public void syntax_register (){
+        RegisterActivity regActivity = mock(RegisterActivity.class);
+        String usernameCorrect = "lkrohn";
+        String passwordCorrect = "password1!";
+        when(regActivity.validateForm()).thenReturn(true);
+        Assert.assertEquals(true, regActivity.validateForm());
     }
+
+    @Test
+    public void login_verify() throws JSONException {
+        LoginActivity logActivity = mock(LoginActivity.class);
+        // Create the user JSON Object
+        String usernameCorrect = "Sponge123";
+        String passwordCorrect = "Password123";
+
+        JSONObject response = new JSONObject();
+            response.put("username", usernameCorrect);
+            response.put("password", passwordCorrect);
+
+            logActivity.finishLogIn(usernameCorrect);
+            verify(logActivity,  times(1)).finishLogIn(usernameCorrect);
+    }
+
+    @Test
+    public void login_return() throws JSONException { LoginActivity logActivity = mock(LoginActivity.class);
+
+        // Create the user JSON Object
+        String userCorrect = "Sponge123";
+        String passCorrect = "Password123";
+
+        JSONObject response = new JSONObject();
+            response.put("username", userCorrect);
+            response.put("password", passCorrect);
+            response.put("admin", "false");
+
+        when(logActivity.check_login_user(userCorrect, passCorrect)).thenReturn(true);
+            Assert.assertEquals(true, logActivity.check_login_user(userCorrect, passCorrect));
+    }
+
+}

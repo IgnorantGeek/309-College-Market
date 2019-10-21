@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void validateForm() {
+    public boolean validateForm() {
         // first validate the form, then move ahead
         // if this becomes true, validation is successful
         if (awesomeValidation.validate()) {
@@ -91,6 +91,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             // then, send the user to the "start a json request" page
             finishSignUp();
         }
+        return awesomeValidation.validate();
+
     }
 
     @Override

@@ -95,8 +95,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * @param username The inputted username
      * @param password The inputted password
      */
-    public void check_login_user(final String username, final String password)
+    public boolean check_login_user(final String username, final String password)
     {
+        final boolean[] success = {false};
+
         String url = Const.URL_USER_USERNAME + "/" + username;
         // Make the request
         showProgressDialog();
@@ -118,10 +120,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         {
                             valid_user.setText("");
                             finishLogIn(username);
+                            success[0] = true;
                         }
                         else
                         {
                             valid_user.setText("Username / Password incorrect");
+                            success[0] = false;
+
                         }
                         hideProgressDialog();
                     }
@@ -139,6 +144,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq,
                 tag_json_obj);
+
+        return success[0];
     }
 
     /**
