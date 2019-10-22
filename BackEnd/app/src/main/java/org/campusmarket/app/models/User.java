@@ -3,8 +3,6 @@ package org.campusmarket.app.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +12,9 @@ import javax.validation.constraints.NotNull;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable
 {
+    // Serializable requirement
+    private static final long serialVersionUID = 1L;
+
     /*--- Class Variables ---*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,9 +47,6 @@ public class User implements Serializable
     
 
     /*--- Links to Other Repositories ---*/
-    // @OneToMany(cascade = CascadeType.ALL,
-    //            orphanRemoval = true)
-    // private List<Session> sessions = new ArrayList<Session>();
 
     // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     // private List <Item> items;

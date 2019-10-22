@@ -8,19 +8,18 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.campusmarket.app.models.Item;
-import org.campusmarket.app.models.Session;
 import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.ItemsRepository;
-import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,231 +27,166 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
-@RequestMapping("/items")
-public class ItemController
-{
+//@RequestMapping("/items")
+
+
+
+
+public class ItemController {
 	@Autowired
     private ItemsRepository items;
 	
 	@Autowired
-	private UsersRepository users;
-	
-	@Autowired
-	private SessionsRepository sessions;
+    private UsersRepository users;
 
+	
 	Log log = LogFactory.getLog(ItemController.class);
 
-	// green
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public List<Item> getAll(@RequestParam(name = "sessid", required = true) String sessid)
-	{
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-         
-		try 
-		{
-			return items.findAll();
+	
+	
+	@RequestMapping("/items/all")
+	public List<Item> getAll(){
+		try {
+			
+			
+	    return items.findAll();
 		}
-		catch (Exception e)
-		{
+		   catch (Exception e){
             log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items were found.");
         }
     }
 
-	// purple
-	@RequestMapping(value = "user/{username}/new", method = RequestMethod.POST)
-	public void newItem(@RequestBody Item item, @PathVariable("username") String username, @RequestParam(name = "sessid", required = true) String sessid)
+	 
+	@PostMapping("/users/{username}/items/new")
+	public void newItem(@RequestBody Item item, @PathVariable (value = "username") String username)
 	{
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-		}
-		Session active = sessions.findBySessId(sessid);
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-		
-		try
-		{
-			User n = active.getUser();
-			item.setUser(n);
+		try {
+			
+			User u=users.findByUsername(username);
+			item.setUser(u);
 			items.save(item);
 			
-        	log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
+        log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
+
 		}
-		catch (Exception e)
-		{
-	        log.error(e.getMessage());
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Could not add item to the database.");
+		   catch (Exception e){
+	            log.error(e.getMessage());
+	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There's no such user with this username so sorry we won't be able to add your item :(",e);
+	        }
 	    }
-	}
-	// Blue
-    @RequestMapping(value = "/update/{refnum}", method = RequestMethod.PUT)
-	public void updateItem(@RequestBody Item item,
-						   @RequestParam(name = "sessid", required = true) String sessid, 
-							@PathVariable (value = "refnum") int refnum)
-	{
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-		if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-		
-		Item update = items.findByRefnum(refnum);
-
-		if (update == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find and item with refnum: " +  refnum);
-		
-		if (active.getUser().getAdmin()
-			|| active.getUser() == update.getUser())
-		{
-			try 
-			{
-				update.setName(item.getName());
-				update.setPrice(item.getPrice());
-				update.setCategory(item.getCategory());
-				update.setCondition(item.getCondition());
-				items.save(update);
-				
-				log.info(" success: the item with a reference number of " + refnum +" was updated");
-			}
-			catch (Exception e)
-			{
-				log.error(e.getMessage());
-				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, " Failure: Could not update the item with refnum: " + refnum);
-			}
-		}
-		else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have access to update this item.");
-    }
+	
+	
+    @PutMapping("/users/{username}/items/{refnum}")
+	public void updateItem(@RequestBody Item item, @PathVariable (value = "username") String username, 
+			 @PathVariable (value = "refnum") int refnum) {
     
-    
-    // Blue
-    @RequestMapping(value = "/delete/{refnum}", method = RequestMethod.DELETE)
-    public void deleteItem(@PathVariable (value = "refnum") int refnum, @RequestParam(name = "sessid", required = true) String sessid)
-    {
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-		if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-		
-		Item update = items.findByRefnum(refnum);
+    	try {
+    		
+    		if(users.existsByUserName(username)==0) {
+    			 
+    			log.error("There's no such user with this username in our system so sorry we can't update this item");
+    			return;
 
-		if (update == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find and item with refnum: " +  refnum);
-	
-		if (active.getUser().getAdmin()
-		 || active.getUser() == update.getUser())
+    		}
+    		  		
+    	
+    	Item oldItem=items.findByRefnum(refnum);
+    	
+		if(oldItem.getUser().getAdmin() || oldItem.getUser().getUsername().equals(username))
 		{
-			try 
-			{
-				items.deleteById(refnum);
-				log.info(" success: the item with a reference number of " + refnum +" was deleted");		
-			}
-			catch (Exception e)
-			{
-				log.error(e.getMessage());
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "item with refnum " + refnum + " not found.");
-			}
-		}
-		else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have access to delete this item.");
-    }
-	
-	// Green
-    @RequestMapping(value = "/sellers/{username}", method = RequestMethod.GET)
-	public ArrayList<Item> findItemBySeller(@PathVariable("username") String seller, @RequestParam(name = "sessid", required = true) String sessid) 
-	{
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-		if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-		try 
-		{
-    		return items.findBySeller(seller);
-		} 
-		catch(Exception e)
-		{
-    		log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Cound not extract seller items.");
-    	}
-	}
-	
-	// Blue
-	@RequestMapping(value = "/forsale", method = RequestMethod.GET)
-	public ArrayList<Item> findMyForSaleItems(@RequestParam(name = "sessid", required = true) String sessid)
-	{
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-		if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-		try 
-		{
-    		return items.findBySeller(active.getUser().getUsername());
-		} 
-		catch(Exception e)
-		{
-    		log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Cound not extract for this users for-sale items.");
-    	}
-	}
-           
-    @RequestMapping(value = "/sortby", method = RequestMethod.GET)
-	public Collection<Item> findItemByName(@RequestParam(name = "sessid", required = true) String sessid,
-										   @RequestParam(name = "name") String name,
-										   @RequestParam(name = "category") String category,
-										   @RequestParam(name = "condition") String condition,
-										   @RequestParam(name = "price") String price)
-	{
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-		if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-		try 
-		{
-			if (name == null || name.isEmpty()) name = "*";
-			if (category == null || category.isEmpty()) category = "*";
-			if (condition == null || condition.isEmpty()) condition = "*";
+			oldItem.setName(item.getName());
+			oldItem.setPrice(item.getPrice());
+			oldItem.setCategory(item.getCategory());
+			oldItem.setCondition(item.getCondition());
+			items.save(oldItem);
 			
-			if (price == null || price.isEmpty()) return items.sortQuery(name, condition, category);
-			else return items.sortQuery(name, condition, category, Double.parseDouble(price));
-		}
-		catch(Exception e)
-		{
+			log.info(" success: the item with a reference number of " + refnum +" was updated");
+			return;
+    	}
+    	
+    	log.error("Unathorized attempt: Could not update the item(you don't own the item) with refnum: " + refnum);
+    	
+    	} catch (Exception e) {
+    		 log.error(e.getMessage());
+    		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, " Failure: Could not update the item with refnum: " + refnum);
+    		
+        }
+
+    }
+    
+    
+    
+    @RequestMapping(value = "/users/{username}/items/{refnum}/delete", method = RequestMethod.DELETE)
+    public void deleteItem(@PathVariable (value = "username") String username, 
+			 @PathVariable (value = "refnum") int refnum)
+    {
+    	
+		try 
+		{	
+        	
+			if(users.existsByUserName(username)==0)
+			{
+   			 
+    			log.error("Unathorized attempt: There's no such user with this username in our system so sorry we can't delete this item");
+    			return;
+
+    		}
+        	
+        	Item oldItem=items.findByRefnum(refnum);
+        	if(oldItem.getUser().getAdmin() || oldItem.getUser().getUsername().equals(username)){
+        		
+        		items.deleteById(refnum);
+                log.info(" success: the item with a reference number of " + refnum +" was deleted");
+                return;
+        	}
+        	log.error("Unathorized attempt: Could not delete the item(you don't own the item) with refnum: " + refnum);
+        	
+        }
+        catch (Exception e)
+        {
+            log.error("item with refnum"+ refnum + " not found" );
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "item with refnum " + refnum + " not found.", e);
+        }
+    }
+    
+    @GetMapping("/users/{username}/items/sellers")
+    public ArrayList<Item> findItemBySeller(@PathVariable("username") String seller) {
+    	
+    	try {
+    	
+    	return items.findBySeller(seller);
+    	
+    	} catch(Exception e) {
     		log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items with this name was found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item with this seller was found in the cymarket");
+
     	}
     }
      
-    @RequestMapping(value = "/category/{category}", method = RequestMethod.GET)
-	public Collection<Item> findItemByCategory(@PathVariable("category") String category, @RequestParam(name = "sessid", required = true) String sessid)
-	{
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-		if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-		try 
-		{
-    		return items.findByCategory(category);
-		}
-		catch(Exception e)
-		{
+           
+    @GetMapping("/items/name/{name}")
+    public Collection<Item> findItemByName(@PathVariable("name") String name) {
+    	
+    	try {
+    	return items.findByName(name);
+    	
+    	} catch(Exception e) {
     		log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items with this category were found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item with this name was found in the cymarket");
+
+    	}
+    }
+     
+    @GetMapping("/items/category/{category}")
+    public Collection<Item> findItemByCategory(@PathVariable("category") String category) {
+    	try {
+    	return items.findByCategory(category);
+    	
+    	 } catch(Exception e) {
+    		log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item with this category was found in the cymarket");
+
     	}
     }
     
@@ -265,7 +199,7 @@ public class ItemController
     	
 	 } catch(Exception e) {
  		log.error(e.getMessage());
-         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items with this condition were found.");
+         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item with this condition was found in the cymarket");
 
  	}
  }
@@ -278,7 +212,7 @@ public class ItemController
 		return items.findByCondAndName(name, cond);
 		
     	}catch(Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items with this name & condition were found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item with this name & condition was found in the cymarket");
 
     	}
     }
@@ -288,35 +222,22 @@ public class ItemController
     	try {
 		return items.findByCondAndCategoryAndPrice(cond, category, price);
     	} catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items with this name & category & condition & price limit were found in the cymarket");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No item with this name & category & condition & price limit was found in the cymarket");
 
     	}
     }
-	
-	// Red
+    
     @RequestMapping(value = "/items/delete/all", method = RequestMethod.DELETE)
-    public void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
+    public void deleteAll()
     {
-		if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
-        Session active = sessions.findBySessId(sessid);
-		if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-		
-		if (active.getUser().getAdmin())
-		{
-			try
-			{	
-				items.deleteAll(); 
-				log.info("Item Table Cleared: all items removed.");
+    	try {
+    	
+         items.deleteAll(); 
+         log.info("User Table Cleared: all users removed.");
 
-			}
-			catch (Exception e)
-			{
-				throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No items in database to remove.");
-			}
-		}
-		else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to access this function.");
+    } catch (Exception e) {
+    	log.error("No items in database to remove.");
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No items in database to remove.");
+    }
    }
 }
