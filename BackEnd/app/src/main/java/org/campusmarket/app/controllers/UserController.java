@@ -144,6 +144,23 @@ public class UserController
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No users in database to remove.");
         }
     }
+    
+    
+    @RequestMapping(value = "/delete/{username}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable("username") String username)
+    {
+        try
+        {
+            users.deleteByUserName(username);
+            log.info("User Removal Successful: User with username: " + username + " removed.");
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not remove the user with username: " + username);
+        }
+    }
+    
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public void updateUser(@RequestBody User u,
