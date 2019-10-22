@@ -28,8 +28,9 @@ import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private Button accSettings;
     private String TAG = ProfileActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String  tag_json_arry = "jarray_req";
@@ -42,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        accSettings = findViewById(R.id.btnAccSettings);
+        accSettings.setOnClickListener(this);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
@@ -50,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // start the request and create the buttons
         showSoldItemsProfile();
+
     }
 
     private void showProgressDialog() {
@@ -141,6 +145,14 @@ public class ProfileActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btnAccSettings) {
+            startActivity(new Intent(ProfileActivity.this,
+                    AccountSettingsActivity.class));
         }
     }
 }
