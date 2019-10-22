@@ -94,16 +94,16 @@ public class ItemController {
     	
     	Item oldItem=items.findByRefnum(refnum);
     	
-    	if(oldItem.getUser().getUsername().equals(username)){
-    	
-    	oldItem.setName(item.getName());
-    	oldItem.setPrice(item.getPrice());
-    	oldItem.setCategory(item.getCategory());
-    	oldItem.setCondition(item.getCondition());
-    	items.save(oldItem);
-    	
-        log.info(" success: the item with a reference number of " + refnum +" was updated");
-        return;
+		if(oldItem.getUser().getAdmin() || oldItem.getUser().getUsername().equals(username))
+		{
+			oldItem.setName(item.getName());
+			oldItem.setPrice(item.getPrice());
+			oldItem.setCategory(item.getCategory());
+			oldItem.setCondition(item.getCondition());
+			items.save(oldItem);
+			
+			log.info(" success: the item with a reference number of " + refnum +" was updated");
+			return;
     	}
     	
     	log.error("Unathorized attempt: Could not update the item(you don't own the item) with refnum: " + refnum);
@@ -123,10 +123,11 @@ public class ItemController {
 			 @PathVariable (value = "refnum") int refnum)
     {
     	
-        try {
+		try 
+		{	
         	
-        	
-        	if(users.existsByUserName(username)==0) {
+			if(users.existsByUserName(username)==0)
+			{
    			 
     			log.error("Unathorized attempt: There's no such user with this username in our system so sorry we can't delete this item");
     			return;
@@ -134,7 +135,7 @@ public class ItemController {
     		}
         	
         	Item oldItem=items.findByRefnum(refnum);
-        	if(oldItem.getUser().getUsername().equals(username)){
+        	if(oldItem.getUser().getAdmin() || oldItem.getUser().getUsername().equals(username)){
         		
         		items.deleteById(refnum);
                 log.info(" success: the item with a reference number of " + refnum +" was deleted");
