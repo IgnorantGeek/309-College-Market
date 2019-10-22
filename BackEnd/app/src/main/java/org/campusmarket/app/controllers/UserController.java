@@ -177,7 +177,7 @@ public class UserController
     }
     
     @RequestMapping(value = "/toString/{id}")
-    public String PrintUserId(@PathVariable("id") int id)
+    public String UserToString(@PathVariable("id") int id)
     {
         try
         {
