@@ -7,6 +7,8 @@ public class DashItemsActivity {
     private String condition;
     private String category;
 
+    // we will be calling this DashItemsActivity object --
+    // in the main activity to get all of the necessary fields of an item
     public DashItemsActivity(String name, String price, String condition, String category) {
         this.name = name;
         this.price = price;

@@ -13,11 +13,10 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
 
     private List<DashItemsActivity> ItemList;
 
-
     private Context mCtx;
 
-    //so while creating the object of this adapter class we need to give demolist and context
-
+    // so while creating the object of this adapter class we need to give demolist and context
+    // the adapter is what actually puts the info into the dasboard in the format specified by the lv_rows layout
     public DashAdapter(List<DashItemsActivity> ItemList, Context mCtx) {
         super(mCtx, R.layout.activity_lvrows, ItemList);
         this.ItemList = ItemList;
@@ -27,29 +26,29 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
     //
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        // aids in specifically placing items
         LayoutInflater inflater = LayoutInflater.from(mCtx);
 
-        //creating a view with our xml layout
+        // creating a view with our xml layout
         View listViewItem = inflater.inflate(R.layout.activity_lvrows, null, true);
 
-        //getting text views
+        // pulling the text views into the adapter
         TextView name = (TextView) listViewItem.findViewById(R.id.tvName);
         TextView price =(TextView) listViewItem.findViewById(R.id.tvPrice);
         TextView condition = (TextView) listViewItem.findViewById(R.id.tvCondition);
         TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
 
-        //Getting the hero for the specified position
+        // getting the specified positions for the items
         DashItemsActivity item = ItemList.get(position);
 
-        //setting hero values to textviews
-        name.setText(item.getName()); //item = demo
+        // setting each parameter to text editable boxed
+        name.setText(item.getName());
         price.setText(item.getPrice());
-        condition.setText(item.getCondition()); //item = demo
-        category.setText(item.getCategory()); //item = demo
+        condition.setText(item.getCondition());
+        category.setText(item.getCategory());
 
-
-
-        //returning the listitem
+        //returning the list of items as a whole
         return listViewItem;
     }
 

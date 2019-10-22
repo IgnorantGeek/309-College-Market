@@ -178,12 +178,15 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
     }
 
+    // DELETE ITEM:
     private void deletePost()
     {
+        // declaring urls from api
         String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/";
         JSONObject js = new JSONObject();
 
         try {
+            // objecttoEdit holds the parameters
             js.put("refnum", objectToEdit.getString("refnum"));
             js.put("name", objectToEdit.getString("name"));
             js.put("price", objectToEdit.getString("price"));
@@ -201,7 +204,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         }
 
         showProgressDialog();
-        // Make request for JSONObject
+        // Make request for JSONObject - delete req
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.DELETE, url, null,
                 new Response.Listener<JSONObject>() {

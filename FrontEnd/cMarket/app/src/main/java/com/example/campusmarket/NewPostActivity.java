@@ -38,6 +38,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         btnSubmitPost = findViewById(R.id.btnSubmitPost);
         btnSubmitPost.setOnClickListener(this);
 
+        // to make a new post the fields must be editable:
         etName = findViewById(R.id.etName);
         etPrice = findViewById(R.id.etPrice);
         etCondition = findViewById(R.id.etCondition);
@@ -48,6 +49,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            // on click events of buttons
             case R.id.btnSubmitPost:
                 postItem();
                 startActivity(new Intent(NewPostActivity.this,
@@ -59,8 +61,9 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    // POST NEW ITEM:
     public void postItem(){
-        //make json object
+        // make json object
         String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/new";
         JSONObject js = new JSONObject();
         try {
@@ -72,7 +75,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
 
-        // Make request for JSONObject:
+        // Make post request for JSONObject using the url:
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.POST, url, js,
                 new Response.Listener<JSONObject>() {
@@ -88,7 +91,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         }) {
 
             /**
-             * Passing some request headers
+             * Passing some request headers in
              */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
