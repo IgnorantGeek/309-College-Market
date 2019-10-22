@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".AccountSettingsActivity"></activity>
+        <activity android:name=".EditPost" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".DashboardActivity" />
+        <activity android:name=".DeletePost" />
         <activity android:name=".UserActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />

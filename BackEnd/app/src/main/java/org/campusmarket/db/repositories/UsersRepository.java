@@ -25,7 +25,7 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     @Query(nativeQuery = true, value="DELETE FROM users WHERE id=:id")
     @Modifying
     void deleteById (@Param("id") int id);
-    
+
     
     @Query(nativeQuery = true, value="SELECT EXISTS (SELECT * from users where username=:username)")
     @Transactional(readOnly = true)

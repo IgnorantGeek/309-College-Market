@@ -30,8 +30,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     private EditText etName, etPrice, etCondition, etCategory;
     private String TAG = NewPostActivity.class.getSimpleName();
 
-    //private SeekBar priceBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +42,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         etPrice = findViewById(R.id.etPrice);
         etCondition = findViewById(R.id.etCondition);
         etCategory = findViewById(R.id.etCategory);
-
     }
 
 
@@ -60,12 +57,11 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
         }
-        //pls work
     }
 
     public void postItem(){
         //make json object
-        //make json object req
+        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/new";
         JSONObject js = new JSONObject();
         try {
             js.put("name", (etName.getText()).toString());
@@ -78,7 +74,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
         // Make request for JSONObject:
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                Request.Method.POST, Const.URL_NEW_ITEM, js,
+                Request.Method.POST, url, js,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -103,13 +99,11 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             protected Map<String, String> getParams() {
-                //change names
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("name", (etName.getText()).toString());
                 params.put("price", (etPrice.getText()).toString());
                 params.put("condition", (etCondition.getText()).toString());
                 params.put("category", (etCategory.getText()).toString());
-//              params.put("seller", ("YEET"));
                 return params;
             }
 

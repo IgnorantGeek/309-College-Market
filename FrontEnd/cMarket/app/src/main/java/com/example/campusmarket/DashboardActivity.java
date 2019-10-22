@@ -2,12 +2,16 @@ package com.example.campusmarket;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -21,30 +25,45 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.List;
 
+public class DashboardActivity extends AppCompatActivity {
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-    private TextView msgResponse;
+//    private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
-    private Button btnProfile, btnSearchSpecific;
+//    private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
+//    ArrayList<String> items;
+    ArrayAdapter<String> arrayadapter;
+//    ListView listView;
+//    EditText etSearch;
+    ListView listView;
+    Activity activity;
+    List<DashItemsActivity> ItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        btnProfile = (Button) findViewById(R.id.btnViewProfile);
-        btnProfile.setOnClickListener(this);
-        btnSearchSpecific = (Button) findViewById(R.id.btnSearchSpecific);
-        btnSearchSpecific.setOnClickListener(this);
-
-
-        msgResponse = (TextView) findViewById(R.id.msgDashboardResponse);
+//        msgResponse = findViewById(R.id.msgDashboardResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
+
+        listView = findViewById(R.id.listView);
+        ItemList = new ArrayList<>();
+
+//        items = new ArrayList<String>();
+//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+//        listView.setAdapter(adapter);
+
+//        etSearch = findViewById(R.id.etSearch);
+
         makeJsonArryReq();
+
+        // Start search:
     }
 
     private void showProgressDialog() {
@@ -94,30 +113,68 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         for (int i = 0; i < response.length(); i++)
         {
             try {
-                JSONObject obj = response.getJSONObject(i);
-                String add = obj.getString("name");
-                message += add;
-                message += "\n";
+
+                JSONObject demoObject = response.getJSONObject(i);
+                DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"), demoObject.getString("price"), demoObject.getString("condition"), demoObject.getString("category"));
+                ItemList.add(item);
+//              message += item;
+
+                final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext());
+
+                //adding the adapter to listview
+                listView.setAdapter(adapter);
+
+//                etSearch.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(Editable editable) {
+//                        // don't need to change anything here for now
+//
+//                    }
+//                });
+
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+
+
+            // this line is the key --> we use the adapter to render the item names in their own sections individually
+//            adapter.notifyDataSetChanged();
         }
-        msgResponse.setText(message);
+
+//        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnSearchSpecific:
-                startActivity(new Intent(DashboardActivity.this,
-                        DropDownActivity.class));
-                break;
-            case R.id.btnViewProfile:
-                startActivity(new Intent(DashboardActivity.this,
-                        ProfileActivity.class));
-                break;
-            default:
-                break;
-        }
-    }
+
+
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.btnSearchSpecific:
+//                startActivity(new Intent(DashboardActivity.this,
+//                        DropDownActivity.class));
+//                break;
+//            case R.id.btnViewProfile:
+//                startActivity(new Intent(DashboardActivity.this,
+//                        ProfileActivity.class));
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+
+
 }
