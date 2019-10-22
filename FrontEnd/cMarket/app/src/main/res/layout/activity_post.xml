@@ -67,15 +67,12 @@
         android:layout_marginTop="252dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="114dp"
         android:ems="10"
         android:hint="Condition"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/btnSubmitPost"
         app:layout_constraintEnd_toStartOf="@+id/etCategory"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnSubmitPost"
@@ -83,19 +80,16 @@
         android:layout_height="64dp"
         android:layout_marginStart="85dp"
         android:layout_marginLeft="85dp"
-        android:layout_marginTop="114dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="85dp"
         android:layout_marginRight="85dp"
-        android:layout_marginBottom="261dp"
         android:onClick="onClick"
         android:text="Post to Dashboard"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCategory"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/etCategory" />
 
     <EditText
         android:id="@+id/etPrice"

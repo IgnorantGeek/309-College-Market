@@ -71,13 +71,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      *     to the url "items/seller/their_username"
      */
     private void showSoldItemsProfile() {
-//        String url = Const.URL_ITEM_ALL;
-
         String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/sellers";
         showProgressDialog();
-        // what we actually want, once seller thing is active :)
-//        String url = Const.URL_ITEM_SELLER;
-//        url += UserActivity.loggedInUsername;
 
         // make the request
         JsonArrayRequest req = new JsonArrayRequest(url,

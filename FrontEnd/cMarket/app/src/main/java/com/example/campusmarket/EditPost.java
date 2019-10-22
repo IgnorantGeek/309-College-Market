@@ -224,22 +224,6 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
             }
-//
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                try {
-//                    params.put("refnum", js.getString("refnum"));
-//                    params.put("name", js.getString("name"));
-//                    params.put("price", js.getString("price"));
-//                    params.put("category", js.getString("category"));
-//                    params.put("user", js.getString("user"));
-//                    params.put("condition", js.getString("condition"));
-//                }  catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                return params;
-//            }
 
         };
         // Adding request to request queue
