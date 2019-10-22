@@ -1,4 +1,3 @@
-
 package org.campusmarket.app.controllers;
 
 import java.util.ArrayList;
@@ -93,8 +92,9 @@ public class ItemController {
     		  		
     	
     	Item oldItem=items.findByRefnum(refnum);
-    	
-		if(oldItem.getUser().getAdmin() || oldItem.getUser().getUsername().equals(username))
+    	User u= users.findByUsername(username);
+
+		if(u.getAdmin() || oldItem.getUser().getUsername().equals(username))
 		{
 			oldItem.setName(item.getName());
 			oldItem.setPrice(item.getPrice());
@@ -135,7 +135,9 @@ public class ItemController {
     		}
         	
         	Item oldItem=items.findByRefnum(refnum);
-        	if(oldItem.getUser().getAdmin() || oldItem.getUser().getUsername().equals(username)){
+        	User u= users.findByUsername(username);
+
+        	if(u.getAdmin() || oldItem.getUser().getUsername().equals(username)){
         		
         		items.deleteById(refnum);
                 log.info(" success: the item with a reference number of " + refnum +" was deleted");
