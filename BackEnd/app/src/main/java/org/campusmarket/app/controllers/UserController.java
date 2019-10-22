@@ -146,7 +146,7 @@ public class UserController
     }
     
     
-    @RequestMapping(value = "/delete/{username}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteByUserName/{username}", method = RequestMethod.DELETE)
     public void deleteUserByUserName(@PathVariable("username") String username)
     {
         try
