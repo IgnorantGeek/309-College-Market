@@ -1,11 +1,22 @@
 package org.campusmarket.app.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.io.Serializable;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "users")
@@ -49,6 +60,10 @@ public class User implements Serializable
 
     // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     // private List <Item> items;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     
     /*--- Constructors ---*/
@@ -105,6 +120,10 @@ public class User implements Serializable
     {
         return this.admin;
     }
+    public Set<Role> getRoles()
+    {
+        return this.roles;
+    }
 
     /*--- Setter Methods ---*/
     public void setUsername(String userName)
@@ -134,6 +153,10 @@ public class User implements Serializable
     public void setEmail(String email) 
     {
         this.email = email;
+    }
+    public void setRoles(Set<Role> roles) 
+    {
+        this.roles = roles;
     }
 
 

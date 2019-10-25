@@ -1,6 +1,6 @@
 package org.campusmarket.app.controllers;
 
-import java.util.*;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +33,22 @@ public class UserController
     
     static final int MAX_USER_ENTITY =100;
     
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping("/secured/all")
+    public List<User> getAllSecure()
+    {
+        try
+        {
+            return users.findAll();
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found.");
+        }
+    }
+
+    @RequestMapping("/all")
     public List<User> getAll()
     {
         try
