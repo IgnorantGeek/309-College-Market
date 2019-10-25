@@ -1,0 +1,27 @@
+package org.campusmarket.app.services;
+
+import org.campusmarket.app.models.CmarketUserDetails;
+import org.campusmarket.app.models.User;
+import org.campusmarket.db.repositories.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CmarketUserDetailsService implements UserDetailsService
+{
+    @Autowired
+    private UsersRepository users;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {
+        User user = users.findByUsername(username);
+
+        if (user == null) throw new UsernameNotFoundException("Username not found.");
+
+        return new CmarketUserDetails(user);
+    }
+}

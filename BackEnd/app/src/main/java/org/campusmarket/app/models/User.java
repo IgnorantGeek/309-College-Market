@@ -25,7 +25,6 @@ public class User implements Serializable
     @Column(name = "username", unique = true)
     private String  username;
     
-    
     @NotNull
     @Column(name = "password")
     private String password;
