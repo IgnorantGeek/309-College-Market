@@ -10,7 +10,6 @@ import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -75,8 +74,9 @@ public class SessionController
                 buffer.append((char) randomLimitedInt);
             }
             String generatedString = buffer.toString();
-            final Session sess = new Session(generatedString, find);
-            sessions.save(sess);
+            final Session sess = new Session(generatedString, find.getAdmin());
+            find.addSession(sess);
+            users.save(find);
             
             log.info("New session with ID " + generatedString + " assigned to User " + find.getUsername() + ":" + find.getId());
 
@@ -97,7 +97,7 @@ public class SessionController
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 
-        if (active.getUser().getAdmin())
+        if (active.getAdmin())
         {
             try
             {
@@ -125,7 +125,7 @@ public class SessionController
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 
-        if (active.getUser().getAdmin())
+        if (active.getAdmin())
         {
             try
             {
@@ -152,7 +152,7 @@ public class SessionController
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
         
-        if (active.getUser().getAdmin() || sessid == close_id)
+        if (active.getAdmin() || sessid == close_id)
         {
             try
             {
@@ -168,58 +168,58 @@ public class SessionController
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is restricted to admin users, and the user in question.");
     }
 
-    @RequestMapping(value = "/close/all/user/{userid}", method = RequestMethod.DELETE)
-    public void closeAllByUser(@PathVariable("userid") int userid, @RequestParam(name = "sessid", required = true) String sessid)
-    {
-        if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
+    // @RequestMapping(value = "/close/all/user/{userid}", method = RequestMethod.DELETE)
+    // public void closeAllByUser(@PathVariable("userid") int userid, @RequestParam(name = "sessid", required = true) String sessid)
+    // {
+    //     if (sessid.isEmpty())
+    //     {
+    //         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+    //     }
 
-        Session active = sessions.findBySessId(sessid);
+    //     Session active = sessions.findBySessId(sessid);
         
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+    //     if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 
-        if (active.getUser().getAdmin())
-        {
-            try
-            {
-                ArrayList<Session> u_sess = sessions.findAllByUserId(userid);
-                for (int i = 0; i < u_sess.size(); i++)
-                {
-                    sessions.delete(u_sess.get(i));
-                }
-            }
-            catch (Exception e)
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-            }
-        }
-    }
+    //     if (active.getAdmin())
+    //     {
+    //         try
+    //         {
+    //             ArrayList<Session> u_sess = sessions.findAllByUserId(userid);
+    //             for (int i = 0; i < u_sess.size(); i++)
+    //             {
+    //                 sessions.delete(u_sess.get(i));
+    //             }
+    //         }
+    //         catch (Exception e)
+    //         {
+    //             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    //         }
+    //     }
+    // }
 
-    @RequestMapping(value = "/userid/{userid}", method = RequestMethod.GET)
-    public ArrayList<Session> getAllByUser(@PathVariable("userid") int id, @RequestParam(name = "sessid", required = true) String sessid)
-    {
-        if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
+    // @RequestMapping(value = "/userid/{userid}", method = RequestMethod.GET)
+    // public ArrayList<Session> getAllByUser(@PathVariable("userid") int id, @RequestParam(name = "sessid", required = true) String sessid)
+    // {
+    //     if (sessid.isEmpty())
+    //     {
+    //         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+    //     }
 
-        Session active = sessions.findBySessId(sessid);
+    //     Session active = sessions.findBySessId(sessid);
         
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+    //     if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 
-        if (active.getUser().getAdmin() || active.getUser() == users.findById(id))
-        {
-            try
-            {
-                return sessions.findAllByUserId(id);
-            }
-            catch (Exception e)
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No active sessions found for user with id: " + id);
-            }
-        }
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is restricted to admin users, and the user in question.");
-    }
+    //     if (active.getAdmin())
+    //     {
+    //         try
+    //         {
+    //             return sessions.findAllByUserId(id);
+    //         }
+    //         catch (Exception e)
+    //         {
+    //             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No active sessions found for user with id: " + id);
+    //         }
+    //     }
+    //     else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is restricted to admin users, and the user in question.");
+    // }
 }

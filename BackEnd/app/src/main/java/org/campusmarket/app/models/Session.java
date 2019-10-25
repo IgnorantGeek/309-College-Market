@@ -20,9 +20,10 @@ public class Session
     /*---Constructors---*/
     public Session() { }
     
-    public Session(String Id, User user)
+    public Session(String Id, boolean admin)
     {
         this.sessId = Id;
+        this.admin = admin;
     }
 
 

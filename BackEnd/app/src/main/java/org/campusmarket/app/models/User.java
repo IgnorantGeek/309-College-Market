@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -58,7 +59,8 @@ public class User implements Serializable
     /*--- Links to Other Repositories ---*/
     @OneToMany(cascade = CascadeType.ALL,
                orphanRemoval = true)
-    @JoinTable(name = "user_session", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "sess_id"))
+    @JoinTable(name = "user_sessions", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "sess_id"))
+    @JsonIgnore()
     private Set<Session> sessions;
 
     // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
@@ -175,5 +177,10 @@ public class User implements Serializable
                             this.admin
                             );
         return ret;
+    }
+
+    public void addSession(Session s)
+    {
+        this.sessions.add(s);
     }
 }
