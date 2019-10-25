@@ -12,10 +12,17 @@ CREATE TABLE IF NOT EXISTS users(
     UNIQUE (email)
 ) engine=InnoDB;
 
-CREATE TABLE IF NOT EXISTS sessions(
+CREATE TABLE IF NOT EXISTS session(
     sessid   VARCHAR(16) NOT NULL PRIMARY KEY,
-    userid   INT UNSIGNED NOT NULL,
-    FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    admin    BOOLEAN
+) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS user_sessions(
+    user_id  INT UNSIGNED NOT NULL,
+    sess_id  VARCHAR(16) NOT NULL PRIMARY KEY,
+
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (sess_id) REFERENCES session(sessid)
 ) engine=InnoDB;
 
 CREATE TABLE IF NOT EXISTS items(

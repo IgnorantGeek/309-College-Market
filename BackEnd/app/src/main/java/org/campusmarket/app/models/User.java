@@ -1,13 +1,23 @@
 package org.campusmarket.app.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "users")
@@ -46,9 +56,10 @@ public class User implements Serializable
     
 
     /*--- Links to Other Repositories ---*/
-    // @OneToMany(cascade = CascadeType.ALL,
-    //            orphanRemoval = true)
-    // private List<Session> sessions = new ArrayList<Session>();
+    @OneToMany(cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    @JoinTable(name = "user_session", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "sess_id"))
+    private Set<Session> sessions;
 
     // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     // private List <Item> items;
@@ -108,6 +119,10 @@ public class User implements Serializable
     {
         return this.admin;
     }
+    public Set<Session> getSessions()
+    {
+        return sessions;
+    }
 
     /*--- Setter Methods ---*/
     public void setUsername(String userName)
@@ -137,6 +152,10 @@ public class User implements Serializable
     public void setEmail(String email) 
     {
         this.email = email;
+    }
+    public void setSessions(Set<Session> sessions)
+    {
+        this.sessions = sessions;
     }
 
 
