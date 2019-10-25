@@ -58,23 +58,23 @@ public class ItemController {
     }
 
 	 
-	@PostMapping("/users/{username}/items/new")
-	public void newItem(@RequestBody Item item, @PathVariable (value = "username") String username)
-	{
-		try {
+	// @PostMapping("/users/{username}/items/new")
+	// public void newItem(@RequestBody Item item, @PathVariable (value = "username") String username)
+	// {
+	// 	try {
 			
-			User u=users.findByUsername(username);
-			item.setUser(u);
-			items.save(item);
+	// 		User u=users.findByUsername(username);
+	// 		item.setUser(u);
+	// 		items.save(item);
 			
-        log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
+    //     log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
 
-		}
-		   catch (Exception e){
-	            log.error(e.getMessage());
-	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There's no such user with this username so sorry we won't be able to add your item :(",e);
-	        }
-	    }
+	// 	}
+	// 	   catch (Exception e){
+	//             log.error(e.getMessage());
+	//             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There's no such user with this username so sorry we won't be able to add your item :(",e);
+	//         }
+	//     }
 	
 	
     @PutMapping("/users/{username}/items/{refnum}")

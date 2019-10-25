@@ -1,5 +1,7 @@
 package org.campusmarket.app.services;
 
+import java.util.Optional;
+
 import org.campusmarket.app.models.CmarketUserDetails;
 import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.UsersRepository;
@@ -16,12 +18,12 @@ public class CmarketUserDetailsService implements UserDetailsService
     private UsersRepository users;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
-    {
-        User user = users.findByUsername(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optionalUsers = users.findByUsername(username);
 
-        if (user == null) throw new UsernameNotFoundException("Username not found.");
-
-        return new CmarketUserDetails(user);
+        optionalUsers
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        return optionalUsers
+                .map(CmarketUserDetails::new).get();
     }
 }

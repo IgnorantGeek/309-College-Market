@@ -90,19 +90,19 @@ public class UserController
         }
     }
 
-    @GetMapping("/username/{username}")
-    public User findUserByUserName(@PathVariable("username") String username)
-    {
-        try
-        {
-            return users.findByUsername(username);
-        }
-        catch (Exception e)
-        {
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
-        }
-    }
+    // @GetMapping("/username/{username}")
+    // public User findUserByUserName(@PathVariable("username") String username)
+    // {
+    //     try
+    //     {
+    //         return users.findByUsername(username);
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         log.error(e.getMessage());
+    //         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user found.");
+    //     }
+    // }
     
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public void newUser(@RequestBody final User user)
