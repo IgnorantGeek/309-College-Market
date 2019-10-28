@@ -30,7 +30,5 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     @Query(nativeQuery = true, value="SELECT EXISTS (SELECT * from users where username=:username)")
     @Transactional(readOnly = true)
 	int existsByUserName(@Param("username") String username);
-    
-    
 }
 

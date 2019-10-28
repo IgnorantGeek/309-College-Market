@@ -150,12 +150,16 @@ public class SessionController
 
         Session active = sessions.findBySessId(sessid);
         
+        Session close = sessions.findBySessId(close_id);
+        
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
         
         if (active.getAdmin() || sessid == close_id)
         {
             try
             {
+                User u = users.findById(sessions.findUserBySession(close_id));
+                u.dropSession(close);
                 log.info("Session with ID " + close_id + " closed.");
                 sessions.deleteById(close_id);
             }

@@ -52,6 +52,12 @@ public class UserController
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found.");
         }
     }
+
+    @RequestMapping("/test")
+    public User testMethod(@RequestParam(name = "sessid", required = true) String sessid)
+    {
+        return users.findById(sessions.findUserBySession(sessid));
+    }
      
     @GetMapping("/id/{id}")
     public User findUserById(@PathVariable("id") int id)

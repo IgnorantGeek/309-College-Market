@@ -183,4 +183,9 @@ public class User implements Serializable
     {
         this.sessions.add(s);
     }
+
+    public void dropSession(Session s)
+    {
+        this.sessions.remove(s);
+    }
 }
