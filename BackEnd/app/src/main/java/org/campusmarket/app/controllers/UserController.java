@@ -40,17 +40,30 @@ public class UserController
     
     
    @RequestMapping("/all")
-    public List<User> getAll()
+    public List<User> getAll(@RequestParam(name = "sessid", required = true) String sessid)
     {
-        try
+        if (sessid.isEmpty())
         {
-            return users.findAll();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
         }
-        catch (Exception e)
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        if (active.getAdmin())
         {
-            log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found.");
+            try
+            {
+                return users.findAll();
+            }
+            catch (Exception e)
+            {
+                log.error(e.getMessage());
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No users found.");
+            }
         }
+        else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access restricted.");
     }
 
     @RequestMapping("/test")
