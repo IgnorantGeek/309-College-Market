@@ -1,8 +1,6 @@
 package org.campusmarket.app.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     /*--- Class Variables ---*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
