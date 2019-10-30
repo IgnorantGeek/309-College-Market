@@ -9,21 +9,33 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * Represents the dashboard adapter for items
+ */
 public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
 
     private List<DashItemsActivity> ItemList;
-
     private Context mCtx;
 
-    // so while creating the object of this adapter class we need to give demolist and context
-    // the adapter is what actually puts the info into the dasboard in the format specified by the lv_rows layout
+    /**
+     * So while creating the object of this adapter class we need to give demolist and context.
+     *  The adapter is what actually puts the info into the dasboard in the format specified by the lv_rows layout.
+     * @param ItemList
+     * @param mCtx
+     */
     public DashAdapter(List<DashItemsActivity> ItemList, Context mCtx) {
         super(mCtx, R.layout.activity_lvrows, ItemList);
         this.ItemList = ItemList;
         this.mCtx = mCtx;
     }
 
-    //
+    /**
+     * Returns the list of items
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
