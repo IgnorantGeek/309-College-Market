@@ -43,7 +43,7 @@ public class WebSockets extends AppCompatActivity {
                  * If running this on an android device, make sure it is on the same network as your
                  * computer, and change the ip address to that of your computer.
                  * If running on the emulator, you can use localhost.
-                 */
+                 **/
                 String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
 
                 try {
