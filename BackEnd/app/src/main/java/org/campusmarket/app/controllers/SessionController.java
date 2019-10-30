@@ -173,6 +173,32 @@ public class SessionController
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is restricted to admin users, and the user in question.");
     }
 
+    @RequestMapping(value = "/close/this", method = RequestMethod.DELETE)
+    public void closeThisSession(@RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        try
+        {
+            User u = users.findById(sessions.findUserBySession(sessid));
+            u.dropSession(active);
+            log.info("Session with ID " + sessid + " closed.");
+            sessions.deleteById(sessid);
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error closing session.");
+        }
+    }
+
     // @RequestMapping(value = "/close/all/user/{userid}", method = RequestMethod.DELETE)
     // public void closeAllByUser(@PathVariable("userid") int userid, @RequestParam(name = "sessid", required = true) String sessid)
     // {

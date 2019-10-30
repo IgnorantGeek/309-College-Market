@@ -172,7 +172,7 @@ public class ItemController
 		else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
     
-    @GetMapping("/sellers/{username}")
+    @GetMapping("/seller/{username}")
 	public ArrayList<Item> findItemBySeller(@PathVariable("username") String seller)
 	{	
 		try 
