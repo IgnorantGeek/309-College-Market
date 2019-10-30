@@ -27,7 +27,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 
-
+/**
+ * a class to represent the contorller for items
+ * @author fadelsh
+ * @author nheisler
+ *
+ */
 @RestController
 @RequestMapping("/items")
 public class ItemController 
@@ -44,6 +49,11 @@ public class ItemController
 	
 	Log log = LogFactory.getLog(ItemController.class);
 	
+	
+	/**
+	 * A method to get all the items
+	 * @return a list of all items 
+	 */
 	@RequestMapping("/all")
 	public List<Item> getAll()
 	{
@@ -58,7 +68,11 @@ public class ItemController
         }
     }
 
-	 
+	 /**
+	  * A method to post a new item 
+	  * @param the body of the item model class
+	  * @param sessid of the user posting the item
+	  */
 	@PostMapping("/new")
 	public void newItem(@RequestBody Item item, @RequestParam(name = "sessid", required = true) String sessid)
 	{
@@ -87,12 +101,18 @@ public class ItemController
 	    }
 	}
 	
-	
+	/**
+	 * A method to update an item 
+	 * @param item
+	 * @param refnum
+	 * @param sessid
+	 */
     @PutMapping("/update/{refnum}")
 	public void updateItem(@RequestBody Item item, 
 							@PathVariable (value = "refnum") int refnum,
 							@RequestParam(name = "sessid", required = true) String sessid) 
 	{
+    	
 		if (sessid.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
@@ -104,13 +124,18 @@ public class ItemController
 
 		User user = users.findById(sessions.findUserBySession(sessid));
 
+		
 		if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find user.");
+		if(users.existsByUserName(user.getUsername())==0) {
+			log.error("There's no such user with this username in our system so sorry we can't update this item");
+			return;
+		}
 
 		Item oldItem = items.findByRefnum(refnum);
 
 		if (oldItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find item with refnum: " + refnum);
 
-		if (active.getAdmin() || item.getUser().getUsername().compareTo(user.getUsername()) == 0)
+		if (active.getAdmin() || oldItem.getUser().getUsername().equals(user.getUsername()))
 		{
 			try 
 			{
@@ -133,7 +158,11 @@ public class ItemController
     }
     
     
-    
+    /**
+     * A method to delete an item
+     * @param refnum
+     * @param sessid
+     */
     @RequestMapping(value = "/delete/{refnum}", method = RequestMethod.DELETE)
 	public void deleteItem( @PathVariable(value = "refnum") int refnum,
 							@RequestParam(name = "sessid", required = true) String sessid)
@@ -152,9 +181,17 @@ public class ItemController
 		if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find user.");
 
 		Item oldItem = items.findByRefnum(refnum);
+		
+		if(users.existsByUserName(user.getUsername())==0) {
+			log.error("There's no such user with this username in our system so sorry we can't update this item");
+			return;
+		}
 
+		
 		if (oldItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find item with refnum: " + refnum);
 		
+	
+			
 		if (active.getAdmin() || oldItem.getUser().getUsername().compareTo(user.getUsername()) == 0)
 		{
 			try 
@@ -172,6 +209,11 @@ public class ItemController
 		else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
     
+    /**
+     * A method to get all the items for a specific seller
+     * @param seller
+     * @return an arrylist of the items for that seller
+     */
     @GetMapping("/seller/{username}")
 	public ArrayList<Item> findItemBySeller(@PathVariable("username") String seller)
 	{	
@@ -186,7 +228,11 @@ public class ItemController
     	}
     }
      
-           
+      /**
+       * A method to search item by their name (or part of the name)
+       * @param name
+       * @return a collection of the items that have that name(or part of it)
+       */
     @GetMapping("/name/{name}")
     public Collection<Item> findItemByName(@PathVariable("name") String name) {
     	
@@ -200,6 +246,11 @@ public class ItemController
     	}
     }
      
+    /**
+     * A method to search item by their category
+     * @param category
+     * @return  a collection of the items that have that category
+     */
     @GetMapping("/category/{category}")
     public Collection<Item> findItemByCategory(@PathVariable("category") String category) {
     	try {
@@ -213,7 +264,11 @@ public class ItemController
     }
     
     
-    
+    /**
+     * A method to search item by their condition
+     * @param cond
+     * @return a collection of the items that have that condition 
+     */
     @GetMapping("/cond/{cond}")
     public Collection<Item> findItemByCondition(@PathVariable("cond") String cond) {
     	try {
@@ -227,7 +282,12 @@ public class ItemController
  }
  
     
-     
+     /**
+      * 
+      * @param name
+      * @param cond
+      * @return
+      */
     @GetMapping("/name/{name}/cond/{cond}")
     public Collection<Item>findByCondAndName(@PathVariable("name") String name ,@PathVariable("cond") String cond){
     	try {
