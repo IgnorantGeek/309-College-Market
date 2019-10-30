@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable
 {
-    // Serializable requirement
     private static final long serialVersionUID = 1L;
 
     /*--- Class Variables ---*/
@@ -57,13 +56,14 @@ public class User implements Serializable
     
 
     /*--- Links to Other Repositories ---*/
+    @OneToMany(cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    @JoinTable(name = "user_sessions", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "sess_id"))
+    @JsonIgnore()
+    private Set<Session> sessions;
 
     // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     // private List <Item> items;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
 
     
     /*--- Constructors ---*/
@@ -120,9 +120,9 @@ public class User implements Serializable
     {
         return this.admin;
     }
-    public Set<Role> getRoles()
+    public Set<Session> getSessions()
     {
-        return this.roles;
+        return sessions;
     }
 
     /*--- Setter Methods ---*/
@@ -154,9 +154,9 @@ public class User implements Serializable
     {
         this.email = email;
     }
-    public void setRoles(Set<Role> roles) 
+    public void setSessions(Set<Session> sessions)
     {
-        this.roles = roles;
+        this.sessions = sessions;
     }
 
 
@@ -176,5 +176,15 @@ public class User implements Serializable
                             this.admin
                             );
         return ret;
+    }
+
+    public void addSession(Session s)
+    {
+        this.sessions.add(s);
+    }
+
+    public void dropSession(Session s)
+    {
+        this.sessions.remove(s);
     }
 }

@@ -20,7 +20,7 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     
     User findById(@Param("id") int id);
     User findByEmail(@Param("email") String email);
-    Optional<User> findByUsername(@Param("username") String username);
+    User findByUsername(@Param("username") String username);
     
     @Query(nativeQuery = true, value="DELETE FROM users WHERE id=:id")
     @Modifying
@@ -30,7 +30,5 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     @Query(nativeQuery = true, value="SELECT EXISTS (SELECT * from users where username=:username)")
     @Transactional(readOnly = true)
 	int existsByUserName(@Param("username") String username);
-    
-    
 }
 

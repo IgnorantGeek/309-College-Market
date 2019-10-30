@@ -34,10 +34,7 @@ public class DashboardActivity extends AppCompatActivity {
 //    private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
 //    private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
-//    ArrayList<String> items;
     ArrayAdapter<String> arrayadapter;
-//    ListView listView;
-//    EditText etSearch;
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
@@ -47,7 +44,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-//        msgResponse = findViewById(R.id.msgDashboardResponse);
+//      msgResponse = findViewById(R.id.msgDashboardResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
@@ -55,17 +52,13 @@ public class DashboardActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         ItemList = new ArrayList<>();
 
-//        items = new ArrayList<String>();
-//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-//        listView.setAdapter(adapter);
-
 //        etSearch = findViewById(R.id.etSearch);
 
         makeJsonArryReq();
 
-        // Start search:
     }
 
+    // Handles load
     private void showProgressDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
@@ -77,7 +70,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     /**
-     * Making json array request
+     * Making json array request post
      * */
     private void makeJsonArryReq() {
         showProgressDialog();
@@ -86,7 +79,7 @@ public class DashboardActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
-                        addItemNames(response);
+                        addItemNames(response); // calling add names function that handles displaying new items to the dashboard
 //                        msgResponse.setText(response.toString());
                         hideProgressDialog();
                     }
@@ -101,7 +94,6 @@ public class DashboardActivity extends AppCompatActivity {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(req,
                 tag_json_arry);
-        // Cancelling request
         // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
     }
 
@@ -114,16 +106,19 @@ public class DashboardActivity extends AppCompatActivity {
         {
             try {
 
+                // decalring new json object
                 JSONObject demoObject = response.getJSONObject(i);
+                // declaring what parameters will be added
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"), demoObject.getString("price"), demoObject.getString("condition"), demoObject.getString("category"));
-                ItemList.add(item);
+                ItemList.add(item); // adding all of these new items for display
 //              message += item;
 
-                final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext());
+                final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext()); // setting up new adapter that will place items accordingly
 
-                //adding the adapter to listview
+                // actually calling the adapter
                 listView.setAdapter(adapter);
 
+//                Searchable dash feature:
 //                etSearch.addTextChangedListener(new TextWatcher() {
 //                    @Override
 //                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -143,22 +138,15 @@ public class DashboardActivity extends AppCompatActivity {
 //                    }
 //                });
 
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-
-
             // this line is the key --> we use the adapter to render the item names in their own sections individually
 //            adapter.notifyDataSetChanged();
         }
-
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
-
-
 
 //    @Override
 //    public void onClick(View v) {
