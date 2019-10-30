@@ -66,6 +66,23 @@ public class UserController
         else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access restricted.");
     }
 
+    @RequestMapping("/exists/username/{username}")
+    public boolean checkUsername(@PathVariable("username") String username)
+    {
+        if (users.existsByUserName(username) == 1) return true;
+        else return false;
+    }
+
+    @RequestMapping("/exists/email/{email}")
+    public boolean checkEmail(@PathVariable("email") String email)
+    {
+        User u = users.findByEmail(email);
+        if (u == null) return false;
+        else return true;
+    }
+
+    
+
     @RequestMapping("/test")
     public User testMethod(@RequestParam(name = "sessid", required = true) String sessid)
     {
