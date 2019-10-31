@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,6 +25,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Activity for editing a user's item post
+ */
 public class EditPost extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = EditPost.class.getSimpleName();
@@ -35,6 +37,10 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     Button btnDelete;
     private ProgressDialog pDialog;
 
+    /**
+     * Creates this instance of EditPost.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,11 +115,17 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
     }
 
+    /**
+     * Shows the progress dialog while it's loading
+     */
     private void showProgressDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
+    /**
+     * Hides the progress dialog
+     */
     private void hideProgressDialog() {
         if (pDialog.isShowing())
             pDialog.hide();
@@ -178,7 +190,9 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
     }
 
-    // DELETE ITEM:
+    /**
+     * Deletes the item that is currently being displayed
+     */
     private void deletePost()
     {
         // declaring urls from api
@@ -234,6 +248,12 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     }
 
 
+    /**
+     * Waits for the user to click a button on the screen.
+     * If the button is "Submit," it updates that item's info
+     * If the button is "Delete," it deletes that item
+     * @param view Current view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
