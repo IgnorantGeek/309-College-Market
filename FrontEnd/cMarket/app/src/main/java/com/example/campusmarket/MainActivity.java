@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
      * Function to test Mockito.
      * For testing purposes only
      * @param s
-     * @return
+     * @return the  string
      */
     public String testMockitoFunction(String s) {
         test = s;

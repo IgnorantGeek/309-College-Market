@@ -1,5 +1,8 @@
 package com.example.campusmarket;
 
+/**
+ * Class that helps represent the items on the Dashboard
+ */
 public class DashItemsActivity {
 
     private String name;
@@ -12,10 +15,10 @@ public class DashItemsActivity {
 
     /**
      * This object is called in the main activity to get all of the necessary fields of an item
-     * @param name
-     * @param price
-     * @param condition
-     * @param category
+     * @param name name of item
+     * @param price price of item
+     * @param condition condition of item
+     * @param category category of item
      */
     public DashItemsActivity(String name, String price, String condition, String category) {
         this.name = name;
@@ -26,7 +29,7 @@ public class DashItemsActivity {
 
     /**
      * Will return the name of the item
-     * @return name
+     * @return name of item
      */
     public String getName(){
         return name;
@@ -34,7 +37,7 @@ public class DashItemsActivity {
 
     /**
      * Can update the name of the item
-     * @param name
+     * @param name name of item
      */
     public void setName(String name){
         this.name = name;
@@ -42,15 +45,15 @@ public class DashItemsActivity {
 
     /**
      * Will return the price of the item
-     * @return price
+     * @return price of item
      */
     public String getPrice(){
         return price;
     }
 
     /**
-     * Can update the name of the item
-     * @param price
+     * Can update the price of the item
+     * @param price price of item
      */
     public void setPrice(String price){
         this.price = price;
@@ -58,7 +61,7 @@ public class DashItemsActivity {
 
     /**
      * Will return the condition of the item
-     * @return condition
+     * @return condition of item
      */
     public String getCondition(){
         return condition;
@@ -66,7 +69,7 @@ public class DashItemsActivity {
 
     /**
      * Can update the condition of the item
-     * @param condition
+     * @param condition condition of item
      */
     public void setCondition(String condition){
         this.condition = condition;
@@ -74,7 +77,7 @@ public class DashItemsActivity {
 
     /**
      * Will return the category of the item
-     * @return category
+     * @return category of item
      */
     public String getCategory(){
         return category;
@@ -82,7 +85,7 @@ public class DashItemsActivity {
 
     /**
      * Can update the category of the item
-     * @param category
+     * @param category category of item
      */
     public void setCategory(String category){
         this.category = category;

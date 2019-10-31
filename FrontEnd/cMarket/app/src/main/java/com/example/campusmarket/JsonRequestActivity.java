@@ -26,6 +26,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ */
 public class JsonRequestActivity extends Activity implements OnClickListener {
 
     private String TAG = JsonRequestActivity.class.getSimpleName();

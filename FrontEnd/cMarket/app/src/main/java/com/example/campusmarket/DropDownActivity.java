@@ -21,6 +21,9 @@ import com.example.campusmarket.utils.Const;
 
 import org.json.JSONArray;
 
+/**
+ * Activity that represents a drop-down menu for searching items
+ */
 public class DropDownActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ProgressDialog pDialog;

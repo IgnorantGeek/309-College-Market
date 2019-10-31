@@ -34,7 +34,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
      * @param position
      * @param convertView
      * @param parent
-     * @return
+     * @return the View
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
