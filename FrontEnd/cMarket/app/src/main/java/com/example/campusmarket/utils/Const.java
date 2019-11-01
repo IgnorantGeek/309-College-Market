@@ -1,5 +1,8 @@
 package com.example.campusmarket.utils;
 
+/**
+ * Class that stores all of our urls that we use for Volley requests
+ */
 public class Const {
     public static final String URL_JSON_OBJECT = "http://coms-309-jr-1.misc.iastate.edu:8080/users/all";
     public static final String URL_JSON_ARRAY = "http://coms-309-jr-1.misc.iastate.edu:8080/users/all";

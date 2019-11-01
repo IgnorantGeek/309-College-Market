@@ -4,15 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -28,23 +22,27 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity that represents the market dashboard.
+ * You can view all items for sale in the market on this page
+ */
 public class DashboardActivity extends AppCompatActivity {
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-//    private TextView msgResponse;
     private String  tag_json_arry = "jarray_req";
-//    private List<DashItemsActivity> itemList = new ArrayList<DashItemsActivity>();
-    ArrayAdapter<String> arrayadapter;
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
 
+    /**
+     * Creates this instance of Dashboard
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-//      msgResponse = findViewById(R.id.msgDashboardResponse);
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
@@ -52,18 +50,21 @@ public class DashboardActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         ItemList = new ArrayList<>();
 
-//        etSearch = findViewById(R.id.etSearch);
-
         makeJsonArryReq();
 
     }
 
-    // Handles load
+    /**
+     * Shows the progress dialog while it's loading
+     */
     private void showProgressDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
+    /**
+     * Hides the progress dialog
+     */
     private void hideProgressDialog() {
         if (pDialog.isShowing())
             pDialog.hide();
@@ -79,8 +80,8 @@ public class DashboardActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
-                        addItemNames(response); // calling add names function that handles displaying new items to the dashboard
-//                        msgResponse.setText(response.toString());
+                        // calling add names function that handles displaying new items to the dashboard
+                        addItemNames(response);
                         hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
@@ -94,26 +95,27 @@ public class DashboardActivity extends AppCompatActivity {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(req,
                 tag_json_arry);
-        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
     }
 
-    /*
-    * Parse the JSON item array so you only add the item names.
+    /**
+     * Parse the JSON item array so you only add the item names.
+     * @param response
      */
     private void addItemNames(JSONArray response) {
-        String message = "";//msgResponse.toString();
         for (int i = 0; i < response.length(); i++)
         {
             try {
 
-                // decalring new json object
+                // declaring new json object
                 JSONObject demoObject = response.getJSONObject(i);
                 // declaring what parameters will be added
-                DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"), demoObject.getString("price"), demoObject.getString("condition"), demoObject.getString("category"));
+                DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
+                        demoObject.getString("price"), demoObject.getString("condition"),
+                        demoObject.getString("category"));
                 ItemList.add(item); // adding all of these new items for display
-//              message += item;
 
-                final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext()); // setting up new adapter that will place items accordingly
+                // setting up new adapter that will place items accordingly
+                final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext());
 
                 // actually calling the adapter
                 listView.setAdapter(adapter);
@@ -147,22 +149,6 @@ public class DashboardActivity extends AppCompatActivity {
         }
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
-
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.btnSearchSpecific:
-//                startActivity(new Intent(DashboardActivity.this,
-//                        DropDownActivity.class));
-//                break;
-//            case R.id.btnViewProfile:
-//                startActivity(new Intent(DashboardActivity.this,
-//                        ProfileActivity.class));
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 
 
 }

@@ -8,9 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -23,11 +21,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import static java.lang.Thread.sleep;
-
+/**
+ * Activity that represents the user's profile.
+ * Has a button to go settings.
+ * Shows all of the items this user has posted and can click on them
+ * to go to the edit page.
+ */
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button accSettings;
@@ -38,6 +39,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<JSONObject> myItems = new ArrayList<>();
     private ArrayList<Button> myButtons = new ArrayList<>();
 
+    /**
+     * Creates this instance of ProfileActivity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,6 +148,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * When the user clicks on the Account Settings button, brings the user to that activity
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnAccSettings) {
