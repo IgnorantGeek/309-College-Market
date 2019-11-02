@@ -24,6 +24,12 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
+/**
+ * 
+ * This class represents the controller for sessions 
+ * @author nheisler
+ */
 @RestController
 @RequestMapping("/sessions")
 public class SessionController
@@ -36,6 +42,12 @@ public class SessionController
 
     Log log = LogFactory.getLog(SessionController.class);
     
+    
+    /**
+     * A method to post a new active session and generate a random 16 character session id
+     * @param req
+     * @return 16 character session id
+     */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String newSession(@RequestBody final LoginRequest req)
     {
@@ -86,6 +98,12 @@ public class SessionController
     }
 
     // Only for admins for now
+    /**
+     * A method to get the session for the user who is admin given their session IDs
+     * @param getId
+     * @param sessid
+     * @return The session for admin 
+     */
     @RequestMapping(value = "/sessid/{sess_id}", method = RequestMethod.GET)
     public Session findById(@PathVariable("sess_id") String getId, @RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -114,6 +132,11 @@ public class SessionController
     }
 
     // Only for admins
+    /**
+     * A method to get all the sessions for all users who are admins
+     * @param sessid
+     * @return  sessions for all users who are admins
+     */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Session> getAll(@RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -141,6 +164,11 @@ public class SessionController
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is limited to admin users only. Please log in with an admin account.");
     }
 
+    /**
+     * A method to drop and end sessions given their session IDs
+     * @param close_id
+     * @param sessid
+     */
     @RequestMapping(value = "/close/{sessid}", method = RequestMethod.DELETE)
     public void closeSession(@PathVariable("sessid") String close_id, @RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -173,6 +201,10 @@ public class SessionController
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is restricted to admin users, and the user in question.");
     }
 
+    /**
+     * A method to drop the session for the current session 
+     * @param sessid
+     */
     @RequestMapping(value = "/close/this", method = RequestMethod.DELETE)
     public void closeThisSession(@RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -228,6 +260,12 @@ public class SessionController
     //     }
     // }
 
+    /**
+     * A method to get all users given their userIDs
+     * @param id
+     * @param sessid
+     * @return an arraylist of sessions found by that id
+     */
     @RequestMapping(value = "/userid/{userid}", method = RequestMethod.GET)
     public ArrayList<Session> getAllByUser(@PathVariable("userid") int id, @RequestParam(name = "sessid", required = true) String sessid)
     {

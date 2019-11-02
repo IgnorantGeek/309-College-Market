@@ -20,7 +20,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 
-
+/**
+ * A  class to perform mockito tests for items 
+ * @author fadelalshammasi
+ *
+ */
 public class TestItemsService {
 	
 	@InjectMocks

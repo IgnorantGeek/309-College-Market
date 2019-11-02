@@ -21,7 +21,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 
-
+/**
+ * a class to represent the controller for users
+ * @author fadelalshammasi
+ * @author nheisler 
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController
@@ -36,9 +40,17 @@ public class UserController
     Log log = LogFactory.getLog(UserController.class);
     
     
+    
+    /**
+     * A constant to keep track of the max number of users possible in the app (subject to change)
+     */
     static final int MAX_USER_ENTITY =100;
     
     
+    /**
+     * A method to get all users in the users table 
+     * @return a list of all users in the database
+     */
    @RequestMapping("/all")
     public List<User> getAll()
     {
@@ -53,6 +65,11 @@ public class UserController
         }
     }
 
+   /**
+    * A method to check if a user exists given their unique usernames
+    * @param username
+    * @return true if it does, otherwise false
+    */
     @RequestMapping("/exists/username/{username}")
     public boolean checkUsername(@PathVariable("username") String username)
     {
@@ -60,6 +77,11 @@ public class UserController
         else return false;
     }
 
+    /**
+     * A method to check if a user exists given their unique emails
+     * @param email
+     * @return true if it does, otherwise false
+     */
     @RequestMapping("/exists/email/{email}")
     public boolean checkEmail(@PathVariable("email") String email)
     {
@@ -69,13 +91,23 @@ public class UserController
     }
 
     
-
+    /**
+     * A method to just test  if getting a user given their seessid works
+     * @param sessid
+     * @return the user given their seessid 
+     */
     @RequestMapping("/test")
     public User testMethod(@RequestParam(name = "sessid", required = true) String sessid)
     {
         return users.findById(sessions.findUserBySession(sessid));
     }
      
+    /**
+     *  A method to get a user given his/her id
+     * @param id
+     * @param sessid
+     * @return the user that has that id
+     */
     @GetMapping("/id/{id}")
     public User findUserById(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -103,6 +135,12 @@ public class UserController
         else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
     
+    /**
+     *  A method to get a user given his/her email
+     * @param id
+     * @param sessid
+     * @return the user that has that email
+     */
     @GetMapping("/email/{email}")
     public User findUserByEmail(@PathVariable("email") String email, @RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -129,7 +167,13 @@ public class UserController
         }
         else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
-
+    
+    /**
+     *  A method to get a user given his/her username
+     * @param id
+     * @param sessid
+     * @return the user that has that username
+     */
     @GetMapping("/username/{username}")
     public User findUserByUserName(@PathVariable("username") String username, @RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -157,6 +201,10 @@ public class UserController
         else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
     
+    /**
+     * A method to post a new user into the database 
+     * @param user
+     */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public void newUser(@RequestBody final User user)
     {
@@ -172,6 +220,11 @@ public class UserController
         }
     }
     
+    /**
+     * A method to delete a user from the database given his/her ID
+     * @param id
+     * @param sessid
+     */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -200,6 +253,10 @@ public class UserController
         else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
     
+    /**
+     * A method to clean up  and delete all the users from the database 
+     * @param sessid
+     */
     @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
     public void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -233,7 +290,12 @@ public class UserController
     }
     
     
-
+/**
+ * A method to update the all fields for a specific user in the users table
+ * @param u
+ * @param id
+ * @param sessid
+ */
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public void updateUser(@RequestBody User u,
                            @PathVariable("id") int id,
@@ -277,6 +339,11 @@ public class UserController
         else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
     
+    /**
+     * A method to get the string representation of a user given the id
+     * @param id
+     * @return string representation of the user
+     */
     @RequestMapping(value = "/toString/{id}")
     public String UserToString(@PathVariable("id") int id)
     {

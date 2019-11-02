@@ -28,7 +28,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 /**
- * a class to represent the contorller for items
+ * a class to represent the controller for items
  * @author fadelsh
  * @author nheisler
  *
@@ -231,7 +231,7 @@ public class ItemController
       /**
        * A method to search item by their name (or part of the name)
        * @param name
-       * @return a collection of the items that have that name(or part of it)
+       * @return a collection of the items that have that name(or part of it) sorted by price
        */
     @GetMapping("/name/{name}")
     public Collection<Item> findItemByName(@PathVariable("name") String name) {
@@ -247,9 +247,9 @@ public class ItemController
     }
      
     /**
-     * A method to search item by their category
+     * A method to search for items by their category
      * @param category
-     * @return  a collection of the items that have that category
+     * @return  a collection of the items that have that category sorted by price 
      */
     @GetMapping("/category/{category}")
     public Collection<Item> findItemByCategory(@PathVariable("category") String category) {
@@ -265,9 +265,9 @@ public class ItemController
     
     
     /**
-     * A method to search item by their condition
+     * A method to search for items by their condition
      * @param cond
-     * @return a collection of the items that have that condition 
+     * @return a collection of the items that have that condition sorted by price
      */
     @GetMapping("/cond/{cond}")
     public Collection<Item> findItemByCondition(@PathVariable("cond") String cond) {
@@ -283,10 +283,10 @@ public class ItemController
  
     
      /**
-      * 
+      * a method to search for items using their names AND conditions 
       * @param name
       * @param cond
-      * @return
+      * @return List of items with the name and condition provided (or part of them)
       */
     @GetMapping("/name/{name}/cond/{cond}")
     public Collection<Item>findByCondAndName(@PathVariable("name") String name ,@PathVariable("cond") String cond){
@@ -299,6 +299,12 @@ public class ItemController
     	}
     }
     
+    /**
+     * a method to search for items using their category AND condition AND the maximum price desired to narrow the search even more
+     * @param name
+     * @param cond
+     * @return List of items with the category & condition & price provided sorted by price
+     */
     @GetMapping("/category/{category}/cond/{cond}/price/{price}")
     public Collection<Item>findByCondPriceCategory(@PathVariable("cond") String cond ,@PathVariable("category") String category, @PathVariable("price") double price){
     	try {
@@ -309,6 +315,10 @@ public class ItemController
     	}
     }
     
+    /**
+     * A method to delete all items in the campusmarket 
+     * @param sessid
+     */
     @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
     public void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
     {

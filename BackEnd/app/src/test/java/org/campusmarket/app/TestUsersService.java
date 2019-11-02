@@ -17,7 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-
+/**
+ * A  class to perform mockito tests for users
+ * @author nheisler
+ *
+ */
 public class TestUsersService
 {
     @InjectMocks

@@ -1,11 +1,26 @@
 package org.campusmarket.app.models;
 
+/**
+ * A model class for login request to help with session 
+ * @author nheisler 
+ *
+ */
 public class LoginRequest
 {
     private String username;
     private String password;
 
+    
+    /**
+     * default constructor 
+     */
     public LoginRequest() { }
+    
+    /**
+     * Create a new login request with a username and a password
+     * @param username
+     * @param password
+     */
     public LoginRequest(String username, String password)
     {
         this.username = username;
@@ -13,6 +28,7 @@ public class LoginRequest
     }
     
     /**
+     * Setter for password
      * @param password the password to set
      */
     public void setPassword(String password)
@@ -20,6 +36,7 @@ public class LoginRequest
         this.password = password;
     }
     /**
+     * Setter for username
      * @param username the username to set
      */
     public void setUsername(String username)
@@ -27,6 +44,7 @@ public class LoginRequest
         this.username = username;
     }
     /**
+     * Getter for password
      * @return the password
      */
     public String getPassword()
@@ -34,6 +52,7 @@ public class LoginRequest
         return password;
     }
     /**
+     * Getter for username
      * @return the username
      */
     public String getUsername()

@@ -18,6 +18,13 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
+/**
+ * A class to represent the model for a user
+ * @author fadelalshammasi
+ * @author nheisler
+ *
+ */
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -67,8 +74,21 @@ public class User implements Serializable
 
     
     /*--- Constructors ---*/
+    /**
+     * default constructor 
+     */
     public User() { }
 
+    /**
+     * A constructor to create a user with all the required parameters of the users table 
+     * @param username
+     * @param password
+     * @param firstname
+     * @param lastname
+     * @param email
+     * @param university
+     * @param admin
+     */
     public User(String username, 
                 String password,
                 String firstname,
@@ -88,72 +108,156 @@ public class User implements Serializable
     
 
     /*--- Getter Methods ---*/
+    
+    /**
+     * A getter method for username of the user
+     * @return the username 
+     */
     public String getUsername()
     {
         return this.username;
     }
+    
+    /**
+     * A getter method for password of the user
+     * @return the password 
+     */
     public String getPassword()
     {
         return this.password;
     }
+    
+    /**
+     * A getter method for the firstname of the user
+     * @return the firstname
+     */
     public String getFirstname()
     {
         return this.firstname;
     }
+    
+    /**
+     * A getter method for the lastname of the user
+     * @return the lastname
+     */
     public String getLastname()
     {
         return this.lastname;
     }
+    
+    /**
+     * A getter method for the id of the user
+     * @return the id 
+     */
     public int getId()
     {
         return this.Id;
     }
+    
+    /**
+     * A getter method for university of the user
+     * @return the university 
+     */
     public String getUniversity()
     {
         return this.university;
     }
+    
+    /**
+     * A getter method for email of the user
+     * @return the email
+     */
     public String getEmail()
     {
         return this.email;
     }
+    
+    /**
+     * A getter method for admin of the user
+     * @return true if admin, otherwise false
+     */
     public boolean getAdmin()
     {
         return this.admin;
     }
+    
+    /**
+     * A getter method for the set of sessions of the user
+     * @return A set of sessions 
+     */
     public Set<Session> getSessions()
     {
         return sessions;
     }
 
     /*--- Setter Methods ---*/
+    
+    /**
+     * A setter method to change the username of the user
+     * @param userName
+     */
     public void setUsername(String userName)
     {
         this.username = userName;
     }
+    
+    /**
+     * A setter method to change the password of the user
+     * @param password
+     */
     public void setPassword(String password)
     {
         this.password = password;
     }
+    
+    /**
+     * A setter method to change the first name of the user
+     * @param firstName
+     */
     public void setFirstname(String firstName)
     {
         this.firstname = firstName;
     }
+    
+    /**
+     * A setter method to change the lastname of the user
+     * @param lastName
+     */
     public void setLastname(String lastName)
     {
         this.lastname = lastName;
     }
+    
+    /**
+     * A setter method to change the id of the user
+     * @param Id
+     */
     public void setId(int Id)
     {
         this.Id = Id;
     }
+    
+    /**
+     * A setter method to change the university of the user
+     * @param university
+     */
     public void setUniversity(String university) 
     {
         this.university = university;
     }
+    
+    /**
+     * A setter method to change the email of the user
+     * @param email
+     */
     public void setEmail(String email) 
     {
         this.email = email;
     }
+    /**
+     * A setter method to change the sessions set of the user
+     * @param sessions
+     */
     public void setSessions(Set<Session> sessions)
     {
         this.sessions = sessions;
@@ -161,6 +265,10 @@ public class User implements Serializable
 
 
     /*--- Class Methods ---*/
+    
+    /**
+     *  A method to get the string representation of an item 
+     */
     @Override
     public String toString()
     {
@@ -178,11 +286,19 @@ public class User implements Serializable
         return ret;
     }
 
+    /**
+     * A method to add a seesion to the sessions set
+     * @param s
+     */
     public void addSession(Session s)
     {
         this.sessions.add(s);
     }
 
+    /**
+     * A method to remove/drop a session from the session set
+     * @param s
+     */
     public void dropSession(Session s)
     {
         this.sessions.remove(s);
