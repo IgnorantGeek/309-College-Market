@@ -19,20 +19,21 @@ import java.net.URISyntaxException;
 
 public class WebSockets extends AppCompatActivity {
 
-    Button  b1,b2;
-    EditText e1,e2;
+    Button b1, b2;
+    EditText e1, e2;
     TextView t1;
 
     private WebSocketClient cc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        b1=(Button)findViewById(R.id.bt1);
-        b2=(Button)findViewById(R.id.bt2);
-        e1=(EditText)findViewById(R.id.et1);
-        e2=(EditText)findViewById(R.id.et2);
-        t1=(TextView)findViewById(R.id.tx1);
+        setContentView(R.layout.activity_websockets);
+        b1 = (Button) findViewById(R.id.bt1);
+        b2 = (Button) findViewById(R.id.bt2);
+        e1 = (EditText) findViewById(R.id.et1);
+        e2 = (EditText) findViewById(R.id.et2);
+        t1 = (TextView) findViewById(R.id.tx1);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +45,7 @@ public class WebSockets extends AppCompatActivity {
                  * computer, and change the ip address to that of your computer.
                  * If running on the emulator, you can use localhost.
                  **/
-                String w = "ws://10.26.13.93:8080/websocket/"+e1.getText().toString();
+                String w = "http://coms-309-jr-1.misc.iastate.edu:8080/"+e1.getText().toString(); //?
 
                 try {
                     Log.d("Socket:", "Trying socket");
