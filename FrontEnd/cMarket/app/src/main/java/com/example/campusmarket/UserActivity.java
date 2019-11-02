@@ -1,41 +1,37 @@
 package com.example.campusmarket;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * Activity that represents the page after a user logs in / signs up
+ */
 public class UserActivity extends Activity implements OnClickListener {
     private Button btnJson, btnDashboard, btnNewPost, btnProfile;
     public static String loggedInUsername;
 
+    /**
+     * Creates this instance of UserActivity.
+     * Display's "Welcome, Username" where username is from previous activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-       // final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        //final EditText etUniversity = (EditText) findViewById(R.id.etUniversity);
-       // final TextView welcomeMessage = (TextView) findViewById(R.id.tvWelcomeMsg);
-
-        // Get their name from the database
-        // String url = "http://coms-309-jr-1.misc.iastate.edu:8080/users/username/" + message;
-
-        // Get the Intent that started this activity and extract the string
-        // Set the string as the username
+        // Stores the  user's username
         Intent intent = getIntent();
         loggedInUsername = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.usernameWelcome);
         textView.setText(loggedInUsername);
-
 
         btnJson = (Button) findViewById(R.id.btnJsonRequest);
         btnJson.setOnClickListener(this);
@@ -45,10 +41,13 @@ public class UserActivity extends Activity implements OnClickListener {
         btnNewPost.setOnClickListener(this);
         btnProfile = (Button) findViewById(R.id.btnGoToProfile);
         btnProfile.setOnClickListener(this);
-
     }
 
-
+    /**
+     * Sees which button the user is going to click.
+     * Almost acts as a navbar
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
