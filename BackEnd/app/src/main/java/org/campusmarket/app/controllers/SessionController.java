@@ -49,7 +49,7 @@ public class SessionController
      * @return 16 character session id
      */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String newSession(@RequestBody final LoginRequest req)
+    public Session newSession(@RequestBody final LoginRequest req)
     {
         User find = users.findByUsername(req.getUsername());
         // Check for errors
@@ -93,7 +93,7 @@ public class SessionController
             
             log.info("New session with ID " + generatedString + " assigned to User " + find.getUsername() + ":" + find.getId());
 
-            return generatedString;
+            return sess;
         }
     }
 
