@@ -1,4 +1,4 @@
-package org.campusmarket.app.endpoints;
+package org.campusmarket.app.websockets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,14 +18,14 @@ import org.springframework.stereotype.Component;
 
 @ServerEndpoint(value = "/chat/{username}")
 @Component
-public class ChatEndpoint
+public class WebSocketServer
 {
     private static Map<Session, String> sessionUsernameMap = new HashMap<>();
 	private static Map<String, Session> usernameSessionMap = new HashMap<>();
 	
 
     
-    Log logger = LogFactory.getLog(ChatEndpoint.class);
+    Log logger = LogFactory.getLog(WebSocketServer.class);
     
     @OnOpen
     public void onOpen(Session session, 

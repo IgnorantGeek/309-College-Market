@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories(basePackages = "org.campusmarket.db.repositories")
-@ComponentScan(basePackages = "endpoints")
+@ComponentScan(basePackages = "WebSockets")
 @SpringBootApplication
 public class Application
 {
