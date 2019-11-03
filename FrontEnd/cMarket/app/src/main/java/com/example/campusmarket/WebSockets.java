@@ -1,5 +1,6 @@
 package com.example.campusmarket;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.java_websocket.client.WebSocketClient;
@@ -16,6 +18,7 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 public class WebSockets extends AppCompatActivity {
 
@@ -36,6 +39,7 @@ public class WebSockets extends AppCompatActivity {
         t1 = (TextView) findViewById(R.id.tx1);
 
         b1.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
                 Draft[] drafts = {new Draft_6455()};
@@ -45,8 +49,8 @@ public class WebSockets extends AppCompatActivity {
                  * computer, and change the ip address to that of your computer.
                  * If running on the emulator, you can use localhost.
                  **/
-                String w = "http://coms-309-jr-1.misc.iastate.edu:8080/"+e1.getText().toString(); //?
-
+                String w = "ws://10.27.165.86:8080/chat/"+e1.getText().toString();
+                Log.d("Socket:", w);
                 try {
                     Log.d("Socket:", "Trying socket");
                     cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
@@ -79,7 +83,7 @@ public class WebSockets extends AppCompatActivity {
                     };
                 }
                 catch (URISyntaxException e) {
-                    Log.d("Exception:", e.getMessage().toString());
+                    Log.d("Exception:", Objects.requireNonNull(e.getMessage()));
                     e.printStackTrace();
                 }
                 cc.connect();
@@ -88,6 +92,7 @@ public class WebSockets extends AppCompatActivity {
         });
 
         b2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 try {
@@ -95,7 +100,7 @@ public class WebSockets extends AppCompatActivity {
                 }
                 catch (Exception e)
                 {
-                    Log.d("ExceptionSendMessage:", e.getMessage().toString());
+                    Log.d("ExceptionSendMessage:", Objects.requireNonNull(e.getMessage()));
                 }
             }
         });
