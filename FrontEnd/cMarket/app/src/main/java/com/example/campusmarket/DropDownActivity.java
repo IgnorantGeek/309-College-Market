@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -22,6 +21,9 @@ import com.example.campusmarket.utils.Const;
 
 import org.json.JSONArray;
 
+/**
+ * Activity that represents a drop-down menu for searching items
+ */
 public class DropDownActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ProgressDialog pDialog;
@@ -65,11 +67,17 @@ public class DropDownActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+    /**
+     * Shows the progress dialog while it's loading
+     */
     private void showProgressDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
+    /**
+     * Hides the progress dialog
+     */
     private void hideProgressDialog() {
         if (pDialog.isShowing())
             pDialog.hide();

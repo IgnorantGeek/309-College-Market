@@ -26,10 +26,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ */
 public class JsonRequestActivity extends Activity implements OnClickListener {
 
     private String TAG = JsonRequestActivity.class.getSimpleName();
-    private Button btnJsonObj, btnJsonArray, btnContinue;
+    private Button btnJsonArray, btnContinue;
     private TextView msgResponse;
     private ProgressDialog pDialog;
 
@@ -41,7 +44,6 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.json_request);
 
-        //btnJsonObj = (Button) findViewById(R.id.btnJsonObj);
         btnJsonArray = (Button) findViewById(R.id.btnJsonArray);
         btnContinue = (Button) findViewById(R.id.btnContinue);
         msgResponse = (TextView) findViewById(R.id.msgResponse);
@@ -50,7 +52,6 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-        //btnJsonObj.setOnClickListener(this);
         btnJsonArray.setOnClickListener(this);
         btnContinue.setOnClickListener(this);
     }
@@ -143,17 +144,11 @@ public class JsonRequestActivity extends Activity implements OnClickListener {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(req,
                 tag_json_arry);
-
-        // Cancelling request
-        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.btnJsonObj:
-//                makeJsonObjReq();
-//                break;
             case R.id.btnJsonArray:
                 makeJsonArryReq();
                 break;

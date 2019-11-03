@@ -29,6 +29,9 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.O_MR1)
 
+/**
+ * Mockito tests for demo3 (Lily)
+ */
 public class MockitoTestL {
 
     private View.OnClickListener onClickListener;

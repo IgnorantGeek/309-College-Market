@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,15 +21,20 @@ import com.example.campusmarket.utils.Const;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
 
+/**
+ * Activity that represents the user's personal account settings, linked from Profile.
+ */
 public class AccountSettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = AccountSettingsActivity.class.getSimpleName();
     private Button deleteAcc;
     private ProgressDialog pDialog;
 
+    /**
+     * Creates this instance of AccountSettings
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +51,17 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         deleteAcc.setOnClickListener(this);
     }
 
+    /**
+     * Shows the progress dialog while it's loading
+     */
     private void showProgressDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
 
+    /**
+     * Hides the progress dialog
+     */
     private void hideProgressDialog() {
         if (pDialog.isShowing())
             pDialog.hide();

@@ -24,12 +24,19 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Activity that represents a page to post a new item.
+ */
 public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnSubmitPost;
     private EditText etName, etPrice, etCondition, etCategory;
     private String TAG = NewPostActivity.class.getSimpleName();
 
+    /**
+     * Creates instance of NewPostActivity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,23 +52,24 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         etCategory = findViewById(R.id.etCategory);
     }
 
-
+    /**
+     * When the user clicks to submit their post, calls postItem()
+     * @param v
+     */
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            // on click events of buttons
-            case R.id.btnSubmitPost:
-                postItem();
-                startActivity(new Intent(NewPostActivity.this,
-                        DashboardActivity.class));
-                break;
-            default:
-                break;
-
+        if (v.getId() == R.id.btnSubmitPost) {
+            postItem();
+            startActivity(new Intent(NewPostActivity.this,
+                    DashboardActivity.class));
         }
     }
 
-    // POST NEW ITEM:
+    /**
+     * Posts the new item to the database with the information
+     * that the user filled in on the page.
+     * Called once they click "Post"
+     */
     public void postItem(){
         // make json object
         String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/new";

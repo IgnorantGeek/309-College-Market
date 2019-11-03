@@ -16,7 +16,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.*;
 
-
+/**
+ * Mockito test for demo3 (Katelyn)
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MockitoExampleTest {
 

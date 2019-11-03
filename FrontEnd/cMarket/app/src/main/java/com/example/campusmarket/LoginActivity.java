@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-// Recommended validation library
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,7 +24,9 @@ import com.example.campusmarket.utils.Const;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+/**
+ * An activity that lets a user log in to their account
+ */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = LoginActivity.class.getSimpleName();
@@ -37,6 +37,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextView registerLink, valid_user;
     private ProgressDialog pDialog;
 
+    /**
+     * Creates this instance on Login
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

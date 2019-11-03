@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.VolleyLog;
@@ -20,11 +18,8 @@ import com.example.campusmarket.utils.Const;
 
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +31,9 @@ import java.util.Map;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 
+/**
+ * Activity that lets users create a new account
+ */
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = RegisterActivity.class.getSimpleName();
@@ -49,7 +47,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     EditText etEmail;
     Button bRegister;
 
-
+    /**
+     * Creates this instance of RegisterActivity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +84,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    /**
+     * Checks if the validation is successful. If it is, then it calls finishSignUp()
+     * @return true if validation was successful, false otherwise
+     */
     public boolean validateForm() {
         // first validate the form, then move ahead
         // if this becomes true, validation is successful
@@ -95,6 +100,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    /**
+     * When the user clicks to register, calls validateForm() to make sure syntax is legal
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         if (view == bRegister) {
@@ -103,6 +112,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /**
+     * Posts the use to the database
+     * @param js The user to be posted
+     * @return successful status
+     */
     public boolean make_register_request(final JSONObject js) {
 
         final boolean[] success = {false};
@@ -154,7 +168,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return success[0];
 
     }
-    // Called when user finishes signing up
+
+    /**
+     * Called when user finishes signing up
+     */
     public void finishSignUp() {
 
         JSONObject js = new JSONObject();
