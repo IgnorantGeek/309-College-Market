@@ -1,4 +1,8 @@
+<<<<<<< HEAD:BackEnd/app/src/main/java/org/campusmarket/app/endpoints/ChatEndpoint.java
 // package org.campusmarket.app.endpoints;
+=======
+package org.campusmarket.app.websockets;
+>>>>>>> 37-lily-websockets:BackEnd/app/src/main/java/org/campusmarket/app/websockets/WebSocketServer.java
 
 // import java.io.IOException;
 // import java.util.HashMap;
@@ -16,6 +20,7 @@
 // import org.apache.commons.logging.LogFactory;
 // import org.springframework.stereotype.Component;
 
+<<<<<<< HEAD:BackEnd/app/src/main/java/org/campusmarket/app/endpoints/ChatEndpoint.java
 // @ServerEndpoint(value = "/chat/{username}")
 // @Component
 // public class ChatEndpoint
@@ -26,6 +31,18 @@
 
     
 //     Log logger = LogFactory.getLog(ChatEndpoint.class);
+=======
+@ServerEndpoint(value = "/chat/{username}")
+@Component
+public class WebSocketServer
+{
+    private static Map<Session, String> sessionUsernameMap = new HashMap<>();
+	private static Map<String, Session> usernameSessionMap = new HashMap<>();
+	
+
+    
+    Log logger = LogFactory.getLog(WebSocketServer.class);
+>>>>>>> 37-lily-websockets:BackEnd/app/src/main/java/org/campusmarket/app/websockets/WebSocketServer.java
     
 //     @OnOpen
 //     public void onOpen(Session session, 

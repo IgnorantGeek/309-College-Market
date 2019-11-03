@@ -12,7 +12,7 @@ import android.widget.TextView;
  * Activity that represents the page after a user logs in / signs up
  */
 public class UserActivity extends Activity implements OnClickListener {
-    private Button btnJson, btnDashboard, btnNewPost, btnProfile;
+    private Button btnJson, btnDashboard, btnNewPost, btnProfile, btnWebSocket;
     public static String loggedInUsername;
 
     /**
@@ -41,6 +41,8 @@ public class UserActivity extends Activity implements OnClickListener {
         btnNewPost.setOnClickListener(this);
         btnProfile = (Button) findViewById(R.id.btnGoToProfile);
         btnProfile.setOnClickListener(this);
+        btnWebSocket = (Button) findViewById(R.id.btnWebSocket);
+        btnWebSocket.setOnClickListener(this);
     }
 
     /**
@@ -67,6 +69,10 @@ public class UserActivity extends Activity implements OnClickListener {
                 startActivity(new Intent(UserActivity.this,
                         ProfileActivity.class));
                 break;
+            case R.id.btnWebSocket:
+            startActivity(new Intent(UserActivity.this,
+                    WebSockets.class));
+            break;
             default:
                 break;
         }
