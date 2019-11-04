@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class UserActivity extends Activity implements OnClickListener {
     private Button btnJson, btnDashboard, btnNewPost, btnProfile;
     public static String loggedInUsername;
-    String sessionID;
+    protected static String sessionID;
 
     /**
      * Creates this instance of UserActivity.

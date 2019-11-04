@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      *     to the url "items/seller/their_username"
      */
     private void showSoldItemsProfile() {
-        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/sellers";
+        String url = Const.URL_ITEM_SELLER + "/" + UserActivity.loggedInUsername;
         showProgressDialog();
 
         // make the request
