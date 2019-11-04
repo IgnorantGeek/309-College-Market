@@ -225,12 +225,13 @@ public class UserController
      * @param user
      */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public void newUser(@RequestBody final User user)
+    public User newUser(@RequestBody final User user)
     {
         try
         {
             users.save(user);
             log.info("Data Entry Successful: New user created with ID " + user.getId());
+            return user;
         }
         catch(Exception e)
         {
