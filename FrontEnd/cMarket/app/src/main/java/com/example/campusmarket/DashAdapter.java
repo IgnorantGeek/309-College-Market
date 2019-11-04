@@ -50,6 +50,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
         TextView price =(TextView) listViewItem.findViewById(R.id.tvPrice);
         TextView condition = (TextView) listViewItem.findViewById(R.id.tvCondition);
         TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
+        TextView seller = (TextView) listViewItem.findViewById(R.id.tvCategory);
 
         // getting the specified positions for the items
         DashItemsActivity item = ItemList.get(position);
