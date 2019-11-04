@@ -53,8 +53,8 @@ public class GETResponseTest {
         response.put("university", emailCorrect);
         response.put("admin", "false");
 
-        when(regAct.make_register_request(response)).thenReturn(true);
-        Assert.assertEquals(true, regAct.make_register_request(response));
+        when(regAct.make_register_request()).thenReturn(true);
+        Assert.assertEquals(true, regAct.make_register_request());
     }
 
     @Test
@@ -67,6 +67,7 @@ public class GETResponseTest {
         String lastNameCorrect = "SqaurePants";
         String schoolCorrect = "Bikini Bottom University";
         String emailCorrect = "spongebob@gmail.com";
+        String sessionID = "12345ABCD";
 
         JSONObject response = new JSONObject();
         response.put("username", usernameCorrect);
@@ -77,8 +78,9 @@ public class GETResponseTest {
         response.put("university", emailCorrect);
         response.put("admin", "false");
 
-        regActivity.finishSignUp();
-        verify(regActivity,  times(1)).finishSignUp();
+
+        regActivity.finishSignUp(usernameCorrect, sessionID);
+        verify(regActivity,  times(1)).finishSignUp(usernameCorrect, sessionID);
     }
 
     @Test
