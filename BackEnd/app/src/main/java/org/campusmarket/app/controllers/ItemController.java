@@ -74,7 +74,7 @@ public class ItemController
 	  * @param sessid of the user posting the item
 	  */
 	@PostMapping("/new")
-	public void newItem(@RequestBody Item item, @RequestParam(name = "sessid", required = true) String sessid)
+	public Item newItem(@RequestBody Item item, @RequestParam(name = "sessid", required = true) String sessid)
 	{
 		if (sessid.isEmpty())
         {
@@ -92,6 +92,7 @@ public class ItemController
 			items.save(item);
 			
         log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
+        return item;
 
 		}
 		catch (Exception e)
