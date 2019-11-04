@@ -300,6 +300,11 @@ public class User implements Serializable
         else return false;
     }
 
+    public void dropAllSessions()
+    {
+        this.sessions.clear();
+    }
+
     /**
      * A method to add a seesion to the sessions set
      * @param s

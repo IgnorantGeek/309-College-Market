@@ -1,5 +1,6 @@
 package org.campusmarket.app.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -255,10 +256,22 @@ public class UserController
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 
-        if (active.getAdmin() || sessions.findUserBySession(sessid) == id)
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+        User find = users.findById(id);
+
+        if (find == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find user with ID: " + id);
+
+        if (active.getAdmin() || loggedIn.compareTo(find))
         {
             try
             {
+                find.dropAllSessions();
+                ArrayList<Session> userSessions = sessions.findAllByUserId(find.getId());
+                for (Session session : userSessions)
+                {
+                    System.out.println("Deleting the session with id: " + session.getId());
+                    sessions.delete(session);  
+                }
                 users.deleteById(id);
                 log.info("User Removal Successful: User with ID: " + id + " removed.");
             }
@@ -271,41 +284,41 @@ public class UserController
         else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
     
-    /**
-     * A method to clean up  and delete all the users from the database 
-     * @param sessid
-     */
-    @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
-    public void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
-    {
-        if (sessid.isEmpty())
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-        }
+    // /**
+    //  * A method to clean up  and delete all the users from the database 
+    //  * @param sessid
+    //  */
+    // @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
+    // public void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
+    // {
+    //     if (sessid.isEmpty())
+    //     {
+    //         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+    //     }
 
-        Session active = sessions.findBySessId(sessid);
+    //     Session active = sessions.findBySessId(sessid);
         
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+    //     if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 
-        if (active.getAdmin())
-        {
-            try
-            {
-                int id=1;
-                while (id <= MAX_USER_ENTITY) { //assuming that this is the max num of entity. Could've used users.count but id doesn't reset at 0 for a adding a new item after deleting everything or could've written a customized query
-                    users.deleteById(id);
-                    id++;
-                }
+    //     if (active.getAdmin())
+    //     {
+    //         try
+    //         {
+    //             int id=1;
+    //             while (id <= MAX_USER_ENTITY) { //assuming that this is the max num of entity. Could've used users.count but id doesn't reset at 0 for a adding a new item after deleting everything or could've written a customized query
+    //                 users.deleteById(id);
+    //                 id++;
+    //             }
                 
-                log.info("User Table Cleared: all users removed.");
-            }
-            catch(Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No users in database to remove.");
-            }
-        }
-    }
+    //             log.info("User Table Cleared: all users removed.");
+    //         }
+    //         catch(Exception e)
+    //         {
+    //             log.error(e.getMessage());
+    //             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No users in database to remove.");
+    //         }
+    //     }
+    // }
     
     
 /**

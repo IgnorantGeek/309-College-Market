@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS users(
 ) engine=InnoDB;
 
 CREATE TABLE IF NOT EXISTS session(
-    sessid   VARCHAR(16) NOT NULL PRIMARY KEY,
-    admin    BOOLEAN
+    sess_id   VARCHAR(16) NOT NULL PRIMARY KEY,
+    admin     BOOLEAN
 ) engine=InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_sessions(
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS user_sessions(
     sess_id  VARCHAR(16) NOT NULL PRIMARY KEY,
 
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (sess_id) REFERENCES session(sessid)
+    FOREIGN KEY (sess_id) REFERENCES session(sess_id)
 ) engine=InnoDB;
 
 CREATE TABLE IF NOT EXISTS items(

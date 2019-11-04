@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Session
 {
     @Id
-    @Column(name = "sessid")
+    @Column(name = "sess_id")
     private String sessId;
 
     @Column(name = "admin")
