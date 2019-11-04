@@ -21,6 +21,8 @@ import com.example.campusmarket.utils.Const;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 
 /**
  * Activity that represents the user's personal account settings, linked from Profile.
@@ -74,7 +76,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
      */
     public void findByID(String username)
     {
-        String url = Const.URL_USER_USERNAME + "/" + username;
+        String url = Const.URL_USER_USERNAME + "/" + username +"?sessid=" + UserActivity.sessionID;
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -105,7 +107,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
      */
     public void deleteAccount(String ID)
     {
-        String url = Const.URL_USER_DELETE + "/" + ID;
+        String url = Const.URL_USER_DELETE + "/" + ID + "?sessid=" + UserActivity.sessionID;
         showProgressDialog();
         // Make request for JSONObject
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
@@ -119,7 +121,27 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Log.d(TAG, "ERROR IN DELETE ACCOUNT ");
+                if (error == null )
+                {
+                    Log.d(TAG, "ERROR is null ");
+                    return;
+                }
+                if ( error.networkResponse == null) {
+                    Log.d(TAG, "ERROR network response is null");
+                    return;
+                }
+                String body = "";
+                //get status code here
+                //final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+                Log.d(TAG, "ERROR BODY: " + body);
                 hideProgressDialog();
             }
         });

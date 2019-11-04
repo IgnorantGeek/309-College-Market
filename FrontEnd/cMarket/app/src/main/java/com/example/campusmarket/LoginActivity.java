@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.campusmarket.app.AppController;
@@ -23,6 +24,10 @@ import com.example.campusmarket.utils.Const;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An activity that lets a user log in to their account
@@ -39,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Creates this instance on Login
-     * @param savedInstanceState
+     * @param savedInstanceState the Saved Instance
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,66 +98,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * Checks to see if this user exists in the DB with the matching password
-     * If it matches, calls finishLogIn()
-     * If it does not match, outputs an error message to screen
-     * @param username The inputted username
-     * @param password The inputted password
-     */
-    public boolean check_login_user(final String username, final String password)
-    {
-        final boolean[] success = {false};
-
-        String url = Const.URL_USER_USERNAME + "/" + username;
-        // Make the request
-        showProgressDialog();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        String responsePassword = "";
-                        try {
-                            responsePassword = response.getString("password");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        // check if password matches
-                       if (responsePassword.equals(password))
-                        {
-                            valid_user.setText("");
-                            finishLogIn(username);
-                            success[0] = true;
-                        }
-                        else
-                        {
-                            valid_user.setText("Username / Password incorrect");
-                            success[0] = false;
-
-                        }
-                        hideProgressDialog();
-                    }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                valid_user.setText("Username / Password incorrect");
-                hideProgressDialog();
-            }
-        });
-
-        // Adding request to request queue
-        String tag_json_obj = "jobj_req";
-        AppController.getInstance().addToRequestQueue(jsonObjReq,
-                tag_json_obj);
-
-        return success[0];
-    }
-
-    /**
      * Checks if the username and password fields meet our syntax requirements
      * @return True if syntax is valid, False is syntax is invalid
      */
@@ -164,16 +109,98 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * When the user tries to click "Log In", make sure the fields are valid
      * If syntax is valid, check if the user exists in the DB
      * If syntax is not valid, tell the user what they need to change
-     * @param view
+     * @param view the View
      */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.bLogin) {
             if (validateForm())
             {
-                check_login_user((etUsername.getText()).toString(), (etPassword.getText()).toString());
+                createSession();
             }
         }
+    }
+
+    /**
+     * Creates a new session based on the user's username & password.
+     */
+    public void createSession()
+    {
+        showProgressDialog();
+        final String incorrect = "Username / Password incorrect";
+        JSONObject js = new JSONObject();
+        try {
+            js.put("username", (etUsername.getText()).toString());
+            js.put("password", (etPassword.getText()).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Make request for JSONObject
+       JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.POST, Const.URL_SESSION_NEW, js,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        hideProgressDialog();
+                        Log.d(TAG, response.toString() + " posted");
+                        String sessionID = "";
+                        try {
+                            sessionID = response.getString("id");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        valid_user.setText("");
+                        finishLogIn((etUsername.getText()).toString(), sessionID);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideProgressDialog();
+                Log.d(TAG, "ERROR IN CREATE SESSION ");
+                if (error == null )
+                {
+                    Log.d(TAG, "ERROR is null ");
+                    return;
+                }
+                if ( error.networkResponse == null) {
+                    Log.d(TAG, "ERROR network response is null");
+                    return;
+                }
+
+                String body = "";
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    valid_user.setText(incorrect);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+                Log.d(TAG, "ERROR BODY: " + body);
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", (etUsername.getText()).toString());
+                params.put("password", (etPassword.getText()).toString());
+                return params;
+            }
+
+        };
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
     }
 
     /**
@@ -181,9 +208,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * Called when the log in has valid syntax and username / password is correct.
      * @param username User's username
      */
-    public void finishLogIn(String username) {
+    public void finishLogIn(String username, String sessionID) {
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(MainActivity.EXTRA_MESSAGE, username);
+        intent.putExtra("sessionID", sessionID);
         startActivity(intent);
     }
 }

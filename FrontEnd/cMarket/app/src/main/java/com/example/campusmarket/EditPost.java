@@ -137,13 +137,13 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
      */
     private void make_update_request(final JSONObject js)
     {
-        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/";
+        String url = Const.URL_ITEM_UPDATE + "/";
         try {
             url += js.getString("refnum");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        url+= ("?sessid=" + UserActivity.sessionID);
         showProgressDialog();
         // Make request for JSONObject
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
@@ -196,7 +196,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     private void deletePost()
     {
         // declaring urls from api
-        String url = Const.URL_USER + "/" + UserActivity.loggedInUsername + "/items/";
+        String url = Const.URL_ITEM_DELETE + "/";
         JSONObject js = new JSONObject();
 
         try {
@@ -212,10 +212,11 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         }
 
         try {
-            url += js.getString("refnum") + "/delete";
+            url += js.getString("refnum");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        url+= ("?sessid=" + UserActivity.sessionID);
 
         showProgressDialog();
         // Make request for JSONObject - delete req

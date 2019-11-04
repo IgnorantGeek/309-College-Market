@@ -10,9 +10,14 @@ public class Const {
     public static final String URL_USER = "http://coms-309-jr-1.misc.iastate.edu:8080/users";
     public static final String URL_USER_USERNAME = "http://coms-309-jr-1.misc.iastate.edu:8080/users/username";
     public static final String URL_USER_DELETE = "http://coms-309-jr-1.misc.iastate.edu:8080/users/delete";
+    public static final String URL_USER_DELETE_ME = "http://coms-309-jr-1.misc.iastate.edu:8080/users/delete/me";
     public static final String URL_ITEM_NAME = "http://coms-309-jr-1.misc.iastate.edu:8080/items/name";
+    public static final String URL_ITEM_UPDATE = "http://coms-309-jr-1.misc.iastate.edu:8080/items/update";
+    public static final String URL_ITEM_DELETE = "http://coms-309-jr-1.misc.iastate.edu:8080/items/delete";
     public static final String URL_ITEM_CATEGORY = "http://coms-309-jr-1.misc.iastate.edu:8080/items/category";
     public static final String URL_ITEM_ALL = "http://coms-309-jr-1.misc.iastate.edu:8080/items/all";
-    public static final String URL_NEW_ITEM = "http://coms-309-jr-1.misc.iastate.edu:8080/items/new";
+    public static final String URL_ITEM_NEW = "http://coms-309-jr-1.misc.iastate.edu:8080/items/new";
     public static final String URL_ITEM_SELLER = "http://coms-309-jr-1.misc.iastate.edu:8080/items/seller";
+    public static final String URL_SESSION_NEW = "http://coms-309-jr-1.misc.iastate.edu:8080/sessions/new";
+
 }
