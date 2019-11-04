@@ -109,10 +109,14 @@ public class DashboardActivity extends AppCompatActivity {
                 // declaring new json object
                 JSONObject demoObject = response.getJSONObject(i);
                 // declaring what parameters will be added
+                String s = demoObject.getString("user");
+                JSONObject seller = new JSONObject(s);
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"), demoObject.getString("user") );
+                        demoObject.getString("category"), seller.getString("username") );
                 ItemList.add(item); // adding all of these new items for display
+
+
 
                 // setting up new adapter that will place items accordingly
                 final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext());
