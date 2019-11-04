@@ -263,6 +263,7 @@ public class UserController
 
         if (active.getAdmin() || loggedIn.compareTo(find))
         {
+<<<<<<< HEAD
             try
             {
                 find.dropAllSessions();
@@ -297,6 +298,35 @@ public class UserController
     //     }
 
     //     Session active = sessions.findBySessId(sessid);
+=======
+         //   try
+          //  {
+               users.deleteById(id);
+           //     log.info("User Removal Successful: User with ID: " + id + " removed.");
+          //  }
+         //   catch (Exception e)
+          //  {
+             //   log.error(e.getMessage());
+             //   throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not remove the user with id: " + id);
+           // }
+       // }
+       // else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
+    }
+}  
+    /**
+     * A method to clean up  and delete all the users from the database 
+     * @param sessid
+     */
+    @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
+    public void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+>>>>>>> 4cd7f7502648e6bd3fbc260a133726ea5291eccd
         
     //     if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 
