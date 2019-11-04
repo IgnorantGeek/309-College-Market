@@ -111,7 +111,7 @@ public class DashboardActivity extends AppCompatActivity {
                 // declaring what parameters will be added
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"));
+                        demoObject.getString("category"), demoObject.getString("user") );
                 ItemList.add(item); // adding all of these new items for display
 
                 // setting up new adapter that will place items accordingly
