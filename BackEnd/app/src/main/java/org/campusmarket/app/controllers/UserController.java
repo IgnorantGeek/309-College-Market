@@ -257,20 +257,20 @@ public class UserController
 
         if (active.getAdmin() || sessions.findUserBySession(sessid) == id)
         {
-            try
-            {
-                users.deleteById(id);
-                log.info("User Removal Successful: User with ID: " + id + " removed.");
-            }
-            catch (Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not remove the user with id: " + id);
-            }
-        }
-        else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
+         //   try
+          //  {
+               users.deleteById(id);
+           //     log.info("User Removal Successful: User with ID: " + id + " removed.");
+          //  }
+         //   catch (Exception e)
+          //  {
+             //   log.error(e.getMessage());
+             //   throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not remove the user with id: " + id);
+           // }
+       // }
+       // else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
     }
-    
+}  
     /**
      * A method to clean up  and delete all the users from the database 
      * @param sessid
