@@ -120,7 +120,13 @@ public class UserController
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
 
-        if (active.getAdmin())
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        User find = users.findById(id);
+
+        if (find == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find a user with ID: " + id);
+
+        if (active.getAdmin() || loggedIn.compareTo(find))
         {
             try
             {
@@ -152,8 +158,14 @@ public class UserController
         Session active = sessions.findBySessId(sessid);
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+        
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
 
-        if(active.getAdmin())
+        User find = users.findByEmail(email);
+
+        if (find == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find a user with email: " + email);
+
+        if (active.getAdmin() || loggedIn.compareTo(find))
         {
             try
             {
@@ -185,8 +197,14 @@ public class UserController
         Session active = sessions.findBySessId(sessid);
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+        
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
 
-        if (active.getAdmin())
+        User find = users.findByUsername(username);
+
+        if (find == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find a user with ID: " + username);
+
+        if (active.getAdmin() || loggedIn.compareTo(find))
         {
             try
             {

@@ -287,6 +287,20 @@ public class User implements Serializable
     }
 
     /**
+     * A method to compare whether two users are the same
+     * @param u  -- User to compare to
+     * @return True if they are the same, false otherwise
+     */
+    public boolean compareTo(User u)
+    {
+        if (this.username == u.username
+        &&  this.password == u.password
+        &&  this.Id       == u.Id
+        &&  this.email    == u.email) return true;
+        else return false;
+    }
+
+    /**
      * A method to add a seesion to the sessions set
      * @param s
      */
