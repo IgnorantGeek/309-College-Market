@@ -41,7 +41,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button btnLogin;
     TextView registerLink, valid_user;
     private ProgressDialog pDialog;
-    String sessionID;
 
     /**
      * Creates this instance on Login
@@ -145,9 +144,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onResponse(JSONObject response) {
                         hideProgressDialog();
                         Log.d(TAG, response.toString() + " posted");
-                        String sessionID = null;
+                        String sessionID = "";
                         try {
-                            sessionID = response.getString("admin");
+                            sessionID = response.getString("id");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -212,6 +211,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void finishLogIn(String username, String sessionID) {
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(MainActivity.EXTRA_MESSAGE, username);
+        intent.putExtra("sessionID", sessionID);
         startActivity(intent);
     }
 }

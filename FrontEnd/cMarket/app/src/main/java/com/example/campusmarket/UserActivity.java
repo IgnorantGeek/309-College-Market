@@ -3,6 +3,7 @@ package com.example.campusmarket;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 public class UserActivity extends Activity implements OnClickListener {
     private Button btnJson, btnDashboard, btnNewPost, btnProfile;
     public static String loggedInUsername;
+    String sessionID;
 
     /**
      * Creates this instance of UserActivity.
@@ -28,6 +30,8 @@ public class UserActivity extends Activity implements OnClickListener {
         // Stores the  user's username
         Intent intent = getIntent();
         loggedInUsername = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        sessionID = intent.getStringExtra("sessionID");
+        Log.d("This is the sessionID: ", sessionID);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.usernameWelcome);

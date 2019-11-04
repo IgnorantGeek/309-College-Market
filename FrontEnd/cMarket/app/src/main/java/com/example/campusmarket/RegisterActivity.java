@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,7 +95,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (awesomeValidation.validate()) {
             // now make the user info into json object & push to database.
             // then, send the user to the "start a json request" page
-            finishSignUp();
+//            finishSignUp();
+            make_register_request();
         }
         return awesomeValidation.validate();
 
@@ -114,11 +116,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * Posts the use to the database
-     * @param js The user to be posted
      * @return successful status
      */
-    public boolean make_register_request(final JSONObject js) {
+    public boolean make_register_request() {
 
+        final JSONObject js = new JSONObject();
+        try {
+            js.put("username", (etUsername.getText()).toString());
+            js.put("password", (etPassword.getText()).toString());
+            js.put("firstname", (etFirstName.getText()).toString());
+            js.put("lastname", (etLastName.getText()).toString());
+            js.put("email", (etEmail.getText()).toString());
+            js.put("university", (etUniversity.getText()).toString());
+            js.put("admin", "false");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         final boolean[] success = {false};
         // Make request for JSONObject
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
@@ -128,12 +141,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     public void onResponse(JSONObject response) {
                         success[0] = true;
                         Log.d(TAG, response.toString() + " posted");
+                        createSession();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 success[0] = false;
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Log.d(TAG, "Error: " + error.getMessage());
+                createSession();
             }
         }) {
 
@@ -170,25 +185,85 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-     * Called when user finishes signing up
+     * Creates a new session based on the user's username & password.
      */
-    public void finishSignUp() {
-
+    public void createSession()
+    {
         JSONObject js = new JSONObject();
         try {
             js.put("username", (etUsername.getText()).toString());
             js.put("password", (etPassword.getText()).toString());
-            js.put("firstname", (etFirstName.getText()).toString());
-            js.put("lastname", (etLastName.getText()).toString());
-            js.put("email", (etEmail.getText()).toString());
-            js.put("university", (etUniversity.getText()).toString());
-            js.put("admin", "false");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        // Post the new user
-        make_register_request(js);
+        // Make request for JSONObject
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.POST, Const.URL_SESSION_NEW, js,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString() + " posted");
+                        String sessionID = "";
+                        try {
+                            sessionID = response.getString("id");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        finishSignUp((etUsername.getText()).toString(), sessionID);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "ERROR IN CREATE SESSION ");
+                if (error == null )
+                {
+                    Log.d(TAG, "ERROR is null ");
+                    return;
+                }
+                if ( error.networkResponse == null) {
+                    Log.d(TAG, "ERROR network response is null");
+                    return;
+                }
+                String body = "";
+                //get status code here
+                //final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+                Log.d(TAG, "ERROR BODY: " + body);
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", (etUsername.getText()).toString());
+                params.put("password", (etPassword.getText()).toString());
+                return params;
+            }
+
+        };
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
+    }
+
+
+    /**
+     * Goes to the next intent
+     */
+    public void finishSignUp(String username, String sessionID) {
 
         // sending user to the next page by creating a new intent
         Intent intent = new Intent(this, UserActivity.class);
@@ -196,6 +271,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String message = editText.getText().toString();
         // stores username and displays it in a welcome message on the next page;
         intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
+        intent.putExtra("sessionID", sessionID);
         startActivity(intent);
     }
 }
