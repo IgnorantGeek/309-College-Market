@@ -29,15 +29,15 @@
         android:layout_marginTop="155dp"
         android:text="" />
 
-    <Button
-        android:id="@+id/btnContactSeller"
-        android:layout_width="183dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="88dp"
-        android:onClick="onClick"
-        android:text="Contact Sellers" />
+<!--    <Button-->
+<!--        android:id="@+id/btnContactSeller"-->
+<!--        android:layout_width="183dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="88dp"-->
+<!--        android:onClick="onClick"-->
+<!--        android:text="Contact Sellers" />-->
 
     <ListView
         android:id="@+id/listView"

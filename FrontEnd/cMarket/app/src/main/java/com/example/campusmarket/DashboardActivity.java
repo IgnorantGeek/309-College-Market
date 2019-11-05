@@ -36,7 +36,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
-    Button btnContactSeller;
+//    Button btnContactSeller;
 
     /**
      * Creates this instance of Dashboard
@@ -53,7 +53,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         listView = findViewById(R.id.listView);
         ItemList = new ArrayList<>();
-        btnContactSeller = findViewById(R.id.btnContactSeller);
+//        btnContactSeller = findViewById(R.id.btnContactSeller);
 
         makeJsonArryReq();
 
@@ -162,10 +162,12 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btnContactSeller) {
-            startActivity(new Intent(DashboardActivity.this,
-                   WebSockets.class));
-        }
+//        if (view.getId() == R.id.btnContactSeller) {
+//            startActivity(new Intent(DashboardActivity.this,
+//                    WebSockets.class));
+//        }
 
     }
+
+
 }
