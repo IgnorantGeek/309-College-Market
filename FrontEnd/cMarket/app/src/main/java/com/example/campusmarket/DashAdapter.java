@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -33,7 +34,6 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
         super(mCtx, R.layout.activity_lvrows, ItemList);
         this.ItemList = ItemList;
         this.mCtx = mCtx;
-
     }
 
     /**
@@ -58,6 +58,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
         TextView condition = (TextView) listViewItem.findViewById(R.id.tvCondition);
         TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
         TextView user = (TextView) listViewItem.findViewById(R.id.tvSeller);
+        Button btnContactSeller =  (Button) listViewItem.findViewById(R.id.btnContactSeller);
 
 
         // getting the specified positions for the items
@@ -70,16 +71,15 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
         category.setText(item.getCategory());
         user.setText(item.getUser());
 
-        Button btnContactSeller = (Button) listViewItem.findViewById(R.id.btnContactSeller);
-        btnContactSeller.setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //Start your activity here
-                                Intent intent = new Intent(getContext(), WebSockets.class);
-                                getContext().startActivity(intent);
-                            }
-        });
+//        btnContactSeller.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent;
+//                intent = new Intent(DashAdapter.class, WebSockets.class);
+//                startActivity(intent);
+//            }
+//            });
 
             //returning the list of items as a whole
         return listViewItem;

@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -26,13 +29,14 @@ import java.util.List;
  * Activity that represents the market dashboard.
  * You can view all items for sale in the market on this page
  */
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String  tag_json_arry = "jarray_req";
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
+    Button btnContactSeller;
 
     /**
      * Creates this instance of Dashboard
@@ -49,6 +53,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         ItemList = new ArrayList<>();
+        btnContactSeller = findViewById(R.id.btnContactSeller);
 
         makeJsonArryReq();
 
@@ -155,4 +160,12 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btnContactSeller) {
+            startActivity(new Intent(DashboardActivity.this,
+                   WebSockets.class));
+        }
+
+    }
 }
