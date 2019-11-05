@@ -9,6 +9,7 @@ public class DashItemsActivity {
     private String price;
     private String condition;
     private String category;
+    private String user;
 
     // we will be calling this DashItemsActivity object --
     // in the main activity to get all of the necessary fields of an item
@@ -19,12 +20,14 @@ public class DashItemsActivity {
      * @param price price of item
      * @param condition condition of item
      * @param category category of item
+     * @param user
      */
-    public DashItemsActivity(String name, String price, String condition, String category) {
+    public DashItemsActivity(String name, String price, String condition, String category, String user) {
         this.name = name;
         this.price = price;
         this.condition = condition;
         this.category = category;
+        this.user = user;
     }
 
     /**
@@ -89,6 +92,22 @@ public class DashItemsActivity {
      */
     public void setCategory(String category){
         this.category = category;
+    }
+
+    /**
+     * Will return the seller of the item
+     * @return seller of item
+     */
+    public String getUser(){
+        return user;
+    }
+
+    /**
+     * Can update the seller of the item
+     * @param user seller of the item
+     */
+    public void setUser(String user){
+        this.category = user;
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.campusmarket;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +34,7 @@ public class WebSockets extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_websockets);
+
         b1 = (Button) findViewById(R.id.bt1);
         b2 = (Button) findViewById(R.id.bt2);
         e1 = (EditText) findViewById(R.id.et1);
@@ -49,30 +52,31 @@ public class WebSockets extends AppCompatActivity {
                  * computer, and change the ip address to that of your computer.
                  * If running on the emulator, you can use localhost.
                  **/
-                String w = "ws://10.26.12.241:8080/chat/"+e1.getText().toString();
-                Log.d("Socket:", w);
+                String w = "ws://coms-309-jr-1.misc.iastate.edu:8080/chat/"+e1.getText().toString();
+                Log.d("Socket: ", w);
                 try {
-                    Log.d("Socket:", "Trying socket");
+                    Log.d("Socket: ", "Trying socket");
                     cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onMessage(String message) {
-                            Log.d("", "run() returned: " + message);
-                            String s=t1.getText().toString();
+                            Log.d("", " run() returned: " + message);
+                            String s=t1.getText().toString() + " ";
                             //t1.setText("hello world");
                             //Log.d("first", "run() returned: " + s);
                             //s=t1.getText().toString();
                             //Log.d("second", "run() returned: " + s);
-                            t1.setText(s+" Server:"+message);
+                            t1.setText(s+" Server: " + message);
                         }
 
                         @Override
                         public void onOpen(ServerHandshake handshake) {
-                            Log.d("OPEN", "run() returned: " + "is connecting");
+                            Log.d("OPEN", "run() returned: " + " is connecting ");
                         }
 
                         @Override
                         public void onClose(int code, String reason, boolean remote) {
-                            Log.d("CLOSE", "onClose() returned: " + reason);
+                            Log.d("CLOSE", " onClose() returned: " + reason);
                         }
 
                         @Override
@@ -96,7 +100,7 @@ public class WebSockets extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    cc.send(e2.getText().toString());
+                    cc.send(e2.getText().toString() + " ");
                 }
                 catch (Exception e)
                 {

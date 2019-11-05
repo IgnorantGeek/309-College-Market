@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:onClick="onClickDoSomething">
+    >
 
     <LinearLayout
         android:layout_width="189dp"
@@ -41,6 +43,14 @@
             android:layout_height="51dp"
             android:padding="10sp"
             android:text="Category:"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/etSeller"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:padding="10sp"
+            android:text="Seller:"
             android:textSize="16sp" />
 
     </LinearLayout>
@@ -93,6 +103,20 @@
                 android:padding="10sp"
                 android:text="TextView"
                 android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvSeller"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="10sp"
+                android:text="TextView"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnContactSeller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact Seller" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
