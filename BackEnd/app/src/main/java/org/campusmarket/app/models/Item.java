@@ -2,6 +2,9 @@ package org.campusmarket.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.*;
 import javax.persistence.Table;
 import javax.persistence.Entity;
@@ -34,6 +37,9 @@ public class Item {
     private String category;
     @Column (name="cond")
     private String cond;
+    @Column (name= "postdate")
+    private LocalDate postdate;
+    
     
     
 
@@ -68,7 +74,7 @@ public class Item {
 	   this.category=category;
 	   this.cond=condition;
 	   this.user=user;
-	   
+	   this.postdate=(java.time.LocalDate.now());   
    }
    
    /**
@@ -116,6 +122,14 @@ public class Item {
    }
    
    /**
+    * A getter method to get the date that the item was posted at the cmarket
+    * @return postdate
+    */
+   public LocalDate getPostedDate() {
+	   return this.postdate;
+   }
+   
+   /**
     * A setter method to change the refnum of an item 
     * @param refnum
     */
@@ -158,6 +172,15 @@ public class Item {
    public void setUser(User user) {
 	   this.user=user;
    }
+   
+   /**
+    * A setter method to change the date an item was posted (in case of an error or if there's an update to the item's information)
+    * @param date
+    */
+   public void setDatePosted(LocalDate date) {
+	   this.postdate=date;
+   }
+   
    /**
     * A method to get the string representation of an item 
     * 
@@ -169,6 +192,7 @@ public class Item {
 			   .append("Refnum",this.getRefnum())
 			   .append("Name",this.getName())
 			   .append("Price",this.getPrice())
+			   .append("Date", this.getPostedDate())
 			   .append("Category",this.getCategory())
 			   .append("Condition",this.getCondition()).append(System.lineSeparator())
 			   .append ("Seller",this.getUser().getUsername()).toString(); 

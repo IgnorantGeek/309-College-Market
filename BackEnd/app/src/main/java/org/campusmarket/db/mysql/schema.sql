@@ -32,5 +32,6 @@ CREATE TABLE IF NOT EXISTS items(
 	category VARCHAR (30),
 	cond VARCHAR (30),
 	seller VARCHAR (30) NOT NULL,
+	imgpath VARCHAR (1024), 
 	FOREIGN KEY (seller) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 ) engine=InnoDB;

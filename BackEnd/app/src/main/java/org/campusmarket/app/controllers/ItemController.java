@@ -144,6 +144,7 @@ public class ItemController
 				oldItem.setPrice(item.getPrice());
 				oldItem.setCategory(item.getCategory());
 				oldItem.setCondition(item.getCondition());
+				oldItem.setDatePosted(item.getPostedDate());
 				items.save(oldItem);
 					
 				log.info(" success: the item with a reference number of " + refnum +" was updated");
