@@ -80,7 +80,7 @@
         android:layout_height="64dp"
         android:layout_marginStart="85dp"
         android:layout_marginLeft="85dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="85dp"
         android:layout_marginRight="85dp"
         android:onClick="onClick"
@@ -89,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCategory" />
+        app:layout_constraintTop_toBottomOf="@+id/btnUploadImage" />
 
     <EditText
         android:id="@+id/etPrice"
@@ -110,6 +110,43 @@
         app:layout_constraintStart_toEndOf="@+id/etName"
         app:layout_constraintTop_toBottomOf="@+id/etNewPostTitile"
         app:layout_constraintVertical_bias="0.0" />
+
+
+    <Button
+        android:id="@+id/btnUploadImage"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="96dp"
+        android:background="#03A9F4"
+        android:text="Upload an image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toEndOf="@+id/imgUploadImage"
+        app:layout_constraintTop_toBottomOf="@+id/etCategory" />
+
+    <ImageView
+        android:id="@+id/imgUploadImage"
+        android:layout_width="144dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCondition"
+        app:srcCompat="@drawable/market_cartoon" />
+
+    <TextView
+        android:id="@+id/tvUploadImage"
+        android:layout_width="118dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:text="No Image Upload"
+        app:layout_constraintBottom_toTopOf="@+id/imgUploadImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.211"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCondition"
+        app:layout_constraintVertical_bias="0.458" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
