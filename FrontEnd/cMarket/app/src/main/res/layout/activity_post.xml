@@ -137,16 +137,17 @@
 
     <TextView
         android:id="@+id/tvUploadImage"
-        android:layout_width="118dp"
-        android:layout_height="24dp"
+        android:layout_width="326dp"
+        android:layout_height="27dp"
         android:layout_marginTop="24dp"
-        android:text="No Image Upload"
+        android:text="No Image Uploaded"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/imgUploadImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.211"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etCondition"
-        app:layout_constraintVertical_bias="0.458" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

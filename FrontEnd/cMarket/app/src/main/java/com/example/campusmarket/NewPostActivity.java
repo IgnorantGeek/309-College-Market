@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,12 +41,10 @@ import java.util.Map;
 public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int PICK_FROM_GALLERY = 1;
-    private Button btnSubmitPost, btnUpload;
     private ImageView imageUpload;
     private TextView tvUpload;
     private EditText etName, etPrice, etCondition, etCategory;
     private String TAG = NewPostActivity.class.getSimpleName();
-    private static final int SELECT_PICTURE = 0;
 
     /**
      * Creates instance of NewPostActivity
@@ -58,7 +55,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        btnSubmitPost = findViewById(R.id.btnSubmitPost);
+        Button btnSubmitPost = findViewById(R.id.btnSubmitPost);
         btnSubmitPost.setOnClickListener(this);
 
         // to make a new post the fields must be editable:
@@ -66,7 +63,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         etPrice = findViewById(R.id.etPrice);
         etCondition = findViewById(R.id.etCondition);
         etCategory = findViewById(R.id.etCategory);
-        btnUpload = findViewById(R.id.btnUploadImage);
+        Button btnUpload = findViewById(R.id.btnUploadImage);
         btnUpload.setOnClickListener(this);
 
         // initialize image and text view
@@ -105,28 +102,22 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1)
-            if (resultCode == RESULT_OK) {
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
                 Uri selectedImage = data.getData();
-
                 Bitmap bitmap = getPath(selectedImage);
                 String filePath = String.valueOf(bitmap);
-                String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
-                Log.d(TAG, "The File Path:: " + filePath);
 
                 if (filePath.equals("null"))
                 {
-                    String err = "Error in uploading picture";
-                    tvUpload.setText(err);
+                    String failure = "Error in uploading picture";
+                    tvUpload.setText(failure);
                 }
-                else if(file_extn.equals("img") || file_extn.equals("jpg") || file_extn.equals("jpeg") || file_extn.equals("gif") || file_extn.equals("png")) {
-                    //FINE
-                    tvUpload.setText(filePath);
+                else
+                {
+                    String success = "Image uploaded";
+                    tvUpload.setText(success);
                     imageUpload.setImageBitmap(bitmap);
-                } else {
-                    //NOT IN REQUIRED FORMAT
-                    String message = "Not an image file!";
-                    tvUpload.setText(message);
                 }
             }
     }
@@ -160,10 +151,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             boolean rationale = ActivityCompat.shouldShowRequestPermissionRationale(NewPostActivity.this, Manifest.permission.WRITE_CALENDAR);
             if (rationale)
             {
-                    // then we need to show the rationale
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+                // then we need to show the rationale
+                String message = "Permission to gallery must be given to upload an image";
+                tvUpload.setText(message);
+
             }
             else
             {
@@ -188,21 +179,18 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
      * @param grantResults the result of the permission grant
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        switch (requestCode) {
-            case PICK_FROM_GALLERY:
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY);
-                } else {
-                   // user did not grant permission
-                    String message = "Permission to gallery must be given to upload an image";
-                    tvUpload.setText(message);
-                }
-                break;
+        if (requestCode == PICK_FROM_GALLERY) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY);
+            } else {
+                // user did not grant permission
+                String message = "Permission to gallery must be given to upload an image";
+                tvUpload.setText(message);
+            }
         }
     }
 
