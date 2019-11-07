@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,6 +41,7 @@ import java.util.Map;
  */
 public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int PICK_FROM_GALLERY = 1;
     private Button btnSubmitPost, btnUpload;
     private ImageView imageUpload;
     private TextView tvUpload;
@@ -146,52 +148,62 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         return BitmapFactory.decodeFile(filePath);
     }
 
-
     /**
      * Checks if we have permission to view user's photos.
      * If we do, then starts PhotoPickerIntent (built-in from Android)
      */
     private void selectImage() {
-        // Here, we are in the current activity
-//        if (ContextCompat.checkSelfPermission(NewPostActivity.this, Manifest.permission.WRITE_CALENDAR)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Permission is not granted already. Check if need to tell user why we need permission
-//            boolean rationale = ActivityCompat.shouldShowRequestPermissionRationale(NewPostActivity.this, Manifest.permission.WRITE_CALENDAR);
-//            if (rationale)
-//            {
-//                    // then we need to show the rationale
-//                // Show an explanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//            }
-//            else
-//            {
-//                // don't need to show the rationale, just ask for permission
-//                ActivityCompat.requestPermissions(NewPostActivity.this,
-//                        new String[]{Manifest.permission.READ_CONTACTS},
-//                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-//                // app-defined int constant. The callback method gets the
-//                // result of the request.
-//
-//
-//                ActivityCompat.requestPermissions(NewPostActivity.this, new String[]{
-//                        Manifest.permission.READ_EXTERNAL_STORAGE,
-//                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
-//
-//            }
-//        }
-//        else {
-//            // Permission has already been granted, go ahead
-//            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//            photoPickerIntent.setType("image/*");
-//            startActivityForResult(photoPickerIntent, 1);
-//        }
+        // Check if the user already granted us permission
+        if (ContextCompat.checkSelfPermission(NewPostActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted already. Check if need to tell user why we need permission
+            boolean rationale = ActivityCompat.shouldShowRequestPermissionRationale(NewPostActivity.this, Manifest.permission.WRITE_CALENDAR);
+            if (rationale)
+            {
+                    // then we need to show the rationale
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            }
+            else
+            {
+                // don't need to show the rationale, just ask for permission
+                ActivityCompat.requestPermissions(NewPostActivity.this, new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+            }
+        }
+        else {
+            // Permission has already been granted, go ahead
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY);
+        }
+    }
 
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, 1);
+    /**
+     * After we request permission, use what the user responded with.
+     * @param requestCode the request code
+     * @param permissions the permission array
+     * @param grantResults the result of the permission grant
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    {
+        switch (requestCode) {
+            case PICK_FROM_GALLERY:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY);
+                } else {
+                   // user did not grant permission
+                    String message = "Permission to gallery must be given to upload an image";
+                    tvUpload.setText(message);
+                }
+                break;
+        }
     }
 
     /**
