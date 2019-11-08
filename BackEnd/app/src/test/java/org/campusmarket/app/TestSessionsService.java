@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 public class TestSessionsService
 {
     @InjectMocks
-    SessionService SessionService;
+    SessionService sessionService;
 
     @Mock
     SessionsRepository repo;
