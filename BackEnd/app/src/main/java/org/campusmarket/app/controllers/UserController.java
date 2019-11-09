@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.campusmarket.app.models.Item;
 import org.campusmarket.app.models.Session;
 import org.campusmarket.app.models.User;
+import org.campusmarket.db.repositories.ItemsRepository;
 import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class UserController
 
     @Autowired
     private SessionsRepository sessions;
+
+    @Autowired
+    private ItemsRepository items;
 
 
     Log log = LogFactory.getLog(UserController.class);
@@ -89,6 +94,114 @@ public class UserController
         User u = users.findByEmail(email);
         if (u == null) return false;
         else return true;
+    }
+
+    @RequestMapping("/cart/get")
+    public List<Item> getMyCartItems(@RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        if (loggedIn != null)
+        {
+            List<Integer> refnums = users.getShoppingCartItems(loggedIn.getId());
+            List<Item> cart = new ArrayList<Item>();
+            for (Integer integer : refnums)
+            {
+                cart.add(items.findByRefnum(integer));
+            }
+
+            return cart;
+        }
+        // This should never get thrown, so this indicates a server error
+        else throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not get the logged in user.");
+    }
+
+    @RequestMapping("/cart/clear")
+    public void clearCartItems(@RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        try
+        {
+            loggedIn.clearCart();
+        }
+        catch(Exception e)
+        {
+            log.error(e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error clearing cart items.");
+        }
+    }
+
+    @RequestMapping("/cart/drop/{refnum}")
+    public boolean dropFromMyCart(@PathVariable("refnum") int refnum,
+                                  @RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        Item dropItem = items.findByRefnum(refnum);
+
+        if (dropItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+        if (users.existsInUserCart(loggedIn.getId(), refnum))
+        {
+            loggedIn.removeItem(dropItem);
+            return true;
+        }
+        else return false;
+    }
+
+    @RequestMapping("/cart/add/{refnum}")
+    public boolean addToMyCart(@PathVariable("refnum") int refnum,
+                               @RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        Item addItem = items.findByRefnum(refnum);
+
+        if (addItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+        if (loggedIn != null)
+        {
+            loggedIn.addItem(addItem);
+            return true;
+        }
+        else return false;
     }
 
     

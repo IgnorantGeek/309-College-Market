@@ -66,6 +66,25 @@ public interface UsersRepository extends JpaRepository<User, Integer>
      */
     @Query(nativeQuery = true, value="SELECT EXISTS (SELECT * from users where username=:username)")
     @Transactional(readOnly = true)
-	int existsByUserName(@Param("username") String username);
+    int existsByUserName(@Param("username") String username);
+    
+    /**
+     * A query method to get all the shopping cart items of a user
+     * @param user_id
+     * @return List of integers representing item refnums
+     */
+    @Query(nativeQuery = true, value = "SELECT * FROM shopping_carts WHERE user_id=:user_id")
+    @Transactional(readOnly = true)
+    List<Integer> getShoppingCartItems(@Param("user_id") int user_id);
+
+    /**
+     * A query method to check if an item exists in a users cart
+     * @param user_id the user id to check
+     * @param item_id the item id to check
+     * @return true if the item exists, false otherwise
+     */
+    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT * FROM shopping_carts WHERE user_id=:user_id AND item_id=:item_id)")
+    @Transactional(readOnly = true)
+    boolean existsInUserCart(@Param("user_id") int user_id, @Param("item_id") int item_id);
 }
 
