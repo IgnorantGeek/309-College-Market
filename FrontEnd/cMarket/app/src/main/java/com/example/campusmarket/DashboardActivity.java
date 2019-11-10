@@ -158,8 +158,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
-
-
+    
     @Override
     public void onClick(View view) {
 //        if (view.getId() == R.id.btnContactSeller) {
