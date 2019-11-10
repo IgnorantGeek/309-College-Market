@@ -29,18 +29,26 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "refnum")
     private int refnum;
+	
     @Column(name = "name")
     private String  name;
+    
     @Column(name = "price")
     private double price;
+    
     @Column (name="category")
     private String category;
+    
     @Column (name="cond")
     private String cond;
+    
+    @CreationTimestamp
     @Column (name= "postdate")
     private LocalDate postdate;
     
-    
+    @Lob @Basic(fetch = FetchType.LAZY)
+    @Column (name= "image",columnDefinition="BLOP")
+    private byte[] image;
     
 
 
@@ -67,14 +75,15 @@ public class Item {
     * @param condition
     * @param user
     */
-   public Item(int refnum, String name, double price, String category,String condition, User user) {
+   public Item(int refnum, String name, double price, String category,String condition, User user, byte[] image) {
 	   this.refnum=refnum;
 	   this.name=name;
 	   this.price=price;
 	   this.category=category;
 	   this.cond=condition;
 	   this.user=user;
-	   this.postdate=(java.time.LocalDate.now());   
+	   this.postdate=LocalDate.now();
+	   this.image=image;
    }
    
    /**
@@ -129,6 +138,11 @@ public class Item {
 	   return this.postdate;
    }
    
+   public byte[] getImage() {
+       return this.image;
+   }
+   
+   
    /**
     * A setter method to change the refnum of an item 
     * @param refnum
@@ -179,6 +193,10 @@ public class Item {
     */
    public void setDatePosted(LocalDate date) {
 	   this.postdate=date;
+   }
+   
+   public void setImage(byte[] image) {
+       this.image = image;
    }
    
    /**

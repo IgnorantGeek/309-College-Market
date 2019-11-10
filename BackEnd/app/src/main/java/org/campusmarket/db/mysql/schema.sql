@@ -32,7 +32,15 @@ CREATE TABLE IF NOT EXISTS items(
 	category VARCHAR (30),
 	cond VARCHAR (30),
 	seller VARCHAR (30) NOT NULL,
-	imgpath VARCHAR (1024), 
+	image LONGBLOB, 
 	postdate DATE NOT NULL,
 	FOREIGN KEY (seller) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
+) engine=InnoDB;
+
+CREATE TABLE IF NOT EXISTS files(
+	fid INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fname VARCHAR(1024),
+	ftype VARCHAR (30),
+	fdata LONGBLOB
+
 ) engine=InnoDB;
