@@ -8,30 +8,50 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
+/**
+ * A service class for File to implement some methods to help in the controller class
+ * @author fadelalshammasi
+ *
+ */
 @Service
 public class FileService {
 
     @Autowired
     private FilesRepository repo;
 
+    /**
+     * A method to store the file in the db
+     * @param file
+     * @return file
+     */
     public File storeFile(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
             if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+                throw new FileStorageException("Filename contains invalid path characters " + fileName);
             }
 
             File f = new File(fileName, file.getContentType(), file.getBytes());
 
             return repo.save(f);
         } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+            throw new FileStorageException("Couldn't save file into the db " + fileName + ". Please try again", ex);
         }
     }
 
-    public File getFile(int fileId) {
-        return repo.findById(fileId)
-                .orElseThrow(() -> new MyFileNotFoundException("File not found with id " + fileId));
+    /**
+     * A method to search for a file in the db
+     * @param id
+     * @return the file found otherwise throwing an exception
+     */
+    public File getFile(int id) {
+    	try {
+        return repo.findById(id);
+    	}
+    	
+    	catch (MyFileNotFoundException e) {
+    		throw new MyFileNotFoundException("Couldn't find file with id " + id);
+    	}
     }
 }

@@ -138,6 +138,10 @@ public class Item {
 	   return this.postdate;
    }
    
+   /**
+    * A getter method to get the BLOB of the image 
+    * @return image
+    */
    public byte[] getImage() {
        return this.image;
    }
