@@ -6,13 +6,11 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.campusmarket.app.models.File;
 import org.campusmarket.app.models.Item;
 import org.campusmarket.app.models.ItemService;
 import org.campusmarket.app.models.Session;
 import org.campusmarket.app.models.User;
 import org.campusmarket.app.models.fileResponse;
-import org.campusmarket.db.repositories.FilesRepository;
 import org.campusmarket.db.repositories.ItemsRepository;
 import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
