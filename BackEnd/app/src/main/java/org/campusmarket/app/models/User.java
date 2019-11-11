@@ -69,8 +69,11 @@ public class User implements Serializable
     @JsonIgnore()
     private Set<Session> sessions;
 
-    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    // private List <Item> items;
+    @OneToMany(cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    @JoinTable(name = "shopping_carts", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @JsonIgnore()
+    private Set<Item> cart;
 
     
     /*--- Constructors ---*/
@@ -190,6 +193,11 @@ public class User implements Serializable
         return sessions;
     }
 
+    public Set<Item> getCart()
+    {
+        return cart;
+    }
+
     /*--- Setter Methods ---*/
     
     /**
@@ -293,10 +301,10 @@ public class User implements Serializable
      */
     public boolean compareTo(User u)
     {
-        if (this.username == u.username
-        &&  this.password == u.password
+        if (this.username.equals (u.username)
+        &&  this.password.equals (u.password)
         &&  this.Id       == u.Id
-        &&  this.email    == u.email) return true;
+        &&  this.email.equals (u.email)) return true;
         else return false;
     }
 
@@ -321,5 +329,31 @@ public class User implements Serializable
     public void dropSession(Session s)
     {
         this.sessions.remove(s);
+    }
+
+    /**
+     * A method to clear the cart for this user
+     */
+    public void clearCart()
+    {
+        this.cart.clear();
+    }
+
+    /**
+     * A method to add an item to the users shopping cart
+     * @param i
+     */
+    public void addItem(Item i)
+    {
+        this.cart.add(i);
+    }
+
+    /**
+     * A method to remove an item to a users shopping cart
+     * @param i
+     */
+    public void removeItem(Item i)
+    {
+        this.cart.remove(i);
     }
 }

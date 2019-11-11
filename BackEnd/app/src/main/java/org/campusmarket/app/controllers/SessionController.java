@@ -138,30 +138,17 @@ public class SessionController
      * @return  sessions for all users who are admins
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Session> getAll(@RequestParam(name = "sessid", required = true) String sessid)
+    public List<Session> getAll()
     {
-        if (sessid.isEmpty())
+        try
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            return sessions.findAll();
         }
-
-        Session active = sessions.findBySessId(sessid);
-        
-        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-
-        if (active.getAdmin())
+        catch (Exception e)
         {
-            try
-            {
-                return sessions.findAll();
-            }
-            catch (Exception e)
-            {
-                log.error(e.getMessage());
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No sessions found.");
-            }
+            log.error(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No sessions found.");
         }
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is limited to admin users only. Please log in with an admin account.");
     }
 
     /**

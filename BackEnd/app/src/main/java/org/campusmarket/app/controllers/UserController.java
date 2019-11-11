@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.campusmarket.app.models.Item;
 import org.campusmarket.app.models.Session;
 import org.campusmarket.app.models.User;
+import org.campusmarket.db.repositories.ItemsRepository;
 import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class UserController
 
     @Autowired
     private SessionsRepository sessions;
+
+    @Autowired
+    private ItemsRepository items;
 
 
     Log log = LogFactory.getLog(UserController.class);
@@ -91,16 +96,161 @@ public class UserController
         else return true;
     }
 
-    
-    /**
-     * A method to just test  if getting a user given their seessid works
-     * @param sessid
-     * @return the user given their seessid 
-     */
-    @RequestMapping("/test")
-    public User testMethod(@RequestParam(name = "sessid", required = true) String sessid)
+    @RequestMapping(value = "/cart/count", method = RequestMethod.GET)
+    public int getCartCount(@RequestParam(name = "sessid", required = true) String sessid)
     {
-        return users.findById(sessions.findUserBySession(sessid));
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        try
+        {
+            return loggedIn.getCart().size();
+        }
+        catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops! Something went wrong...");
+        }
+    }
+
+    @RequestMapping("/cart/get")
+    public List<Item> getMyCartItems(@RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        try
+        {
+            List<Integer> refnums = users.getShoppingCartItems(loggedIn.getId());
+            List<Item> cart = new ArrayList<Item>();
+            for (Integer integer : refnums)
+            {
+                cart.add(items.findByRefnum(integer));
+            }
+            return cart;
+        }
+        catch (Exception e)
+        {
+            log.error(e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops! Something went wrong...");
+        }
+    }
+
+    /**
+     * A method to clear the contents of a users shopping cart
+     * @param sessid the session id of the user
+     * @return nothing (void)
+     */
+    @RequestMapping("/cart/clear")
+    public void clearCartItems(@RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        try
+        {
+            loggedIn.clearCart();
+            log.info("User with ID: " + loggedIn.getId() + " cleared shopping cart.");
+            users.save(loggedIn);
+        }
+        catch(Exception e)
+        {
+            log.error(e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops! Something went wrong...");
+        }
+    }
+
+    /**
+     * A method to drop an item from a users shopping cart
+     * @param refnum the item number
+     * @param sessid the session id of the user
+     * @return true if drop was successful
+     */
+    @RequestMapping("/cart/drop/{refnum}")
+    public boolean dropFromMyCart(@PathVariable("refnum") int refnum,
+                                  @RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        Item dropItem = items.findByRefnum(refnum);
+
+        if (dropItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+        if (users.existsInUserCart(loggedIn.getId(), refnum))
+        {
+            loggedIn.removeItem(dropItem);
+            log.info("User with ID: " + loggedIn.getId() + " dropped item with refnum: " + refnum + " from shopping cart.");
+            users.save(loggedIn);
+            return true;
+        }
+        else return false;
+    }
+
+    /**
+     * A method to add an item to a users shopping cart
+     * @param refnum the item number
+     * @param sessid the session id of the user
+     * @return true if add was successful
+     */
+    @RequestMapping("/cart/add/{refnum}")
+    public boolean addToMyCart(@PathVariable("refnum") int refnum,
+                               @RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        Item addItem = items.findByRefnum(refnum);
+
+        if (addItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+        if (loggedIn != null)
+        {
+            loggedIn.addItem(addItem);
+            log.info("User with ID: " + loggedIn.getId() + " added item with refnum: " + refnum + " to shopping cart.");
+            users.save(loggedIn);
+            return true;
+        }
+        else return false;
     }
      
     /**
@@ -110,7 +260,8 @@ public class UserController
      * @return the user that has that id
      */
     @GetMapping("/id/{id}")
-    public User findUserById(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
+    public User findUserById(@PathVariable("id") int id,
+                             @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -323,10 +474,10 @@ public class UserController
     
     
 /**
- * A method to update the all fields for a specific user in the users table
- * @param u
- * @param id
- * @param sessid
+ * A method to update a specific user
+ * @param u Object of the updated user
+ * @param id the id of the user being updated
+ * @param sessid the session id of the logged in user
  */
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public void updateUser(@RequestBody User u,
