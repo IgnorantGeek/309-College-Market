@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Table;
 import javax.persistence.Entity;
 
@@ -46,9 +47,17 @@ public class Item {
     @Column (name= "postdate")
     private LocalDate postdate;
     
+    @Column (name="fname")
+    private String fname;
+    
+    @Column (name="ftype")
+    private String ftype;
+    
+    
+    
     @Lob @Basic(fetch = FetchType.LAZY)
-    @Column (name= "image",columnDefinition="BLOP")
-    private byte[] image;
+    @Column (name= "fdata",columnDefinition="BLOP")
+    private byte[] fdata;
     
 
 
@@ -56,6 +65,8 @@ public class Item {
     @JoinColumn(name = "seller", referencedColumnName = "username", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
+
+  
 
   
     
@@ -75,7 +86,7 @@ public class Item {
     * @param condition
     * @param user
     */
-   public Item(int refnum, String name, double price, String category,String condition, User user, byte[] image) {
+   public Item(int refnum, String name, double price, String category,String condition, User user, byte []fdata) {
 	   this.refnum=refnum;
 	   this.name=name;
 	   this.price=price;
@@ -83,7 +94,15 @@ public class Item {
 	   this.cond=condition;
 	   this.user=user;
 	   this.postdate=LocalDate.now();
-	   this.image=image;
+	   this.fdata=fdata;
+   }
+   
+   
+   public Item(String fname, String ftype, byte[] fdata) {
+       this.fname=fname;
+       this.ftype=ftype;
+       this.fdata=fdata;
+   
    }
    
    /**
@@ -130,6 +149,19 @@ public class Item {
 	   return this.user;
    }
    
+   public byte[] getImage() {
+	   return this.fdata;
+   }
+   
+   public String getFname() {
+	   return this.fname;
+   }
+   
+   public String getFtype() {
+	   return this.ftype;
+   }
+   
+   
    /**
     * A getter method to get the date that the item was posted at the cmarket
     * @return postdate
@@ -142,9 +174,9 @@ public class Item {
     * A getter method to get the BLOB of the image 
     * @return image
     */
-   public byte[] getImage() {
-       return this.image;
-   }
+   //public byte[] getImage() {
+     //  return this.image;
+   //}
    
    
    /**
@@ -191,6 +223,18 @@ public class Item {
 	   this.user=user;
    }
    
+   public void setImage(byte[]fdata) {
+	   this.fdata=fdata;
+   }
+   
+   public void setFtype(String ftype) {
+	   this.ftype=ftype;
+   }
+   
+   
+   public void setFname(String fname) {
+	   this.fname=fname;
+   }
    /**
     * A setter method to change the date an item was posted (in case of an error or if there's an update to the item's information)
     * @param date
@@ -199,9 +243,9 @@ public class Item {
 	   this.postdate=date;
    }
    
-   public void setImage(byte[] image) {
-       this.image = image;
-   }
+ //  public void setImage(byte[] image) {
+     //  this.image = image;
+  // }
    
    /**
     * A method to get the string representation of an item 

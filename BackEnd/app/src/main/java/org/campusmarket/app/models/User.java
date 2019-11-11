@@ -293,10 +293,10 @@ public class User implements Serializable
      */
     public boolean compareTo(User u)
     {
-        if (this.username == u.username
-        &&  this.password == u.password
+        if (this.username.equals (u.username)
+        &&  this.password.equals (u.password)
         &&  this.Id       == u.Id
-        &&  this.email    == u.email) return true;
+        &&  this.email.equals (u.email)) return true;
         else return false;
     }
 

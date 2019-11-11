@@ -1,11 +1,16 @@
 package org.campusmarket.app.models;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.campusmarket.app.exception.FileStorageException;
+import org.campusmarket.app.exception.MyFileNotFoundException;
 import org.campusmarket.db.repositories.ItemsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * A service class to help testing the mockito for items 
@@ -49,6 +54,37 @@ public class ItemService {
 	}
 	
 	
+	 public Item storeFile(MultipartFile file) {
+	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+	        try {
+	            if(fileName.contains("..")) {
+	                throw new FileStorageException("Filename contains invalid path characters " + fileName);
+	            }
+
+	            Item f = new Item(fileName, file.getContentType(), file.getBytes());
+
+	            return repo.save(f);
+	        } catch (IOException ex) {
+	            throw new FileStorageException("Couldn't save file into the db " + fileName + ". Please try again", ex);
+	        }
+	    }
+
+	    /**
+	     * A method to search for a file in the db
+	     * @param id
+	     * @return the file found otherwise throwing an exception
+	     */
+	    public Item getFile(int refnum) {
+	    	try {
+	        return repo.findByRefnum(refnum);
+	    	}
+	    	
+	    	catch (MyFileNotFoundException e) {
+	    		throw new MyFileNotFoundException("Couldn't find file with id " + refnum);
+	    	}
+	    }
+	}
+
 	
-	
-}
+
