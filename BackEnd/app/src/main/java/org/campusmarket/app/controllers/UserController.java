@@ -96,6 +96,30 @@ public class UserController
         else return true;
     }
 
+    @RequestMapping(value = "/cart/count", method = RequestMethod.GET)
+    public int getCartCount(@RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        try
+        {
+            return loggedIn.getCart().size();
+        }
+        catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops! Something went wrong...");
+        }
+    }
+
     @RequestMapping("/cart/get")
     public List<Item> getMyCartItems(@RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -110,7 +134,7 @@ public class UserController
 
         User loggedIn = users.findById(sessions.findUserBySession(sessid));
 
-        if (loggedIn != null)
+        try
         {
             List<Integer> refnums = users.getShoppingCartItems(loggedIn.getId());
             List<Item> cart = new ArrayList<Item>();
@@ -118,11 +142,13 @@ public class UserController
             {
                 cart.add(items.findByRefnum(integer));
             }
-
             return cart;
         }
-        // This should never get thrown, so this indicates a server error
-        else throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not get the logged in user.");
+        catch (Exception e)
+        {
+            log.error(e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops! Something went wrong...");
+        }
     }
 
     @RequestMapping("/cart/clear")
