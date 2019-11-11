@@ -72,6 +72,7 @@ public class User implements Serializable
     @OneToMany(cascade = CascadeType.ALL,
                orphanRemoval = true)
     @JoinTable(name = "shopping_carts", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @JsonIgnore()
     private Set<Item> cart;
 
     

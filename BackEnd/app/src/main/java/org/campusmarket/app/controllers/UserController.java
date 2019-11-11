@@ -96,6 +96,11 @@ public class UserController
         else return true;
     }
 
+    /**
+     * A method to get the items in a users shopping cart
+     * @param sessid the session id of the user
+     * @return List of items in the users cart
+     */
     @RequestMapping("/cart/get")
     public List<Item> getMyCartItems(@RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -118,13 +123,17 @@ public class UserController
             {
                 cart.add(items.findByRefnum(integer));
             }
-
             return cart;
         }
         // This should never get thrown, so this indicates a server error
         else throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not get the logged in user.");
     }
 
+    /**
+     * A method to clear the contents of a users shopping cart
+     * @param sessid the session id of the user
+     * @return nothing (void)
+     */
     @RequestMapping("/cart/clear")
     public void clearCartItems(@RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -142,6 +151,8 @@ public class UserController
         try
         {
             loggedIn.clearCart();
+            log.info("User with ID: " + loggedIn.getId() + " cleared shopping cart.");
+            users.save(loggedIn);
         }
         catch(Exception e)
         {
@@ -150,6 +161,12 @@ public class UserController
         }
     }
 
+    /**
+     * A method to drop an item from a users shopping cart
+     * @param refnum the item number
+     * @param sessid the session id of the user
+     * @return true if drop was successful
+     */
     @RequestMapping("/cart/drop/{refnum}")
     public boolean dropFromMyCart(@PathVariable("refnum") int refnum,
                                   @RequestParam(name = "sessid", required = true) String sessid)
@@ -172,11 +189,19 @@ public class UserController
         if (users.existsInUserCart(loggedIn.getId(), refnum))
         {
             loggedIn.removeItem(dropItem);
+            log.info("User with ID: " + loggedIn.getId() + " dropped item with refnum: " + refnum + " from shopping cart.");
+            users.save(loggedIn);
             return true;
         }
         else return false;
     }
 
+    /**
+     * A method to add an item to a users shopping cart
+     * @param refnum the item number
+     * @param sessid the session id of the user
+     * @return true if add was successful
+     */
     @RequestMapping("/cart/add/{refnum}")
     public boolean addToMyCart(@PathVariable("refnum") int refnum,
                                @RequestParam(name = "sessid", required = true) String sessid)
@@ -199,21 +224,11 @@ public class UserController
         if (loggedIn != null)
         {
             loggedIn.addItem(addItem);
+            log.info("User with ID: " + loggedIn.getId() + " added item with refnum: " + refnum + " to shopping cart.");
+            users.save(loggedIn);
             return true;
         }
         else return false;
-    }
-
-    
-    /**
-     * A method to just test  if getting a user given their seessid works
-     * @param sessid
-     * @return the user given their seessid 
-     */
-    @RequestMapping("/test")
-    public User testMethod(@RequestParam(name = "sessid", required = true) String sessid)
-    {
-        return users.findById(sessions.findUserBySession(sessid));
     }
      
     /**
@@ -223,7 +238,8 @@ public class UserController
      * @return the user that has that id
      */
     @GetMapping("/id/{id}")
-    public User findUserById(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
+    public User findUserById(@PathVariable("id") int id,
+                             @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -436,10 +452,10 @@ public class UserController
     
     
 /**
- * A method to update the all fields for a specific user in the users table
- * @param u
- * @param id
- * @param sessid
+ * A method to update a specific user
+ * @param u Object of the updated user
+ * @param id the id of the user being updated
+ * @param sessid the session id of the logged in user
  */
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public void updateUser(@RequestBody User u,
