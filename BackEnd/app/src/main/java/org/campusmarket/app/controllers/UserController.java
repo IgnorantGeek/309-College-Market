@@ -96,7 +96,6 @@ public class UserController
         else return true;
     }
 
-<<<<<<< HEAD
     @RequestMapping(value = "/cart/count", method = RequestMethod.GET)
     public int getCartCount(@RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -121,13 +120,6 @@ public class UserController
         }
     }
 
-=======
-    /**
-     * A method to get the items in a users shopping cart
-     * @param sessid the session id of the user
-     * @return List of items in the users cart
-     */
->>>>>>> 2e2ca96f8b54cc0042148876d83a48a0e4582f7d
     @RequestMapping("/cart/get")
     public List<Item> getMyCartItems(@RequestParam(name = "sessid", required = true) String sessid)
     {
