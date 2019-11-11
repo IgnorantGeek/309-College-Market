@@ -85,8 +85,8 @@ public class ItemController
 	  * @param the body of the item model class
 	  * @param sessid of the user posting the item
 	  */
-	@PostMapping("/new")
-	public fileResponse newItem(@RequestBody Item item, @RequestParam(name = "sessid", required = true) String sessid, @RequestParam("fname") MultipartFile file)
+		@PostMapping("/new")
+	public Item newItem(@RequestBody Item item, @RequestParam(name = "sessid", required = true) String sessid)
 	{
 		if (sessid.isEmpty())
         {
@@ -101,16 +101,16 @@ public class ItemController
 		{	
 			User u=users.findById(sessions.findUserBySession(sessid));
 			
-			Item f=files.storeFile(file);
-			 String downloadUrl= ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(f.getRefnum()+"").toUriString(); 
-			 fileResponse fr=new fileResponse(f.getFname(),downloadUrl, file.getContentType(),file.getSize()); //size is in byte 
+		//	Item f=files.storeFile(file);
+		//	 String downloadUrl= ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(f.getRefnum()+"").toUriString(); 
+		//	 fileResponse fr=new fileResponse(f.getFname(),downloadUrl, file.getContentType(),file.getSize()); //size is in byte 
 			
 			
 			item.setUser(u);
 			items.save(item);
 			
         log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
-        return fr;
+        return item;
 
 		}
 		catch (Exception e)
@@ -119,7 +119,6 @@ public class ItemController
 	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There's no such user with this username so sorry we won't be able to add your item :(",e);
 	    }
 	}
-	
 	/**
 	 * A method to update an item 
 	 * @param item
@@ -129,7 +128,7 @@ public class ItemController
     @PutMapping("/update/{refnum}")
 	public void updateItem(@RequestBody Item item, 
 							@PathVariable (value = "refnum") int refnum,
-							@RequestParam(name = "sessid", required = true) String sessid, @RequestParam("fname") MultipartFile file) 
+							@RequestParam(name = "sessid", required = true) String sessid) 
 	{
     	
 		if (sessid.isEmpty())
@@ -162,7 +161,8 @@ public class ItemController
 				oldItem.setPrice(item.getPrice());
 				oldItem.setCategory(item.getCategory());
 				oldItem.setCondition(item.getCondition());
-				oldItem.setImage(item.getImage());
+				//oldItem.setImage(item.getImage());
+				oldItem.setUser(item.getUser());
 				items.save(oldItem);
 					
 				log.info(" success: the item with a reference number of " + refnum +" was updated");
@@ -376,7 +376,7 @@ public class ItemController
 	 @PostMapping("/upload")
 	 public fileResponse uploadFile(@RequestParam("fname") MultipartFile file) {
 		Item f=files.storeFile(file);
-		 String downloadUrl= ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(f.getRefnum()+"").toUriString(); 
+		 String downloadUrl= ServletUriComponentsBuilder.fromCurrentContextPath().path("/items/download/").path(f.getRefnum()+"").toUriString();  
 		 fileResponse fr=new fileResponse(f.getFname(),downloadUrl, file.getContentType(),file.getSize()); //size is in byte 
 		 return fr;
 		 
