@@ -2,7 +2,11 @@ package org.campusmarket.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Table;
 import javax.persistence.Entity;
 
@@ -26,15 +30,34 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "refnum")
     private int refnum;
+	
     @Column(name = "name")
     private String  name;
+    
     @Column(name = "price")
     private double price;
+    
     @Column (name="category")
     private String category;
+    
     @Column (name="cond")
     private String cond;
     
+    @CreationTimestamp
+    @Column (name= "postdate")
+    private LocalDate postdate;
+    
+    @Column (name="fname")
+    private String fname;
+    
+    @Column (name="ftype")
+    private String ftype;
+    
+    
+    
+    @Lob @Basic(fetch = FetchType.LAZY)
+    @Column (name= "fdata",columnDefinition="BLOP")
+    private byte[] fdata;
     
 
 
@@ -42,6 +65,8 @@ public class Item {
     @JoinColumn(name = "seller", referencedColumnName = "username", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
+
+  
 
   
     
@@ -61,14 +86,23 @@ public class Item {
     * @param condition
     * @param user
     */
-   public Item(int refnum, String name, double price, String category,String condition, User user) {
+   public Item(int refnum, String name, double price, String category,String condition, User user, byte []fdata) {
 	   this.refnum=refnum;
 	   this.name=name;
 	   this.price=price;
 	   this.category=category;
 	   this.cond=condition;
 	   this.user=user;
-	   
+	   this.postdate=LocalDate.now();
+	   this.fdata=fdata;
+   }
+   
+   
+   public Item(String fname, String ftype, byte[] fdata) {
+       this.fname=fname;
+       this.ftype=ftype;
+       this.fdata=fdata;
+   
    }
    
    /**
@@ -115,6 +149,36 @@ public class Item {
 	   return this.user;
    }
    
+   public byte[] getImage() {
+	   return this.fdata;
+   }
+   
+   public String getFname() {
+	   return this.fname;
+   }
+   
+   public String getFtype() {
+	   return this.ftype;
+   }
+   
+   
+   /**
+    * A getter method to get the date that the item was posted at the cmarket
+    * @return postdate
+    */
+   public LocalDate getPostedDate() {
+	   return this.postdate;
+   }
+   
+   /**
+    * A getter method to get the BLOB of the image 
+    * @return image
+    */
+   //public byte[] getImage() {
+     //  return this.image;
+   //}
+   
+   
    /**
     * A setter method to change the refnum of an item 
     * @param refnum
@@ -158,6 +222,31 @@ public class Item {
    public void setUser(User user) {
 	   this.user=user;
    }
+   
+   public void setImage(byte[]fdata) {
+	   this.fdata=fdata;
+   }
+   
+   public void setFtype(String ftype) {
+	   this.ftype=ftype;
+   }
+   
+   
+   public void setFname(String fname) {
+	   this.fname=fname;
+   }
+   /**
+    * A setter method to change the date an item was posted (in case of an error or if there's an update to the item's information)
+    * @param date
+    */
+   public void setDatePosted(LocalDate date) {
+	   this.postdate=date;
+   }
+   
+ //  public void setImage(byte[] image) {
+     //  this.image = image;
+  // }
+   
    /**
     * A method to get the string representation of an item 
     * 
@@ -169,6 +258,7 @@ public class Item {
 			   .append("Refnum",this.getRefnum())
 			   .append("Name",this.getName())
 			   .append("Price",this.getPrice())
+			   .append("Date", this.getPostedDate())
 			   .append("Category",this.getCategory())
 			   .append("Condition",this.getCondition()).append(System.lineSeparator())
 			   .append ("Seller",this.getUser().getUsername()).toString(); 
