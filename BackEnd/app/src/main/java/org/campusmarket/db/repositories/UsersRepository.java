@@ -73,7 +73,7 @@ public interface UsersRepository extends JpaRepository<User, Integer>
      * @param user_id
      * @return List of integers representing item refnums
      */
-    @Query(nativeQuery = true, value = "SELECT * FROM shopping_carts WHERE user_id=:user_id")
+    @Query(nativeQuery = true, value = "SELECT item_id FROM shopping_carts WHERE user_id=:user_id")
     @Transactional(readOnly = true)
     List<Integer> getShoppingCartItems(@Param("user_id") int user_id);
 
