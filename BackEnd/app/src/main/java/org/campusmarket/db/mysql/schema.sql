@@ -25,6 +25,14 @@ CREATE TABLE IF NOT EXISTS user_sessions(
     FOREIGN KEY (sess_id) REFERENCES session(sess_id)
 ) engine=InnoDB;
 
+CREATE TABLE IF NOT EXISTS shopping_carts(
+    user_id  INT UNSIGNED NOT NULL,
+    item_id  INT UNSIGNED NOT NULL PRIMARY KEY,
+
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (item_id) REFERENCES items(refnum)
+) engine=InnoDB;
+
 CREATE TABLE IF NOT EXISTS items(
 	refnum INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR (20),
