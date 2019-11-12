@@ -9,7 +9,7 @@ public class CartActivity extends AppCompatActivity {
     /**
      * Creates this instance of Cart
      *
-     * @param savedInstanceState
+     * @param savedInstanceStates
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

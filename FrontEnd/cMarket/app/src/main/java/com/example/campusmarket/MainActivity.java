@@ -67,4 +67,9 @@ public class MainActivity extends AppCompatActivity {
         test = s;
         return s.toLowerCase();
     }
+
+    public void viewCart(View view) {
+        Intent intent = new Intent(this, CartActivity.class);
+        startActivity(intent);
+    }
 }
