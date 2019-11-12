@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.campusmarket.app.exception.FileStorageException;
 import org.campusmarket.app.models.Item;
 import org.campusmarket.app.models.ItemService;
 import org.campusmarket.app.models.Session;
 import org.campusmarket.app.models.User;
-import org.campusmarket.app.models.fileResponse;
 import org.campusmarket.db.repositories.ItemsRepository;
 import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
+import org.json.*;
 
 
 /**
@@ -85,14 +85,28 @@ public class ItemController
 	  * @param the body of the item model class
 	  * @param sessid of the user posting the item
 	  */
-		@PostMapping("/new")
-	public Item newItem(@RequestBody Item item, @RequestParam(name = "sessid", required = true) String sessid)
+	@PostMapping("/new")
+	public Item newItem(@RequestParam(name = "sessid", required = true) String sessid,
+			@RequestParam("fname") MultipartFile file, @RequestParam ("json") String str )
 	{
 		if (sessid.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
         }
 
+		JSONObject json=new JSONObject(str);
+		String name=json.getString("name");
+		Double price=  Double.parseDouble(json.getString("price")); 
+		String category=json.getString("category");
+		String cond=json.getString("condition");
+		
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+		if(fileName.contains("..")) {
+            throw new FileStorageException("Filename contains invalid path characters " + fileName);
+        }
+		
+		
         Session active = sessions.findBySessId(sessid);
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
@@ -101,11 +115,8 @@ public class ItemController
 		{	
 			User u=users.findById(sessions.findUserBySession(sessid));
 			
-		//	Item f=files.storeFile(file);
-		//	 String downloadUrl= ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(f.getRefnum()+"").toUriString(); 
-		//	 fileResponse fr=new fileResponse(f.getFname(),downloadUrl, file.getContentType(),file.getSize()); //size is in byte 
-			
-			
+			Item item=new Item (name,price,category,cond, fileName, file.getContentType(), file.getBytes());
+	
 			item.setUser(u);
 			items.save(item);
 			
@@ -119,6 +130,7 @@ public class ItemController
 	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There's no such user with this username so sorry we won't be able to add your item :(",e);
 	    }
 	}
+	
 	/**
 	 * A method to update an item 
 	 * @param item
@@ -161,8 +173,6 @@ public class ItemController
 				oldItem.setPrice(item.getPrice());
 				oldItem.setCategory(item.getCategory());
 				oldItem.setCondition(item.getCondition());
-				//oldItem.setImage(item.getImage());
-				oldItem.setUser(item.getUser());
 				items.save(oldItem);
 					
 				log.info(" success: the item with a reference number of " + refnum +" was updated");
@@ -368,20 +378,7 @@ public class ItemController
    }
     
     
-    /**
-	 * A method to post a file to the db
-	 * @param file
-	 * @return a response with the filename, url for downloading the file, type of file,and size of file in byte 
-	 */
-	 @PostMapping("/upload")
-	 public fileResponse uploadFile(@RequestParam("fname") MultipartFile file) {
-		Item f=files.storeFile(file);
-		 String downloadUrl= ServletUriComponentsBuilder.fromCurrentContextPath().path("/items/download/").path(f.getRefnum()+"").toUriString();  
-		 fileResponse fr=new fileResponse(f.getFname(),downloadUrl, file.getContentType(),file.getSize()); //size is in byte 
-		 return fr;
-		 
-	 }
-	 
+ 
 	 
 	 /**
 	  * A method to display(download if using the browser) the content of the file
@@ -399,18 +396,5 @@ public class ItemController
 	                .body(new ByteArrayResource(f.getImage()));
 	    }
 
-	/*   
-	   @PutMapping("/update/{id}")
-		public void updateFile(@RequestBody File file, @PathVariable (value = "id") int id) {
-			File oldFile = repo.findById(id);
-			oldFile.setFileName(file.getFileName());
-			oldFile.setFtype(file.getFileType());
-			oldFile.setFdata(file.getFileData());
-			repo.save(file);
-	   
-	}	
-    */
-    
-    
 }
 

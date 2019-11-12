@@ -98,10 +98,15 @@ public class Item {
    }
    
    
-   public Item(String fname, String ftype, byte[] fdata) {
+   public Item(String name, Double price, String category, String condition, String fname, String ftype, byte[] fdata ) {
+       this.name=name;
+       this.price=price;
+       this.category=category;
+       this.cond=condition;
        this.fname=fname;
        this.ftype=ftype;
        this.fdata=fdata;
+       
    
    }
    
@@ -149,14 +154,26 @@ public class Item {
 	   return this.user;
    }
    
+   /**
+    * A getter method to get the BLOB of the file (image)
+    * @return fdata
+    */
    public byte[] getImage() {
 	   return this.fdata;
    }
    
+   /**
+    * A getter method to get the name of the  file(image) 
+    * @return fname
+    */
    public String getFname() {
 	   return this.fname;
    }
    
+   /**
+    * A getter to get the type of the file (pdf,png,...etc)
+    * @return
+    */
    public String getFtype() {
 	   return this.ftype;
    }
@@ -169,15 +186,6 @@ public class Item {
    public LocalDate getPostedDate() {
 	   return this.postdate;
    }
-   
-   /**
-    * A getter method to get the BLOB of the image 
-    * @return image
-    */
-   //public byte[] getImage() {
-     //  return this.image;
-   //}
-   
    
    /**
     * A setter method to change the refnum of an item 
@@ -223,15 +231,28 @@ public class Item {
 	   this.user=user;
    }
    
+   /**
+    * A setter method to change the image 
+    * @param fdata
+    */
    public void setImage(byte[]fdata) {
 	   this.fdata=fdata;
    }
    
+   
+   /**
+    * A setter method to change the type of the image 
+    * @param ftype
+    */
    public void setFtype(String ftype) {
 	   this.ftype=ftype;
    }
    
    
+   /**
+    * A setter method to change the name of the image 
+    * @param fname
+    */
    public void setFname(String fname) {
 	   this.fname=fname;
    }
@@ -243,9 +264,6 @@ public class Item {
 	   this.postdate=date;
    }
    
- //  public void setImage(byte[] image) {
-     //  this.image = image;
-  // }
    
    /**
     * A method to get the string representation of an item 
