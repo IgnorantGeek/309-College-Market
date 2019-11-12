@@ -31,7 +31,7 @@ public class UserActivity extends Activity implements OnClickListener {
         Intent intent = getIntent();
         loggedInUsername = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         sessionID = intent.getStringExtra("sessionID");
-//        Log.d("This is the sessionID: ", sessionID);
+        Log.d("This is the sessionID: ", sessionID);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.usernameWelcome);

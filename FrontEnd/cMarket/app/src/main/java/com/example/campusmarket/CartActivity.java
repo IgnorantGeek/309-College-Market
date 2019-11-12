@@ -1,8 +1,13 @@
 package com.example.campusmarket;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,28 +19,46 @@ import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
 
-    private String TAG = AccountSettingsActivity.class.getSimpleName();
+    private String TAG = CartActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String  tag_json_arry = "jarray_req";
+//    Button btnViewCart;
+    ListView listView;
+    Activity activity;
+    List<CartItemsActivity> CartList;
+//    Button btnContactSeller;
 
     /**
-     * Creates this instance of Cart
-     *
-     * @param savedInstanceStates
+     * Creates this instance of Dashboard
+     * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
+        listView = findViewById(R.id.listView);
+        CartList = new ArrayList<>();
+//        btnViewCart = findViewById(R.id.btnViewCart);
+//        btnViewCart.setOnClickListener(this);
+
+
+        makeJsonArryReq();
+
     }
+
     /**
      * Shows the progress dialog while it's loading
      */
@@ -93,14 +116,62 @@ public class CartActivity extends AppCompatActivity {
                 // declaring what parameters will be added
                 String s = demoObject.getString("user");
                 JSONObject seller = new JSONObject(s);
-                DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
-                        demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"), seller.getString("username") );
-                ItemList.add(item); // adding all of these new items for display
+                CartItemsActivity item = new CartItemsActivity(demoObject.getString("name"),
+                        demoObject.getString("price"), seller.getString("username") );
+                CartList.add(item); // adding all of these new items for display
 
 
 
                 // setting up new adapter that will place items accordingly
-                final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext());
+                final CartAdapter adapter = new CartAdapter(CartList, getApplicationContext());
 
+                // actually calling the adapter
+                listView.setAdapter(adapter);
+
+//                Searchable dash feature:
+//                etSearch.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(Editable editable) {
+//                        // don't need to change anything here for now
+//
+//                    }
+//                });
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+            // this line is the key --> we use the adapter to render the item names in their own sections individually
+//            adapter.notifyDataSetChanged();
+        }
+//        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
+    }
+
+//    /**
+//     * Handles the action on button click
+//     * @param view
+//     */
+//    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.btnViewCart:
+//                Intent intent = new Intent(this, CartActivity.class);
+//                startActivity(intent);
+//                break;
+//            default:
+//                break;
+//        }
+
+
+}
