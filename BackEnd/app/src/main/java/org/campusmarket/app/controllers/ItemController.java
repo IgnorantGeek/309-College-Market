@@ -82,8 +82,10 @@ public class ItemController
 
 	 /**
 	  * A method to post a new item 
-	  * @param the body of the item model class
+	  * @param fname the file(image) that we want to post
 	  * @param sessid of the user posting the item
+	  * @param json other json data (name,price,category,condition)
+	  * @return the new item that was posted
 	  */
 	@PostMapping("/new")
 	public Item newItem(@RequestParam(name = "sessid", required = true) String sessid,
