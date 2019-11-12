@@ -53,7 +53,7 @@ public class ItemService {
 		 return repo.findBySeller(seller);
 	}
 	
-	
+	/*
 	 public Item storeFile(MultipartFile file) {
 	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -69,7 +69,7 @@ public class ItemService {
 	            throw new FileStorageException("Couldn't save file into the db " + fileName + ". Please try again", ex);
 	        }
 	    }
-
+*/
 	    /**
 	     * A method to search for a file in the db
 	     * @param id
