@@ -32,7 +32,7 @@ import java.util.List;
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-    private String  tag_json_arry = "jarray_req";
+    private String tag_json_arry = "jarray_req";
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
@@ -40,6 +40,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * Creates this instance of Dashboard
+     *
      * @param savedInstanceState
      */
     @Override
@@ -79,7 +80,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * Making json array request post
-     * */
+     */
     private void makeJsonArryReq() {
         showProgressDialog();
         JsonArrayRequest req = new JsonArrayRequest(Const.URL_ITEM_ALL,
@@ -106,11 +107,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * Parse the JSON item array so you only add the item names.
+     *
      * @param response
      */
     private void addItemNames(JSONArray response) {
-        for (int i = 0; i < response.length(); i++)
-        {
+        for (int i = 0; i < response.length(); i++) {
             try {
 
                 // declaring new json object
@@ -120,9 +121,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 JSONObject seller = new JSONObject(s);
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"), seller.getString("username") );
+                        demoObject.getString("category"), seller.getString("username"), demoObject.getString("refnum"));
                 ItemList.add(item); // adding all of these new items for display
-
 
 
                 // setting up new adapter that will place items accordingly
@@ -161,17 +161,27 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
+
     /**
      * Handles the action on button click
+     *
      * @param view
      */
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btnViewCart) {
-            startActivity(new Intent(DashboardActivity.this,
-                    CartActivity.class));
-        }
+//        if (view.getId() == R.id.btnViewCart) {
+//            startActivity(new Intent(DashboardActivity.this,
+//                    CartActivity.class));
+//        }
+//        if (view.getId() == R.id.btnAddToCart) {
+//            startActivity(new Intent(DashboardActivity.this,
+//                    CartActivity.class));
+//        }
+
     }
-
-
 }
+
+
+
+
+

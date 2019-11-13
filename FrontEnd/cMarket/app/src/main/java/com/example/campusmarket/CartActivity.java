@@ -30,6 +30,7 @@ public class CartActivity extends AppCompatActivity {
     private String TAG = CartActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String  tag_json_arry = "jarray_req";
+    private String refnum;
 //    Button btnViewCart;
     ListView listView;
     Activity activity;
@@ -51,6 +52,9 @@ public class CartActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         CartList = new ArrayList<>();
+//        Intent intent = getIntent();
+//        refnum =  intent.getStringExtra("refnum");
+
 //        btnViewCart = findViewById(R.id.btnViewCart);
 //        btnViewCart.setOnClickListener(this);
 
@@ -80,7 +84,8 @@ public class CartActivity extends AppCompatActivity {
      * */
     private void makeJsonArryReq() {
         showProgressDialog();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_CART_ALL,
+        String url = Const.URL_CART_ALL + "?sessid=" + UserActivity.sessionID;
+        JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -117,7 +122,7 @@ public class CartActivity extends AppCompatActivity {
                 String s = demoObject.getString("user");
                 JSONObject seller = new JSONObject(s);
                 CartItemsActivity item = new CartItemsActivity(demoObject.getString("name"),
-                        demoObject.getString("price"), seller.getString("username") );
+                        demoObject.getString("price"), seller.getString("username"), demoObject.getString("refnum"));
                 CartList.add(item); // adding all of these new items for display
 
 
@@ -157,6 +162,8 @@ public class CartActivity extends AppCompatActivity {
         }
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
+
+
 
 //    /**
 //     * Handles the action on button click

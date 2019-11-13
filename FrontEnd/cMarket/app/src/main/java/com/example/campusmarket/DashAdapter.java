@@ -13,17 +13,34 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.example.campusmarket.app.AppController;
+import com.example.campusmarket.utils.Const;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static androidx.core.content.ContextCompat.startActivity;
+import static com.example.campusmarket.app.AppController.TAG;
 
 /**
  * Represents the dashboard adapter for items
  */
-public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
+public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View.OnClickListener {
 
     private List<DashItemsActivity> ItemList;
     private Context mCtx;
+    private String refnum;
 
     /**
      * So while creating the object of this adapter class we need to give demolist and context.
@@ -65,6 +82,10 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
         TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
         TextView user = (TextView) listViewItem.findViewById(R.id.tvSeller);
         Button btnContactSeller = (Button) listViewItem.findViewById(R.id.btnContactSeller);
+        btnContactSeller.setOnClickListener(this);
+        Button btnAddToCart = (Button) listViewItem.findViewById(R.id.btnAddToCart);
+        btnAddToCart.setOnClickListener(this);
+
 
         // getting the specified positions for the items
         DashItemsActivity item = ItemList.get(position);
@@ -75,21 +96,107 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> {
         condition.setText(item.getCondition());
         category.setText(item.getCategory());
         user.setText(item.getUser());
+        refnum = item.getRefnum();
 
-        btnContactSeller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(mCtx, WebSockets.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mCtx.startActivity(intent);
-            }
 
-        });
+//        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(mCtx, CartActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                mCtx.startActivity(intent);
+//            }
+//
+//        });
+
 
         //returning the list of items as a whole
         return listViewItem;
 
+    }
+
+    /**
+     * Posts the new item to the database with the information
+     * that the user filled in on the page.
+     * Called once they click "Post"
+     */
+    public void addItem(){
+        // make json object
+        String url = Const.URL_CART_ADD
+                + "/" + refnum + "?sessid=" + UserActivity.sessionID;
+
+//        JSONObject js = new JSONObject();
+//        try {
+//            js.put("name", (etName.getText()).toString());
+//            js.put("price", (etPrice.getText()).toString());
+//            js.put("condition", (etCondition.getText()).toString());
+//            js.put("category", (etCategory.getText()).toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+        // Make post request for JSONObject using the url:
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response.toString() + " i am queen");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+
+//            /**
+//             * Passing some request headers in
+//             */
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                HashMap<String, String> headers = new HashMap<String, String>();
+//                headers.put("Content-Type", "application/json; charset=utf-8");
+//                return headers;
+//            }
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("name", (etName.getText()).toString());
+//                params.put("price", (etPrice.getText()).toString());
+//                params.put("condition", (etCondition.getText()).toString());
+//                params.put("category", (etCategory.getText()).toString());
+//                return params;
+//            }
+
+        };
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnContactSeller:
+                Intent intent = new Intent(mCtx, WebSockets.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mCtx.startActivity(intent);
+                break;
+            case R.id.btnAddToCart:
+                addItem();
+                Intent intent2 = new Intent(mCtx, CartActivity.class);
+                intent2.putExtra("refnum", refnum);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mCtx.startActivity(intent2);
+                break;
+            default:
+            break;
+        }
     }
 }
 

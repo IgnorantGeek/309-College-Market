@@ -19,7 +19,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> {
 
     /**
      * So while creating the object of this adapter class we need to give demolist and context.
-     * The adapter is what actually puts the info into the dasboard in the format specified by the lv_rows layout.
+     * The adapter is what actually puts the info into the dashboard in the format specified by the lv_rows layout.
      *
      * @param CartList
      * @param mCtx
@@ -57,6 +57,8 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> {
 //        TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
         TextView user = (TextView) listViewItem.findViewById(R.id.tvSeller);
         Button btnContactSeller = (Button) listViewItem.findViewById(R.id.btnContactSeller);
+        Button btnAddToCart = (Button) listViewItem.findViewById(R.id.btnAddToCart);
+
 
         // getting the specified positions for the items
         CartItemsActivity item = CartList.get(position);
@@ -68,16 +70,15 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> {
 //        category.setText(item.getCategory());
         user.setText(item.getUser());
 
-        btnContactSeller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(mCtx, WebSockets.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mCtx.startActivity(intent);
-            }
-
-        });
+//        btnContactSeller.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(mCtx, WebSockets.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                mCtx.startActivity(intent);
+//            }
+//        });
 
         //returning the list of items as a whole
         return listViewItem;

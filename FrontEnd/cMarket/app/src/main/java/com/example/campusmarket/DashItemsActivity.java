@@ -10,6 +10,7 @@ public class DashItemsActivity {
     private String condition;
     private String category;
     private String user;
+    private String refnum;
 
     // we will be calling this DashItemsActivity object --
     // in the main activity to get all of the necessary fields of an item
@@ -22,12 +23,13 @@ public class DashItemsActivity {
      * @param category category of item
      * @param user
      */
-    public DashItemsActivity(String name, String price, String condition, String category, String user) {
+    public DashItemsActivity(String name, String price, String condition, String category, String user, String refnum) {
         this.name = name;
         this.price = price;
         this.condition = condition;
         this.category = category;
         this.user = user;
+        this.refnum = refnum;
     }
 
     /**
@@ -108,6 +110,22 @@ public class DashItemsActivity {
      */
     public void setUser(String user){
         this.category = user;
+    }
+
+    /**
+     * Will return the refnum of the item
+     * @return refnum of item
+     */
+    public String getRefnum(){
+        return refnum;
+    }
+
+    /**
+     * Can update the refnum of the item
+     * @param refnum of the item
+     */
+    public void setRefnum(String refnum){
+        this.refnum = refnum;
     }
 
 }
