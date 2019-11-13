@@ -53,6 +53,12 @@
             android:text="Seller:"
             android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/btnAddToCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add to Cart" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -117,6 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Contact Seller" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -33,7 +33,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String  tag_json_arry = "jarray_req";
-    Button btnViewCart;
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
@@ -54,9 +53,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         listView = findViewById(R.id.listView);
         ItemList = new ArrayList<>();
-        btnViewCart = findViewById(R.id.btnViewCart);
+        Button btnViewCart = (Button) findViewById(R.id.btnViewCart);
         btnViewCart.setOnClickListener(this);
-
 
 
         makeJsonArryReq();
@@ -169,13 +167,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
      */
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnViewCart:
-                Intent intent = new Intent(this, CartActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                break;
+        if (view.getId() == R.id.btnViewCart) {
+            startActivity(new Intent(DashboardActivity.this,
+                    CartActivity.class));
         }
     }
 

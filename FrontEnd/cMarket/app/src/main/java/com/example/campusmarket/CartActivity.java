@@ -80,7 +80,7 @@ public class CartActivity extends AppCompatActivity {
      * */
     private void makeJsonArryReq() {
         showProgressDialog();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_ITEM_ALL,
+        JsonArrayRequest req = new JsonArrayRequest(Const.URL_CART_ALL,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
