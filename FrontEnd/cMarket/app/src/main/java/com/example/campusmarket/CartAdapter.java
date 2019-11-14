@@ -28,7 +28,9 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
     private List<CartItemsActivity> CartList;
     private Context mCtx;
     private Button btnRemove;
+    private Button btnClear;
     private String refnum;
+
 
 
     /**
@@ -72,6 +74,8 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         TextView user = (TextView) listViewItem.findViewById(R.id.tvSeller);
         btnRemove = (Button) listViewItem.findViewById(R.id.btnRemove);
         btnRemove.setOnClickListener(this);
+        btnClear = (Button) listViewItem.findViewById(R.id.btnClear);
+        btnClear.setOnClickListener(this);
 
         // getting the specified positions for the items
         CartItemsActivity item = CartList.get(position);
@@ -126,6 +130,33 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
 
     }
 
+    public void clearItems() {
+        // make json object
+        String url = Const.URL_CART_CLEAR
+                + "?sessid=" + UserActivity.sessionID;
+
+        // Make post request for JSONObject using the url:
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response.toString() + " i am queen");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+
+
+        };
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -134,6 +165,12 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
                 Intent intent = new Intent(mCtx, CartActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mCtx.startActivity(intent);
+                break;
+            case R.id.btnClear:
+                clearItems();
+                Intent intent2 = new Intent(mCtx, DashboardActivity.class);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mCtx.startActivity(intent2);
                 break;
             default:
                 break;

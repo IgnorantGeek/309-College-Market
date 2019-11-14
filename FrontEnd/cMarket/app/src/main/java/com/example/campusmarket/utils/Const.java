@@ -22,6 +22,8 @@ public class Const {
     public static final String URL_CART_ALL = "http://coms-309-jr-1.misc.iastate.edu:8080/users/cart/get";
     public static final String URL_CART_ADD = "http://coms-309-jr-1.misc.iastate.edu:8080/users/cart/add";
     public static final String URL_CART_DELETE = "http://coms-309-jr-1.misc.iastate.edu:8080/users/cart/drop";
+    public static final String URL_CART_CLEAR = "http://coms-309-jr-1.misc.iastate.edu:8080/users/cart/clear";
+
 
 
 
