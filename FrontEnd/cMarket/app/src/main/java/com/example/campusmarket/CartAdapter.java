@@ -3,6 +3,7 @@ package com.example.campusmarket;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,25 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.example.campusmarket.app.AppController;
+import com.example.campusmarket.utils.Const;
+
 import java.util.List;
 
-public class CartAdapter extends ArrayAdapter<CartItemsActivity> {
+import static com.example.campusmarket.app.AppController.TAG;
+
+public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View.OnClickListener {
 
     private List<CartItemsActivity> CartList;
     private Context mCtx;
+    private Button btnRemove;
+    private String refnum;
+
 
     /**
      * So while creating the object of this adapter class we need to give demolist and context.
@@ -56,9 +70,8 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> {
 //        TextView condition = (TextView) listViewItem.findViewById(R.id.tvCondition);
 //        TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
         TextView user = (TextView) listViewItem.findViewById(R.id.tvSeller);
-        Button btnContactSeller = (Button) listViewItem.findViewById(R.id.btnContactSeller);
-        Button btnAddToCart = (Button) listViewItem.findViewById(R.id.btnAddToCart);
-
+        btnRemove = (Button) listViewItem.findViewById(R.id.btnRemove);
+        btnRemove.setOnClickListener(this);
 
         // getting the specified positions for the items
         CartItemsActivity item = CartList.get(position);
@@ -66,9 +79,9 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> {
         // setting each parameter to text editable boxed
         name.setText(item.getName());
         price.setText(item.getPrice());
-//        condition.setText(item.getCondition());
-//        category.setText(item.getCategory());
         user.setText(item.getUser());
+        refnum = item.getRefnum();
+
 
 //        btnContactSeller.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -80,9 +93,52 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> {
 //            }
 //        });
 
+
         //returning the list of items as a whole
         return listViewItem;
 
+    }
+
+    public void removeItem() {
+        // make json object
+        String url = Const.URL_CART_DELETE
+                + "/" + refnum + "?sessid=" + UserActivity.sessionID;
+
+        // Make post request for JSONObject using the url:
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response.toString() + " i am queen");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+
+
+        };
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnRemove:
+                removeItem();
+                Intent intent = new Intent(mCtx, CartActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mCtx.startActivity(intent);
+                break;
+            default:
+                break;
+
+        }
     }
 }
 

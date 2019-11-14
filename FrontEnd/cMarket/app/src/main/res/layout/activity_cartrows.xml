@@ -79,7 +79,13 @@
                 android:text="TextView"
                 android:textSize="18sp" />
 
-<!--            <Button-->
+            <Button
+                android:id="@+id/btnRemove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Remove from Cart" />
+
+            <!--            <Button-->
 <!--                android:id="@+id/btnContactSeller"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
