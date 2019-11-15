@@ -36,7 +36,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
-    private Button btnViewCart;
+    private Button btnViewCart, btnNav;
     /**
      * Creates this instance of Dashboard
      *
@@ -55,6 +55,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         ItemList = new ArrayList<>();
         btnViewCart = findViewById(R.id.btnViewCart);
         btnViewCart.setOnClickListener(this);
+        btnNav = findViewById(R.id.btnNav);
+        btnNav.setOnClickListener(this);
 
 
         makeJsonArryReq();
@@ -171,6 +173,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         if (view.getId() == R.id.btnViewCart) {
             startActivity(new Intent(DashboardActivity.this,
                     CartActivity.class));
+        }
+        if (view.getId() == R.id.btnNav) {
+            startActivity(new Intent(DashboardActivity.this,
+                    UserActivity.class));
         }
 //        if (view.getId() == R.id.btnAddToCart) {
 //            startActivity(new Intent(DashboardActivity.this,

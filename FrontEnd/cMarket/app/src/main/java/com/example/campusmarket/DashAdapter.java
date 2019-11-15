@@ -7,30 +7,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static androidx.core.content.ContextCompat.startActivity;
 import static com.example.campusmarket.app.AppController.TAG;
 
 /**
@@ -50,7 +40,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
      * @param mCtx
      */
     public DashAdapter(List<DashItemsActivity> ItemList, Context mCtx) {
-        super(mCtx, R.layout.activity_lvrows, ItemList);
+        super(mCtx, R.layout.activity_lvrows2, ItemList);
         this.ItemList = ItemList;
         this.mCtx = mCtx;
     }
@@ -71,13 +61,13 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
         LayoutInflater inflater = LayoutInflater.from(mCtx);
 
         // creating a view with our xml layout
-        @SuppressLint("ViewHolder") View listViewItem = inflater.inflate(R.layout.activity_lvrows, null, true);
+        @SuppressLint("ViewHolder") View listViewItem = inflater.inflate(R.layout.activity_lvrows2, null, true);
         listViewItem.setClickable(true);
 //        listViewItem.setOnClickListener(myClickListener);
 
         // pulling the text views into the adapter
         TextView name = (TextView) listViewItem.findViewById(R.id.tvName);
-        TextView price = (TextView) listViewItem.findViewById(R.id.tvPrice);
+        TextView price = (TextView) listViewItem.findViewById(R.id.tvCategory);
         TextView condition = (TextView) listViewItem.findViewById(R.id.tvCondition);
         TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
         TextView user = (TextView) listViewItem.findViewById(R.id.tvSeller);

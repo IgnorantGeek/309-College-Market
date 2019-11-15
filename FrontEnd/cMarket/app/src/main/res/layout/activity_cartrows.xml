@@ -69,7 +69,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvPrice"
+                android:id="@+id/tvCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10sp"
