@@ -3,7 +3,11 @@
     package="com.example.campusmarket">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:name=".app.AppController"
@@ -14,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AccountSettingsActivity"></activity>
+        <activity android:name=".AccountSettingsActivity" />
         <activity android:name=".EditPost" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DashboardActivity" />

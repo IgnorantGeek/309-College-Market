@@ -1,15 +1,27 @@
 package com.example.campusmarket;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -21,6 +33,7 @@ import com.example.campusmarket.utils.Const;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,20 +42,23 @@ import java.util.Map;
  */
 public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnSubmitPost;
+    private static final int PICK_FROM_GALLERY = 1;
+    private ImageView imageUpload;
+    private TextView tvUpload;
     private EditText etName, etPrice, etCondition, etCategory;
     private String TAG = NewPostActivity.class.getSimpleName();
+    private String imageString;
 
     /**
      * Creates instance of NewPostActivity
-     * @param savedInstanceState
+     * @param savedInstanceState the Saved Instance
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
 
-        btnSubmitPost = findViewById(R.id.btnSubmitPost);
+        Button btnSubmitPost = findViewById(R.id.btnSubmitPost);
         btnSubmitPost.setOnClickListener(this);
 
         // to make a new post the fields must be editable:
@@ -50,18 +66,171 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         etPrice = findViewById(R.id.etPrice);
         etCondition = findViewById(R.id.etCondition);
         etCategory = findViewById(R.id.etCategory);
+        Button btnUpload = findViewById(R.id.btnUploadImage);
+        btnUpload.setOnClickListener(this);
+
+        // initialize image and text view
+        imageUpload = findViewById(R.id.imgUploadImage);
+        tvUpload = findViewById(R.id.tvUploadImage);
+        imageString = "";
     }
 
     /**
      * When the user clicks to submit their post, calls postItem()
-     * @param v
+     * @param v theView
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnSubmitPost) {
-            postItem();
-            startActivity(new Intent(NewPostActivity.this,
-                    DashboardActivity.class));
+        switch (v.getId()) {
+            case R.id.btnSubmitPost:
+                postItem();
+                startActivity(new Intent(NewPostActivity.this,
+                        DashboardActivity.class));
+                break;
+            case R.id.btnUploadImage:
+                selectImage();
+                 break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Parses the result of the PhotoPickerIntent.
+     * Displays the filepath and a preview of the image on the NewPost page
+     * @param requestCode the request code
+     * @param resultCode the result code
+     * @param data the data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
+                // selected file from gallery
+                Uri selectedImage = data.getData();
+                Bitmap bitmap = getPath(selectedImage);
+                String filePath = String.valueOf(bitmap);
+                Log.d(TAG, filePath);
+                String converted = BitMapToString(bitmap);
+                Log.d(TAG, converted);
+                Bitmap bconverted = StringToBitMap(converted);
+
+                if (filePath.equals("null"))
+                {
+                    String failure = "Error in uploading picture";
+                    tvUpload.setText(failure);
+                }
+                else
+                {
+                    String success = "Image uploaded";
+                    tvUpload.setText(success);
+                    imageUpload.setImageBitmap(bconverted);
+                    imageString = converted;
+                }
+            }
+    }
+
+    /**
+     * Converts a bitmap to a string
+     * @param bitmap the bitmap to be converted
+     * @return string representation of the bitmap
+     */
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+    /**
+     * Converts a string to a bitmap
+     * @param encodedString the string that represents a bitmap
+     * @return the converted bitmap object related to the string
+     */
+    public Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+
+    /**
+     * Returns the path to this iamge
+     * @param uri The place where the image is from
+     * @return the Bitmap of the image
+     */
+    private Bitmap getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String filePath = cursor.getString(column_index);
+        // cursor.close();
+        // Convert file path into bitmap image using below line.
+        return BitmapFactory.decodeFile(filePath);
+    }
+
+    /**
+     * Checks if we have permission to view user's photos.
+     * If we do, then starts PhotoPickerIntent (built-in from Android)
+     */
+    private void selectImage() {
+        // Check if the user already granted us permission
+        if (ContextCompat.checkSelfPermission(NewPostActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted already. Check if need to tell user why we need permission
+            boolean rationale = ActivityCompat.shouldShowRequestPermissionRationale(NewPostActivity.this, Manifest.permission.WRITE_CALENDAR);
+            if (rationale)
+            {
+                // then we need to show the rationale
+                String message = "Permission to gallery must be given to upload an image";
+                tvUpload.setText(message);
+
+            }
+            else
+            {
+                // don't need to show the rationale, just ask for permission
+                ActivityCompat.requestPermissions(NewPostActivity.this, new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+            }
+        }
+        else {
+            // Permission has already been granted, go ahead
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY);
+        }
+    }
+
+    /**
+     * After we request permission, use what the user responded with.
+     * @param requestCode the request code
+     * @param permissions the permission array
+     * @param grantResults the result of the permission grant
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if (requestCode == PICK_FROM_GALLERY) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY);
+            } else {
+                // user did not grant permission
+                String message = "Permission to gallery must be given to upload an image";
+                tvUpload.setText(message);
+            }
         }
     }
 
@@ -79,9 +248,11 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             js.put("price", (etPrice.getText()).toString());
             js.put("condition", (etCondition.getText()).toString());
             js.put("category", (etCategory.getText()).toString());
+            js.put("image", imageString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "CHECKING THE IMAGE:" + imageString);
 
         // Make post request for JSONObject using the url:
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
@@ -102,19 +273,20 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
              * Passing some request headers in
              */
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("name", (etName.getText()).toString());
                 params.put("price", (etPrice.getText()).toString());
                 params.put("condition", (etCondition.getText()).toString());
                 params.put("category", (etCategory.getText()).toString());
+                params.put("image", imageString);
                 return params;
             }
 
