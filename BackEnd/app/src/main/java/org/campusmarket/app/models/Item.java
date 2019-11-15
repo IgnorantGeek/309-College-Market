@@ -49,11 +49,11 @@ public class Item {
     @Column (name= "postdate")
     private LocalDate postdate;
     
-    @Column (name="fname")
-    private String fname;
+   // @Column (name="fname")
+   // private String fname;
     
-    @Column (name="ftype")
-    private String ftype;
+   // @Column (name="ftype")
+   // private String ftype;
     
     
     
@@ -100,16 +100,12 @@ public class Item {
    }
    
    
-   public Item(String name, Double price, String category, String condition, String fname, String ftype, byte[] fdata ) {
+   public Item(String name, Double price, String category, String condition, byte[] fdata ) {
        this.name=name;
        this.price=price;
        this.category=category;
        this.cond=condition;
-       this.fname=fname;
-       this.ftype=ftype;
        this.fdata=fdata;
-       
-   
    }
    
    /**
@@ -169,17 +165,17 @@ public class Item {
     * A getter method to get the name of the  file(image) 
     * @return fname
     */
-   public String getFname() {
-	   return this.fname;
-   }
+  // public String getFname() {
+	//   return this.fname;
+   //}
    
    /**
     * A getter to get the type of the file (pdf,png,...etc)
     * @return
     */
-   public String getFtype() {
-	   return this.ftype;
-   }
+   //public String getFtype() {
+	 //  return this.ftype;
+  // }
    
    
    /**
