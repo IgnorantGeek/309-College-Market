@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import com.example.campusmarket.utils.Const;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +47,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     private TextView tvUpload;
     private EditText etName, etPrice, etCondition, etCategory;
     private String TAG = NewPostActivity.class.getSimpleName();
+    private String imageString;
 
     /**
      * Creates instance of NewPostActivity
@@ -69,6 +72,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         // initialize image and text view
         imageUpload = findViewById(R.id.imgUploadImage);
         tvUpload = findViewById(R.id.tvUploadImage);
+        imageString = "";
     }
 
     /**
@@ -104,9 +108,14 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
+                // selected file from gallery
                 Uri selectedImage = data.getData();
                 Bitmap bitmap = getPath(selectedImage);
                 String filePath = String.valueOf(bitmap);
+                Log.d(TAG, filePath);
+                String converted = BitMapToString(bitmap);
+                Log.d(TAG, converted);
+                Bitmap bconverted = StringToBitMap(converted);
 
                 if (filePath.equals("null"))
                 {
@@ -117,10 +126,40 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 {
                     String success = "Image uploaded";
                     tvUpload.setText(success);
-                    imageUpload.setImageBitmap(bitmap);
+                    imageUpload.setImageBitmap(bconverted);
                 }
             }
     }
+
+    /**
+     * Converts a bitmap to a string
+     * @param bitmap the bitmap to be converted
+     * @return string representation of the bitmap
+     */
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
+    /**
+     * Converts a string to a bitmap
+     * @param encodedString the string that represents a bitmap
+     * @return the converted bitmap object related to the string
+     */
+    public Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 
     /**
      * Returns the path to this iamge
@@ -208,6 +247,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             js.put("price", (etPrice.getText()).toString());
             js.put("condition", (etCondition.getText()).toString());
             js.put("category", (etCategory.getText()).toString());
+            js.put("image", imageString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -244,6 +284,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 params.put("price", (etPrice.getText()).toString());
                 params.put("condition", (etCondition.getText()).toString());
                 params.put("category", (etCategory.getText()).toString());
+                params.put("image", imageString);
                 return params;
             }
 
