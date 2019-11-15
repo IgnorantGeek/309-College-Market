@@ -38,18 +38,6 @@
 <!--        android:onClick="onClick"-->
 <!--        android:text="Contact Sellers" />-->
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="558dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="161dp" />
-
     <Button
         android:id="@+id/btnViewCart"
         android:layout_width="184dp"
@@ -75,6 +63,27 @@
         android:layout_marginRight="217dp"
         android:onClick="onClick"
         android:text="Back to Navigation" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="537dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="182dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="157dp"
+        android:background="@android:color/darker_gray" />
 
     <!--    <EditText-->
 <!--        android:id="@+id/etSearch"-->
