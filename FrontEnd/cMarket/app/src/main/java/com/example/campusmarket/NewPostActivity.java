@@ -127,6 +127,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                     String success = "Image uploaded";
                     tvUpload.setText(success);
                     imageUpload.setImageBitmap(bconverted);
+                    imageString = converted;
                 }
             }
     }
@@ -251,6 +252,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "CHECKING THE IMAGE:" + imageString);
 
         // Make post request for JSONObject using the url:
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
