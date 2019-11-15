@@ -67,7 +67,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
 
         // pulling the text views into the adapter
         TextView name = (TextView) listViewItem.findViewById(R.id.tvName);
-        TextView price = (TextView) listViewItem.findViewById(R.id.tvCategory);
+        TextView price = (TextView) listViewItem.findViewById(R.id.tvPrice);
         TextView condition = (TextView) listViewItem.findViewById(R.id.tvCondition);
         TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
         TextView user = (TextView) listViewItem.findViewById(R.id.tvSeller);
