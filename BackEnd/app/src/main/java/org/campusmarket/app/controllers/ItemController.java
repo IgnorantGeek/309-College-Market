@@ -390,8 +390,8 @@ public class ItemController
 	        Item f = files.getFile(refnum);
 
 	        return ResponseEntity.ok()
-	                .contentType(MediaType.parseMediaType(f.getFtype()))
-	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + f.getFname() + "\"")
+	                //.contentType(MediaType.parseMediaType(f.getFtype()))
+	                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + f.getFname() + "\"")
 	                .body(new ByteArrayResource(f.getImage()));
 	    }
 
