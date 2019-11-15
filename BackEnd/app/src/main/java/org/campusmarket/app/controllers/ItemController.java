@@ -88,25 +88,23 @@ public class ItemController
 	  * @return the new item that was posted
 	  */
 	@PostMapping("/new")
-	public Item newItem(@RequestParam(name = "sessid", required = true) String sessid,
-			@RequestParam("fname") MultipartFile file, @RequestParam ("json") String str )
-	{
+	public Item newItem(@RequestBody Item item ,@RequestParam(name = "sessid", required = true) String sessid){
 		if (sessid.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
         }
 
-		JSONObject json=new JSONObject(str);
-		String name=json.getString("name");
-		Double price=  Double.parseDouble(json.getString("price")); 
-		String category=json.getString("category");
-		String cond=json.getString("condition");
+		//JSONObject json=new JSONObject(str);
+		//String name=json.getString("name");
+		//Double price=  Double.parseDouble(json.getString("price")); 
+		//String category=json.getString("category");
+		//String cond=json.getString("condition");
 		
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+       // String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-		if(fileName.contains("..")) {
-            throw new FileStorageException("Filename contains invalid path characters " + fileName);
-        }
+		//if(fileName.contains("..")) {
+          //  throw new FileStorageException("Filename contains invalid path characters " + fileName);
+        //}
 		
 		
         Session active = sessions.findBySessId(sessid);
@@ -117,7 +115,7 @@ public class ItemController
 		{	
 			User u=users.findById(sessions.findUserBySession(sessid));
 			
-			Item item=new Item (name,price,category,cond, fileName, file.getContentType(), file.getBytes());
+			//Item item=new Item (name,price,category,cond, fileName, file.getContentType(), file.getBytes());
 	
 			item.setUser(u);
 			items.save(item);
