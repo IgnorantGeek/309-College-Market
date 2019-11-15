@@ -7,51 +7,16 @@
     >
 
     <LinearLayout
-        android:layout_width="189dp"
+        android:layout_width="462dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvSpacer"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:padding="10sp"
-            android:text="Item:"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tvTitlePrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10sp"
-            android:paddingLeft="20sp"
-            android:text="Price:"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tvTitleCondition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10sp"
-            android:text="Condition:"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tvTitleCategory"
-            android:layout_width="match_parent"
-            android:layout_height="51dp"
-            android:padding="10sp"
-            android:text="Category:"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/etSeller"
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:padding="10sp"
-            android:text="Seller:"
-            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/imgPlaceholder"
+            android:layout_width="229dp"
+            android:layout_height="235dp"
+            android:src="@drawable/campus_market_logo" />
 
         <Button
             android:id="@+id/btnAddToCart"
