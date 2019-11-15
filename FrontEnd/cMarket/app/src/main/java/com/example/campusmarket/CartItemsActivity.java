@@ -1,8 +1,7 @@
 package com.example.campusmarket;
 
 public class CartItemsActivity {
-
-
+    
     private String name;
     private String price;
 //    private String condition;
@@ -19,7 +18,8 @@ public class CartItemsActivity {
      * @param price price of item
 //     * @param condition condition of item
 //     * @param category category of item
-     * @param user
+     * @param user seller of item
+     * @param refnum refnum of item
      */
     public CartItemsActivity(String name, String price, String user, String refnum) {
         this.name = name;
@@ -110,6 +110,10 @@ public class CartItemsActivity {
         this.user = user;
     }
 
+    /**
+     * Will return the refnum of the item
+     * @return refnum of item
+     */
     public String getRefnum(){
         return refnum;
     }

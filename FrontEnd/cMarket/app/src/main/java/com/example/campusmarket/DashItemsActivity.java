@@ -21,7 +21,9 @@ public class DashItemsActivity {
      * @param price price of item
      * @param condition condition of item
      * @param category category of item
-     * @param user
+     * @param user seller of item
+     * @param refnum refnum of item
+     *
      */
     public DashItemsActivity(String name, String price, String condition, String category, String user, String refnum) {
         this.name = name;
@@ -106,10 +108,10 @@ public class DashItemsActivity {
 
     /**
      * Can update the seller of the item
-     * @param user seller of the item
+     * @param user seller of item
      */
     public void setUser(String user){
-        this.category = user;
+        this.user = user;
     }
 
     /**
@@ -122,7 +124,7 @@ public class DashItemsActivity {
 
     /**
      * Can update the refnum of the item
-     * @param refnum of the item
+     * @param refnum refnum of item
      */
     public void setRefnum(String refnum){
         this.refnum = refnum;

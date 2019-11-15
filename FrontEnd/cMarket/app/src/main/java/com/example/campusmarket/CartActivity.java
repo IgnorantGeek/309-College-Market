@@ -35,7 +35,6 @@ public class CartActivity extends AppCompatActivity {
     ListView listView;
     Activity activity;
     List<CartItemsActivity> CartList;
-//    Button btnContactSeller;
 
     /**
      * Creates this instance of Dashboard
@@ -54,10 +53,6 @@ public class CartActivity extends AppCompatActivity {
         CartList = new ArrayList<>();
 //        Intent intent = getIntent();
 //        refnum =  intent.getStringExtra("refnum");
-
-//        btnViewCart = findViewById(R.id.btnViewCart);
-//        btnViewCart.setOnClickListener(this);
-
 
         makeJsonArryReq();
 
@@ -133,25 +128,6 @@ public class CartActivity extends AppCompatActivity {
                 // actually calling the adapter
                 listView.setAdapter(adapter);
 
-//                Searchable dash feature:
-//                etSearch.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable editable) {
-//                        // don't need to change anything here for now
-//
-//                    }
-//                });
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -162,8 +138,6 @@ public class CartActivity extends AppCompatActivity {
         }
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
-
-
 
 //    /**
 //     * Handles the action on button click

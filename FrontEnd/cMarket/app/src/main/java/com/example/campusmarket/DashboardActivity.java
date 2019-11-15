@@ -170,19 +170,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
      */
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btnViewCart) {
-            startActivity(new Intent(DashboardActivity.this,
-                    CartActivity.class));
+        switch (view.getId()) {
+            case R.id.btnViewCart:
+                Intent intent = new Intent(this, CartActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnNav:
+                Intent intent2 = new Intent(this, UserActivity.class);
+                startActivity(intent2);
+                break;
+            default:
+                break;
         }
-        if (view.getId() == R.id.btnNav) {
-            startActivity(new Intent(DashboardActivity.this,
-                    UserActivity.class));
-        }
-//        if (view.getId() == R.id.btnAddToCart) {
-//            startActivity(new Intent(DashboardActivity.this,
-//                    CartActivity.class));
-//        }
-
     }
 }
 

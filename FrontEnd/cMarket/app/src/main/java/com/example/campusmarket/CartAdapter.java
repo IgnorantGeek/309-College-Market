@@ -31,8 +31,6 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
     private Button btnClear;
     private String refnum;
 
-
-
     /**
      * So while creating the object of this adapter class we need to give demolist and context.
      * The adapter is what actually puts the info into the dashboard in the format specified by the lv_rows layout.
@@ -54,7 +52,6 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
      * @param parent
      * @return the View
      */
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -103,6 +100,11 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
 
     }
 
+    /**
+     * Removes the item from the user's cart with the information
+     * that was provided for the item on the page
+     * Called once they click "Remove from Cart"
+     */
     public void removeItem() {
         // make json object
         String url = Const.URL_CART_DELETE
@@ -130,6 +132,12 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
 
     }
 
+
+    /**
+     * Clears all of the items from user's cart, including all
+     * the information that was provided for the items on the page
+     * Called once they click "Clear Cart"
+     */
     public void clearItems() {
         // make json object
         String url = Const.URL_CART_CLEAR
@@ -157,6 +165,15 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
 
     }
 
+    /**
+     * Handles the action on button click.
+     * If button is Remove, call removeItem function
+     * and remove one item from cart.
+     * If button is Clear, call clearItems fucntion
+     * and remove all from cart.
+     *
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -76,7 +76,6 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
         Button btnAddToCart = (Button) listViewItem.findViewById(R.id.btnAddToCart);
         btnAddToCart.setOnClickListener(this);
 
-
         // getting the specified positions for the items
         DashItemsActivity item = ItemList.get(position);
 
@@ -88,44 +87,20 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
         user.setText(item.getUser());
         refnum = item.getRefnum();
 
-
-
-//        btnAddToCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(mCtx, CartActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mCtx.startActivity(intent);
-//            }
-//
-//        });
-
-
         //returning the list of items as a whole
         return listViewItem;
 
     }
 
     /**
-     * Posts the new item to the database with the information
-     * that the user filled in on the page.
-     * Called once they click "Post"
+     * Adds the item to the user's cart with the information
+     * that was provided for the item on the page
+     * Called once they click "Add To Cart"
      */
     public void addItem(){
         // make json object
         String url = Const.URL_CART_ADD
                 + "/" + refnum + "?sessid=" + UserActivity.sessionID;
-
-//        JSONObject js = new JSONObject();
-//        try {
-//            js.put("name", (etName.getText()).toString());
-//            js.put("price", (etPrice.getText()).toString());
-//            js.put("condition", (etCondition.getText()).toString());
-//            js.put("category", (etCategory.getText()).toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 
         // Make post request for JSONObject using the url:
         StringRequest stringReq = new StringRequest(
@@ -142,33 +117,19 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
             }
         }) {
 
-//            /**
-//             * Passing some request headers in
-//             */
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Content-Type", "application/json; charset=utf-8");
-//                return headers;
-//            }
-//
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("name", (etName.getText()).toString());
-//                params.put("price", (etPrice.getText()).toString());
-//                params.put("condition", (etCondition.getText()).toString());
-//                params.put("category", (etCategory.getText()).toString());
-//                return params;
-//            }
-
         };
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
 
     }
 
-
+    /**
+     * Handles the action on button click.
+     * If button is ContactSeller, go to websockets chat page.
+     * If button is AddToCart, add the selected item to cart.
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
