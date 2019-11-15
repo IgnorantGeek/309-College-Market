@@ -243,18 +243,18 @@ public class Item {
     * A setter method to change the type of the image 
     * @param ftype
     */
-   public void setFtype(String ftype) {
-	   this.ftype=ftype;
-   }
+   //public void setFtype(String ftype) {
+	   //this.ftype=ftype;
+  // }
    
    
    /**
     * A setter method to change the name of the image 
     * @param fname
     */
-   public void setFname(String fname) {
-	   this.fname=fname;
-   }
+  // public void setFname(String fname) {
+	//   this.fname=fname;
+  // }
    /**
     * A setter method to change the date an item was posted (in case of an error or if there's an update to the item's information)
     * @param date
