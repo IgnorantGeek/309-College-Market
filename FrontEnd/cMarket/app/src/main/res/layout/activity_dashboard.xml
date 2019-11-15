@@ -15,10 +15,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="34dp"
-        android:text="Campus Market Dashboard"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="22dp"
+        android:text="Dashboard"
+        android:textSize="36sp" />
 
     <TextView
         android:id="@+id/msgDashboardResponse"
@@ -42,36 +41,36 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="558dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="184dp" />
+        android:layout_marginTop="161dp" />
 
     <Button
         android:id="@+id/btnViewCart"
-        android:layout_width="167dp"
+        android:layout_width="184dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="101dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginRight="29dp"
+        android:layout_marginTop="89dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         android:onClick="onClick"
         android:text="View Your Cart" />
 
     <Button
         android:id="@+id/btnNav"
-        android:layout_width="wrap_content"
+        android:layout_width="183dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="217dp"
         android:layout_marginRight="217dp"
         android:onClick="onClick"

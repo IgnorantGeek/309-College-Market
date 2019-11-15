@@ -9,7 +9,7 @@
         android:layout_height="57dp"
         android:padding="10sp"
         android:text="TextView"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -20,7 +20,7 @@
         <ImageView
             android:id="@+id/imgPlaceholder"
             android:layout_width="match_parent"
-            android:layout_height="264dp"
+            android:layout_height="243dp"
             android:src="@drawable/campus_market_logo" />
 
         <LinearLayout
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10sp"
                     android:text="TextView"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvCondition"
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10sp"
                     android:text="TextView"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btnAddToCart"
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10sp"
                     android:text="TextView"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvSeller"
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10sp"
                     android:text="TextView"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btnContactSeller"
