@@ -70,6 +70,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
         TextView price = (TextView) listViewItem.findViewById(R.id.tvPrice);
         TextView condition = (TextView) listViewItem.findViewById(R.id.tvCondition);
         TextView category = (TextView) listViewItem.findViewById(R.id.tvCategory);
+        TextView postedDate = (TextView) listViewItem.findViewById(R.id.tvPostedDate);
         TextView user = (TextView) listViewItem.findViewById(R.id.tvSeller);
         Button btnContactSeller = (Button) listViewItem.findViewById(R.id.btnContactSeller);
         btnContactSeller.setOnClickListener(this);
@@ -84,6 +85,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
         price.setText(item.getPrice());
         condition.setText(item.getCondition());
         category.setText(item.getCategory());
+        postedDate.setText(item.getPostedDate());
         user.setText(item.getUser());
         refnum = item.getRefnum();
 

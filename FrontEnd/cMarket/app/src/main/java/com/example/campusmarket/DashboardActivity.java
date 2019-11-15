@@ -122,7 +122,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 JSONObject seller = new JSONObject(s);
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"), seller.getString("username"), demoObject.getString("refnum"));
+                        demoObject.getString("category"), demoObject.getString("postedDate"), seller.getString("username"), demoObject.getString("refnum"));
                 ItemList.add(item); // adding all of these new items for display
 
 

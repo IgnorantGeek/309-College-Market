@@ -1,7 +1,7 @@
 package com.example.campusmarket;
 
 public class CartItemsActivity {
-    
+
     private String name;
     private String price;
 //    private String condition;

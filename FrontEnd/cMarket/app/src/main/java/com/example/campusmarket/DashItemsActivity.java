@@ -9,6 +9,7 @@ public class DashItemsActivity {
     private String price;
     private String condition;
     private String category;
+    private String postedDate;
     private String user;
     private String refnum;
 
@@ -25,13 +26,15 @@ public class DashItemsActivity {
      * @param refnum refnum of item
      *
      */
-    public DashItemsActivity(String name, String price, String condition, String category, String user, String refnum) {
+    public DashItemsActivity(String name, String price, String condition, String category, String postedDate, String user, String refnum) {
         this.name = name;
         this.price = price;
         this.condition = condition;
         this.category = category;
+        this.postedDate = postedDate;
         this.user = user;
         this.refnum = refnum;
+
     }
 
     /**
@@ -99,6 +102,22 @@ public class DashItemsActivity {
     }
 
     /**
+     * Will return the refnum of the item
+     * @return refnum of item
+     */
+    public String getPostedDate(){
+        return postedDate;
+    }
+
+    /**
+     * Can update the refnum of the item
+     * @param refnum refnum of item
+     */
+    public void setPostedDate(String postedDate){
+        this.postedDate = postedDate;
+    }
+
+    /**
      * Will return the seller of the item
      * @return seller of item
      */
@@ -129,5 +148,7 @@ public class DashItemsActivity {
     public void setRefnum(String refnum){
         this.refnum = refnum;
     }
+
+
 
 }
