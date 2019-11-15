@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class UserActivity extends Activity implements OnClickListener {
     private Button btnJson, btnDashboard, btnNewPost, btnProfile, btnWebSocket;
     public static String loggedInUsername;
-    protected static String sessionID;
+    protected static String sessionID = "";
 
     /**
      * Creates this instance of UserActivity.
@@ -30,14 +30,18 @@ public class UserActivity extends Activity implements OnClickListener {
         // Stores the  user's username
         Intent intent = getIntent();
         loggedInUsername = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        sessionID = intent.getStringExtra("sessionID");
+        String sessMessage =  intent.getStringExtra("sessionID");
+        if (sessMessage != null)
+        {
+            sessionID = intent.getStringExtra("sessionID");
+        }
         Log.d("This is the sessionID: ", sessionID);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.usernameWelcome);
         textView.setText(loggedInUsername);
 
-        btnJson = (Button) findViewById(R.id.btnJsonRequest);
+        btnJson = (Button) findViewById(R.id.btnContinue);
         btnJson.setOnClickListener(this);
         btnDashboard = (Button) findViewById(R.id.btnGoToDashboard);
         btnDashboard.setOnClickListener(this);
@@ -57,7 +61,7 @@ public class UserActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnJsonRequest:
+            case R.id.btnContinue:
                 startActivity(new Intent(UserActivity.this,
                         JsonRequestActivity.class));
                 break;
