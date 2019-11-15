@@ -137,7 +137,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
      * @param bitmap the bitmap to be converted
      * @return string representation of the bitmap
      */
-    public String BitMapToString(Bitmap bitmap){
+    public static String BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
         byte [] b=baos.toByteArray();
@@ -150,7 +150,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
      * @param encodedString the string that represents a bitmap
      * @return the converted bitmap object related to the string
      */
-    public Bitmap StringToBitMap(String encodedString){
+    public static Bitmap StringToBitMap(String encodedString){
         try {
             byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
             Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
