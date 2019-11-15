@@ -108,6 +108,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     public void deleteAccount(String ID)
     {
         String url = Const.URL_USER_DELETE + "/" + ID + "?sessid=" + UserActivity.sessionID;
+        //to delete cart item  "refnum"
         showProgressDialog();
         // Make request for JSONObject
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
