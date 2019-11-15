@@ -1,15 +1,11 @@
 package com.example.campusmarket;
 
-/**
- * Class that helps represent the items on the Dashboard
- */
-public class DashItemsActivity {
+public class CartItemsActivity {
 
     private String name;
     private String price;
-    private String condition;
-    private String category;
-    private String postedDate;
+//    private String condition;
+//    private String category;
     private String user;
     private String refnum;
 
@@ -20,21 +16,18 @@ public class DashItemsActivity {
      * This object is called in the main activity to get all of the necessary fields of an item
      * @param name name of item
      * @param price price of item
-     * @param condition condition of item
-     * @param category category of item
+//     * @param condition condition of item
+//     * @param category category of item
      * @param user seller of item
      * @param refnum refnum of item
-     *
      */
-    public DashItemsActivity(String name, String price, String condition, String category, String postedDate, String user, String refnum) {
+    public CartItemsActivity(String name, String price, String user, String refnum) {
         this.name = name;
         this.price = price;
-        this.condition = condition;
-        this.category = category;
-        this.postedDate = postedDate;
+//        this.condition = condition;
+//        this.category = category;
         this.user = user;
         this.refnum = refnum;
-
     }
 
     /**
@@ -69,53 +62,37 @@ public class DashItemsActivity {
         this.price = price;
     }
 
-    /**
-     * Will return the condition of the item
-     * @return condition of item
-     */
-    public String getCondition(){
-        return condition;
-    }
-
-    /**
-     * Can update the condition of the item
-     * @param condition condition of item
-     */
-    public void setCondition(String condition){
-        this.condition = condition;
-    }
-
-    /**
-     * Will return the category of the item
-     * @return category of item
-     */
-    public String getCategory(){
-        return category;
-    }
-
-    /**
-     * Can update the category of the item
-     * @param category category of item
-     */
-    public void setCategory(String category){
-        this.category = category;
-    }
-
-    /**
-     * Will return the refnum of the item
-     * @return refnum of item
-     */
-    public String getPostedDate(){
-        return postedDate;
-    }
-
-    /**
-     * Can update the refnum of the item
-     * @param refnum refnum of item
-     */
-    public void setPostedDate(String postedDate){
-        this.postedDate = postedDate;
-    }
+//    /**
+//     * Will return the condition of the item
+//     * @return condition of item
+//     */
+//    public String getCondition(){
+//        return condition;
+//    }
+//
+//    /**
+//     * Can update the condition of the item
+//     * @param condition condition of item
+//     */
+//    public void setCondition(String condition){
+//        this.condition = condition;
+//    }
+//
+//    /**
+//     * Will return the category of the item
+//     * @return category of item
+//     */
+//    public String getCategory(){
+//        return category;
+//    }
+//
+//    /**
+//     * Can update the category of the item
+//     * @param category category of item
+//     */
+//    public void setCategory(String category){
+//        this.category = category;
+//    }
 
     /**
      * Will return the seller of the item
@@ -127,7 +104,7 @@ public class DashItemsActivity {
 
     /**
      * Can update the seller of the item
-     * @param user seller of item
+     * @param user seller of the item
      */
     public void setUser(String user){
         this.user = user;
@@ -143,12 +120,12 @@ public class DashItemsActivity {
 
     /**
      * Can update the refnum of the item
-     * @param refnum refnum of item
+     * @param refnum of the item
      */
     public void setRefnum(String refnum){
         this.refnum = refnum;
     }
 
-
-
 }
+
+

@@ -3,17 +3,24 @@ package org.campusmarket.app.controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.campusmarket.app.exception.FileStorageException;
 import org.campusmarket.app.models.Item;
+import org.campusmarket.app.models.ItemService;
 import org.campusmarket.app.models.Session;
 import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.ItemsRepository;
 import org.campusmarket.db.repositories.SessionsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +30,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
+import org.json.*;
 
 
 /**
@@ -45,6 +53,9 @@ public class ItemController
 	
 	@Autowired
 	private SessionsRepository sessions;
+	
+	@Autowired
+	private ItemService files;
 
 	
 	Log log = LogFactory.getLog(ItemController.class);
@@ -70,17 +81,31 @@ public class ItemController
 
 	 /**
 	  * A method to post a new item 
-	  * @param the body of the item model class
+	  * @param fname the file(image) that we want to post
 	  * @param sessid of the user posting the item
+	  * @param json other json data (name,price,category,condition)
+	  * @return the new item that was posted
 	  */
 	@PostMapping("/new")
-	public Item newItem(@RequestBody Item item, @RequestParam(name = "sessid", required = true) String sessid)
-	{
+	public Item newItem(@RequestBody Item item ,@RequestParam(name = "sessid", required = true) String sessid){
 		if (sessid.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
         }
 
+		//JSONObject json=new JSONObject(str);
+		//String name=json.getString("name");
+		//Double price=  Double.parseDouble(json.getString("price")); 
+		//String category=json.getString("category");
+		//String cond=json.getString("condition");
+		
+       // String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+
+		//if(fileName.contains("..")) {
+          //  throw new FileStorageException("Filename contains invalid path characters " + fileName);
+        //}
+		
+		
         Session active = sessions.findBySessId(sessid);
         
         if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
@@ -88,6 +113,9 @@ public class ItemController
 		try
 		{	
 			User u=users.findById(sessions.findUserBySession(sessid));
+			
+			//Item item=new Item (name,price,category,cond, fileName, file.getContentType(), file.getBytes());
+	
 			item.setUser(u);
 			items.save(item);
 			
@@ -347,4 +375,25 @@ public class ItemController
 		}
 		else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
    }
+    
+    
+ 
+	 
+	 /**
+	  * A method to display(download if using the browser) the content of the file
+	  * @param id
+	  * @return
+	  */
+	   @GetMapping("/download/{refnum}")
+	    public ResponseEntity<Resource> downloadFile(@PathVariable int refnum) {
+	       
+	        Item f = files.getFile(refnum);
+
+	        return ResponseEntity.ok()
+	                .contentType(MediaType.parseMediaType(f.getFtype()))
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + f.getFname() + "\"")
+	                .body(new ByteArrayResource(f.getImage()));
+	    }
+
 }
+

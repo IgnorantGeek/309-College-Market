@@ -30,6 +30,10 @@ public class WebSockets extends AppCompatActivity {
 
     private WebSocketClient cc;
 
+    /**
+     * Creates this instance of the chat
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,10 @@ public class WebSockets extends AppCompatActivity {
 
         b1.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            /**
+             * Handles the button click of chat
+             * @param view
+             */
             @Override
             public void onClick(View view) {
                 Draft[] drafts = {new Draft_6455()};
@@ -69,16 +77,30 @@ public class WebSockets extends AppCompatActivity {
                             t1.setText(s+" Server: " + message);
                         }
 
+                        /**
+                         * Called when chat is opened to establish connection
+                         * @param handshake
+                         */
                         @Override
                         public void onOpen(ServerHandshake handshake) {
                             Log.d("OPEN", "run() returned: " + " is connecting ");
                         }
 
+                        /**
+                         * Called when chat is closed to finish chat session
+                         * @param code
+                         * @param reason
+                         * @param remote
+                         */
                         @Override
                         public void onClose(int code, String reason, boolean remote) {
                             Log.d("CLOSE", " onClose() returned: " + reason);
                         }
 
+                        /**
+                         * Called if there is an error / exception in the chat
+                         * @param e
+                         */
                         @Override
                         public void onError(Exception e)
                         {
