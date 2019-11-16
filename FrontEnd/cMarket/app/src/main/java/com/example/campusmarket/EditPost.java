@@ -1,14 +1,27 @@
 package com.example.campusmarket;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -22,6 +35,7 @@ import com.example.campusmarket.utils.Const;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,13 +47,16 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     private String TAG = EditPost.class.getSimpleName();
     EditText etName, etPrice, etCondition, etCategory;
     JSONObject objectToEdit;
-    Button btnSubmit;
-    Button btnDelete;
+    Button btnSubmit, btnDelete, btnImage;
     private ProgressDialog pDialog;
+    private ImageView ivImage;
+    private Bitmap bmImage;
+    private TextView tvUpload;
+    private static final int PICK_FROM_GALLERY = 1;
 
     /**
      * Creates this instance of EditPost.
-     * @param savedInstanceState
+     * @param savedInstanceState the instance of that class
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +73,19 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
         // create JSON Object from the response String
         try {
+            assert response != null;
             objectToEdit = new JSONObject(response);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // initialize image
+        tvUpload = findViewById(R.id.tvUploadImageEdit);
+        ivImage = findViewById(R.id.imgUploadImageEdit);
+        try {
+            String imageString = objectToEdit.getString("image");
+            bmImage = NewPostActivity.StringToBitMap(imageString);
+            ivImage.setImageBitmap(bmImage);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -68,11 +97,14 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         etCategory = findViewById(R.id.etEditCategory);
         initializeEditTextFields(objectToEdit);
 
-        // make submit button clickable
+        // make buttons clickable
         btnSubmit = findViewById(R.id.btnEditSubmit);
         btnSubmit.setOnClickListener(this);
         btnDelete = findViewById(R.id.btnEditDelete);
         btnDelete.setOnClickListener(this);
+        btnImage = findViewById(R.id.btnUploadImageEdit);
+        btnImage.setOnClickListener(this);
+
     }
 
     /**
@@ -106,6 +138,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
             toAdd.put("category", (etCategory.getText()).toString());
             toAdd.put("user", oldObject.getJSONObject("user"));
             toAdd.put("condition", (etCondition.getText()).toString());
+            toAdd.put("image", NewPostActivity.BitMapToString(bmImage));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -163,15 +196,15 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         }) {
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders()  {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
             }
 
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 try {
                     params.put("refnum", js.getString("refnum"));
                     params.put("name", js.getString("name"));
@@ -179,6 +212,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                     params.put("category", js.getString("category"));
                     params.put("user", js.getString("user"));
                     params.put("condition", js.getString("condition"));
+                    params.put("image", NewPostActivity.BitMapToString(bmImage));
                 }  catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -197,25 +231,14 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     {
         // declaring urls from api
         String url = Const.URL_ITEM_DELETE + "/";
-        JSONObject js = new JSONObject();
 
         try {
-            // objecttoEdit holds the parameters
-            js.put("refnum", objectToEdit.getString("refnum"));
-            js.put("name", objectToEdit.getString("name"));
-            js.put("price", objectToEdit.getString("price"));
-            js.put("category", objectToEdit.getString("category"));
-            js.put("user", objectToEdit.getJSONObject("user"));
-            js.put("condition", objectToEdit.getString("condition"));
+            String refnum = objectToEdit.getString("refnum");
+            url += refnum;
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        try {
-            url += js.getString("refnum");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         url+= ("?sessid=" + UserActivity.sessionID);
 
         showProgressDialog();
@@ -237,8 +260,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         }) {
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
             }
@@ -248,7 +271,109 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
     }
 
+    /**
+     * Parses the result of the PhotoPickerIntent.
+     * Displays the filepath and a preview of the image on the NewPost page
+     * @param requestCode the request code
+     * @param resultCode the result code
+     * @param data the data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
+            // selected file from gallery
+            Uri selectedImage = data.getData();
+            bmImage = getPath(selectedImage);
+            String filePath = String.valueOf(bmImage);
+
+            if (filePath.equals("null"))
+            {
+                String failure = "Error in uploading picture";
+                tvUpload.setText(failure);
+            }
+            else
+            {
+                String success = "Image uploaded";
+                tvUpload.setText(success);
+                ivImage.setImageBitmap(bmImage);
+            }
+        }
+    }
+
+    /**
+     * Returns the path to this iamge
+     * @param uri The place where the image is from
+     * @return the Bitmap of the image
+     */
+    private Bitmap getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String filePath = cursor.getString(column_index);
+        // cursor.close();
+        // Convert file path into bitmap image using below line.
+        return BitmapFactory.decodeFile(filePath);
+    }
+
+    /**
+     * Checks if we have permission to view user's photos.
+     * If we do, then starts PhotoPickerIntent (built-in from Android)
+     */
+    private void selectImage() {
+        // Check if the user already granted us permission
+        if (ContextCompat.checkSelfPermission(EditPost.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted already. Check if need to tell user why we need permission
+            boolean rationale = ActivityCompat.shouldShowRequestPermissionRationale(EditPost.this, Manifest.permission.WRITE_CALENDAR);
+            if (rationale)
+            {
+                // then we need to show the rationale
+                String message = "Permission to gallery must be given to upload an image";
+                tvUpload.setText(message);
+
+            }
+            else
+            {
+                // don't need to show the rationale, just ask for permission
+                ActivityCompat.requestPermissions(EditPost.this, new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
+            }
+        }
+        else {
+            // Permission has already been granted, go ahead
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY);
+        }
+    }
+
+    /**
+     * After we request permission, use what the user responded with.
+     * @param requestCode the request code
+     * @param permissions the permission array
+     * @param grantResults the result of the permission grant
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if (requestCode == PICK_FROM_GALLERY) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, PICK_FROM_GALLERY);
+            } else {
+                // user did not grant permission
+                String message = "Permission to gallery must be given to upload an image";
+                tvUpload.setText(message);
+            }
+        }
+    }
     /**
      * Waits for the user to click a button on the screen.
      * If the button is "Submit," it updates that item's info
@@ -267,6 +392,9 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                 deletePost();
                 Intent intent2 = new Intent(this, ProfileActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.btnUploadImageEdit:
+                selectImage();
                 break;
             default:
                 break;
