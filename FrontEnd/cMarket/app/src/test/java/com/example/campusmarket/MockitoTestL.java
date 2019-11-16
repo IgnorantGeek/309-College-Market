@@ -39,7 +39,15 @@ public class MockitoTestL {
 
 
     /**
+     * -----------------------
      * Mockito test for demo 3
+     * @throws JSONException
+     * -----------------------
+     */
+
+    /**
+     * Checks to see if login_return method returns
+     * true like it should
      * @throws JSONException
      */
     @Test
@@ -60,7 +68,14 @@ public class MockitoTestL {
     }
 
     /**
+     * ------------------------
      * Mockito tests for demo 4
+     * ------------------------
+     */
+
+    /**
+     * Checks if the login validation function runs
+     * when login form is completed
      */
     @Test
     public void syntax_register (){
@@ -71,6 +86,12 @@ public class MockitoTestL {
         Assert.assertEquals(true, regActivity.validateForm());
     }
 
+    /**
+     * Verifies the username and password
+     * fields for user login
+     *
+     * @throws JSONException
+     */
     @Test
     public void login_verify() throws JSONException {
         LoginActivity logActivity = mock(LoginActivity.class);
@@ -89,7 +110,7 @@ public class MockitoTestL {
 
     /**
      * Verifies the fields of the json object that
-     * represents an item added to a cart
+     * represent an item added to a cart
      * @throws JSONException
      */
     @Test
@@ -122,7 +143,7 @@ public class MockitoTestL {
 
     /**
      * Verifies the fields of the json object that
-     * represents an item added to a cart
+     * will be posted to the dashboard as a new item
      * @throws JSONException
      */
     @Test
@@ -134,9 +155,7 @@ public class MockitoTestL {
         String priceCorrect = "250.0";
         String conditionCorrect = "used";
         String categoryCorrect = "electronics";
-        String dateCorrect = "09/12/19";
-        String sellerNameCorrect = "fadelsh";
-        String refnumCorrect = "8";
+        String imageCorrect = "";
 
         //verify the fields are correct to add the item
         JSONObject response = new JSONObject();
@@ -144,17 +163,10 @@ public class MockitoTestL {
         response.put("price", priceCorrect);
         response.put("condition", conditionCorrect);
         response.put("category", categoryCorrect);
-        response.put("postedDate", dateCorrect);
-        response.put("username", sellerNameCorrect);
-        response.put("refnum", refnumCorrect);
+        response.put("image", imageCorrect);
 
-
-        addCartActivity.addItem();
-        verify(addCartActivity,  times(1)).addItem();
+        postActivity.postItem();
+        verify(postActivity,  times(1)).postItem();
     }
-
-
-
-
 
 }
