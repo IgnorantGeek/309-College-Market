@@ -87,17 +87,17 @@ public class ItemController
 	  * @return the new item that was posted
 	  */
 	@PostMapping("/new")
-	public Item newItem(@RequestBody Item item ,@RequestParam(name = "sessid", required = true) String sessid){
+	public Item newItem(@RequestParam(name = "sessid", required = true) String sessid, @RequestParam  ("json")  String str){
 		if (sessid.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
         }
 
-		//JSONObject json=new JSONObject(str);
-		//String name=json.getString("name");
-		//Double price=  Double.parseDouble(json.getString("price")); 
-		//String category=json.getString("category");
-		//String cond=json.getString("condition");
+		JSONObject json=new JSONObject(str);
+		String name=json.getString("name");
+		Double price=  Double.parseDouble(json.getString("price")); 
+		String category=json.getString("category");
+		String cond=json.getString("condition");
 		
        // String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -114,7 +114,7 @@ public class ItemController
 		{	
 			User u=users.findById(sessions.findUserBySession(sessid));
 			
-			//Item item=new Item (name,price,category,cond, fileName, file.getContentType(), file.getBytes());
+			Item item=new Item (name,price,category,cond);
 	
 			item.setUser(u);
 			items.save(item);

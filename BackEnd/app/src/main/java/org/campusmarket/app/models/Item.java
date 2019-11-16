@@ -108,6 +108,15 @@ public class Item {
        this.fdata=fdata;
    }
    
+   public Item(String name, Double price, String category, String condition) {
+
+	   this.name=name;
+       this.price=price;
+       this.category=category;
+       this.cond=condition;
+	   
+   }
+   
    /**
     * A getter method to get the refnum of the item 
     * @return refnum 
