@@ -30,13 +30,38 @@ import static org.mockito.Mockito.when;
 @Config(sdk = Build.VERSION_CODES.O_MR1)
 
 /**
- * Mockito tests for demo3 (Lily)
+ * Lily's mockito tests
  */
 public class MockitoTestL {
 
     private View.OnClickListener onClickListener;
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
+
+    /**
+     * Mockito test for demo 3
+     * @throws JSONException
+     */
+    @Test
+    public void login_return() throws JSONException {
+        LoginActivity logActivity = mock(LoginActivity.class);
+
+        // Create the user JSON Object
+        String userCorrect = "Sponge123";
+        String passCorrect = "Password123";
+
+        JSONObject response = new JSONObject();
+        response.put("username", userCorrect);
+        response.put("password", passCorrect);
+        response.put("admin", "false");
+
+//        when(logActivity.check_login_user(userCorrect, passCorrect)).thenReturn(true);
+//        Assert.assertEquals(true, logActivity.check_login_user(userCorrect, passCorrect));
+    }
+
+    /**
+     * Mockito tests for demo 4
+     */
     @Test
     public void syntax_register (){
         RegisterActivity regActivity = mock(RegisterActivity.class);
@@ -62,21 +87,74 @@ public class MockitoTestL {
             verify(logActivity,  times(1)).finishLogIn(usernameCorrect, sessionID);
     }
 
+    /**
+     * Verifies the fields of the json object that
+     * represents an item added to a cart
+     * @throws JSONException
+     */
     @Test
-    public void login_return() throws JSONException {
-        LoginActivity logActivity = mock(LoginActivity.class);
+    public void addToCart_check() throws JSONException {
+        DashAdapter addCartActivity = mock(DashAdapter.class);
 
         // Create the user JSON Object
-        String userCorrect = "Sponge123";
-        String passCorrect = "Password123";
+        String nameCorrect = "iphone";
+        String priceCorrect = "250.0";
+        String conditionCorrect = "used";
+        String categoryCorrect = "electronics";
+        String dateCorrect = "09/12/19";
+        String sellerNameCorrect = "fadelsh";
+        String refnumCorrect = "8";
 
+        //verify the fields are correct to add the item
         JSONObject response = new JSONObject();
-            response.put("username", userCorrect);
-            response.put("password", passCorrect);
-            response.put("admin", "false");
+        response.put("name", nameCorrect);
+        response.put("price", priceCorrect);
+        response.put("condition", conditionCorrect);
+        response.put("category", categoryCorrect);
+        response.put("postedDate", dateCorrect);
+        response.put("username", sellerNameCorrect);
+        response.put("refnum", refnumCorrect);
 
-//        when(logActivity.check_login_user(userCorrect, passCorrect)).thenReturn(true);
-//            Assert.assertEquals(true, logActivity.check_login_user(userCorrect, passCorrect));
+
+        addCartActivity.addItem();
+        verify(addCartActivity,  times(1)).addItem();
     }
+
+    /**
+     * Verifies the fields of the json object that
+     * represents an item added to a cart
+     * @throws JSONException
+     */
+    @Test
+    public void postItem_check() throws JSONException {
+        NewPostActivity postActivity = mock(NewPostActivity.class);
+
+        // Create the user JSON Object
+        String nameCorrect = "iphone";
+        String priceCorrect = "250.0";
+        String conditionCorrect = "used";
+        String categoryCorrect = "electronics";
+        String dateCorrect = "09/12/19";
+        String sellerNameCorrect = "fadelsh";
+        String refnumCorrect = "8";
+
+        //verify the fields are correct to add the item
+        JSONObject response = new JSONObject();
+        response.put("name", nameCorrect);
+        response.put("price", priceCorrect);
+        response.put("condition", conditionCorrect);
+        response.put("category", categoryCorrect);
+        response.put("postedDate", dateCorrect);
+        response.put("username", sellerNameCorrect);
+        response.put("refnum", refnumCorrect);
+
+
+        addCartActivity.addItem();
+        verify(addCartActivity,  times(1)).addItem();
+    }
+
+
+
+
 
 }
