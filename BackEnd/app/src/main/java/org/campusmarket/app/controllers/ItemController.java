@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -85,7 +86,7 @@ public class ItemController
 	  * @param the body of the item model class
 	  * @param sessid of the user posting the item
 	  */
-	@PostMapping("/new")
+	@PostMapping("/new/file")
 	public Item newItem(@RequestParam(name = "sessid", required = true) String sessid,
 			@RequestParam("fname") MultipartFile file, @RequestParam ("json") String str )
 	{
@@ -130,6 +131,42 @@ public class ItemController
 	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There's no such user with this username so sorry we won't be able to add your item :(",e);
 	    }
 	}
+	
+	
+	
+	@PostMapping("/new")
+	public Item newItem2(@RequestBody Item item ,@RequestParam(name = "sessid", required = true) String sessid){
+		if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+	
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+		try
+		{	
+			User u=users.findById(sessions.findUserBySession(sessid));
+			
+	
+			item.setUser(u);
+			items.save(item);
+			
+        log.info(" success: a new item was created with a reference number(keep for your record): " + item.getRefnum());
+        return item;
+
+		}
+		catch (Exception e)
+		{
+	        log.error(e.getMessage());
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There's no such user with this username so sorry we won't be able to add your item :(",e);
+	    }
+	}
+
+
+	
 	
 	/**
 	 * A method to update an item 

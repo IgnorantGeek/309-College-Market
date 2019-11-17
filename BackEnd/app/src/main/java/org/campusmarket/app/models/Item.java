@@ -167,6 +167,7 @@ public class Item {
     * A getter method to get the name of the  file(image) 
     * @return fname
     */
+    @JsonIgnore
    public String getFname() {
 	   return this.fname;
    }
@@ -175,6 +176,7 @@ public class Item {
     * A getter to get the type of the file (pdf,png,...etc)
     * @return
     */
+    @JsonIgnore
    public String getFtype() {
 	   return this.ftype;
    }
