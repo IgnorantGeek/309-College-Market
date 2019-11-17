@@ -75,6 +75,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         Button btnSubmitPost = findViewById(R.id.btnSubmitPost);
         btnSubmitPost.setOnClickListener(this);
 
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
+
         // to make a new post the fields must be editable:
         etName = findViewById(R.id.etName);
         etPrice = findViewById(R.id.etPrice);
@@ -101,9 +105,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 postItem();
                 //multi-part way of posting an item
                 //doRequest(uriImage);
-
-//                startActivity(new Intent(NewPostActivity.this,
-//                        DashboardActivity.class));
+                startActivity(new Intent(NewPostActivity.this,
+                        DashboardActivity.class));
                 break;
             case R.id.btnUploadImage:
                 selectImage();
@@ -159,8 +162,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
         byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
+        return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
     /**
@@ -171,8 +173,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public static Bitmap StringToBitMap(String encodedString){
         try {
             byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
+            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         } catch(Exception e) {
             e.getMessage();
             return null;
@@ -252,6 +253,12 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Creates the body of the multipart based on the file
+     * @param partName the name of the part (fname)
+     * @param fileUri the file representation of the image
+     * @return the MultipartBody.part
+     */
     @NonNull
     private MultipartBody.Part prepareFile(String partName, Uri fileUri)
     {
@@ -265,6 +272,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
     }
 
+    /**
+     * Performs the Multipart request for an item + image, using retrofit
+     * @param fileUri The Uri of the image to be added to the item
+     */
     private void doRequest(Uri fileUri)
     {
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -272,26 +283,32 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
+        String s = "condition";
         Client client = retrofit.create(Client.class);
         Call<ResponseBody> call = client.uploadImage(
-                createPartFromString("condition"),
+                createPartFromString(s),
                 prepareFile("photo", fileUri));
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-
+                Log.d(TAG, response.toString());
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Log.d(TAG, "Failure");
             }
         });
 
     }
 
-    private RequestBody createPartFromString(String condition) {
-        return RequestBody.create(okhttp3.MultipartBody.FORM, condition);
+    /**
+     * Creates the request body from the given string
+     * @param description The description of the parameter
+     * @return The requestBody to be used in the request
+     */
+    private RequestBody createPartFromString(String description) {
+        return RequestBody.create(okhttp3.MultipartBody.FORM, description);
     }
 
     /**
@@ -372,7 +389,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         };
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
-
     }
 
 }
