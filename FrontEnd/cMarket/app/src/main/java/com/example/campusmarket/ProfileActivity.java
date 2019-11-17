@@ -140,8 +140,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             b.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(ProfileActivity.this, EditPost.class);
-                    String message = o.toString();
-                    intent.putExtra("ExtraMessage", message);
+                    //String message = o.toString();
+                    String refnum = "";
+                    try {
+                        refnum = o.getString("refnum");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    intent.putExtra("refnum", refnum);
                     startActivity(intent);
                 }
             });

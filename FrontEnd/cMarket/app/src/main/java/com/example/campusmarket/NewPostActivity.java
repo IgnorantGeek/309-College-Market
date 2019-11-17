@@ -1,6 +1,7 @@
 package com.example.campusmarket;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -60,6 +61,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     private String TAG = NewPostActivity.class.getSimpleName();
     private String imageString;
     private Uri uriImage;
+    private ProgressDialog pDialog;
 
     /**
      * Creates instance of NewPostActivity
@@ -99,8 +101,9 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 postItem();
                 //multi-part way of posting an item
                 //doRequest(uriImage);
-                startActivity(new Intent(NewPostActivity.this,
-                        DashboardActivity.class));
+
+//                startActivity(new Intent(NewPostActivity.this,
+//                        DashboardActivity.class));
                 break;
             case R.id.btnUploadImage:
                 selectImage();
@@ -290,6 +293,23 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     private RequestBody createPartFromString(String condition) {
         return RequestBody.create(okhttp3.MultipartBody.FORM, condition);
     }
+
+    /**
+     * Shows progress dialog during request
+     */
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    /**
+     * Hides progress dialog during request
+     */
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
+
     /**
      * Posts the new item to the database with the information
      * that the user filled in on the page.
@@ -310,6 +330,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         }
         Log.d(TAG, "CHECKING THE IMAGE:" + imageString);
 
+        showProgressDialog();
         // Make post request for JSONObject using the url:
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.POST, url, js,
@@ -317,11 +338,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString() + " i am queen");
+                        hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                hideProgressDialog();
             }
         }) {
 

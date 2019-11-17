@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,36 +79,10 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-
         // get the item's current information from the last activity
         Intent intent = getIntent();
-        String response = intent.getStringExtra("ExtraMessage");
-
-        // create JSON Object from the response String
-        try {
-            assert response != null;
-            objectToEdit = new JSONObject(response);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // initialize image
-        tvUpload = findViewById(R.id.tvUploadImageEdit);
-        ivImage = findViewById(R.id.imgUploadImageEdit);
-        try {
-            String imageString = objectToEdit.getString("image");
-            bmImage = NewPostActivity.StringToBitMap(imageString);
-            ivImage.setImageBitmap(bmImage);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // initialize text box variables
-        etName = findViewById(R.id.etEditName);
-        etPrice = findViewById(R.id.etEditPrice);
-        etCondition = findViewById(R.id.etEditCondition);
-        etCategory = findViewById(R.id.etEditCategory);
-        initializeEditTextFields(objectToEdit);
+        String refnum = intent.getStringExtra("refnum");
+        findItemByRefnum(refnum);
 
         // make buttons clickable
         btnSubmit = findViewById(R.id.btnEditSubmit);
@@ -116,7 +91,44 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         btnDelete.setOnClickListener(this);
         btnImage = findViewById(R.id.btnUploadImageEdit);
         btnImage.setOnClickListener(this);
+    }
 
+    /**
+     * Finds the item json object by the given refnum
+     * @param refnum the refnum of the item
+     */
+    private void findItemByRefnum(String refnum) {
+        showProgressDialog();
+        String url = Const.URL_ITEM_FIND_REFNUM + "/" + refnum;
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        hideProgressDialog();
+                        Log.d(TAG, response.toString() + " posted");
+                        // Now initialize the fields.
+                        objectToEdit = response;
+                        String imageString = null;
+                        try {
+                            imageString = objectToEdit.getString("image");
+                            bmImage = NewPostActivity.StringToBitMap(imageString);
+                            ivImage = findViewById(R.id.imgUploadImageEdit);
+                            ivImage.setImageBitmap(bmImage);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        initializeEditTextFields(objectToEdit);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "error ");
+
+                    }
+                });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
     }
 
     /**
@@ -124,6 +136,15 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
      * @param obj  JSON Object representing the item
      */
     private void initializeEditTextFields(JSONObject obj) {
+        // initialize image
+        tvUpload = findViewById(R.id.tvUploadImageEdit);
+
+        // initialize text box variables
+        etName = findViewById(R.id.etEditName);
+        etPrice = findViewById(R.id.etEditPrice);
+        etCondition = findViewById(R.id.etEditCondition);
+        etCategory = findViewById(R.id.etEditCategory);
+
         try {
             etName.setText(obj.getString("name"));
             etPrice.setText(obj.getString("price"));
