@@ -1,8 +1,7 @@
 package org.campusmarket.app.models;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,7 +13,6 @@ import javax.persistence.Entity;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.core.style.ToStringCreator;
-
 
 
 /**
@@ -49,11 +47,11 @@ public class Item {
     @Column (name= "postdate")
     private LocalDate postdate;
     
-   // @Column (name="fname")
-   // private String fname;
+    @Column (name="fname")
+    private String fname;
     
-   // @Column (name="ftype")
-   // private String ftype;
+    @Column (name="ftype")
+    private String ftype;
     
     
     
@@ -100,21 +98,16 @@ public class Item {
    }
    
    
-   public Item(String name, Double price, String category, String condition, byte[] fdata ) {
+   public Item(String name, Double price, String category, String condition, String fname, String ftype, byte[] fdata ) {
        this.name=name;
        this.price=price;
        this.category=category;
        this.cond=condition;
+       this.fname=fname;
+       this.ftype=ftype;
        this.fdata=fdata;
-   }
+       
    
-   public Item(String name, Double price, String category, String condition) {
-
-	   this.name=name;
-       this.price=price;
-       this.category=category;
-       this.cond=condition;
-	   
    }
    
    /**
@@ -165,7 +158,7 @@ public class Item {
     * A getter method to get the BLOB of the file (image)
     * @return fdata
     */
-   //@JsonIgnore
+    @JsonIgnore
    public byte[] getImage() {
 	   return this.fdata;
    }
@@ -174,17 +167,17 @@ public class Item {
     * A getter method to get the name of the  file(image) 
     * @return fname
     */
-  // public String getFname() {
-	//   return this.fname;
-   //}
+   public String getFname() {
+	   return this.fname;
+   }
    
    /**
     * A getter to get the type of the file (pdf,png,...etc)
     * @return
     */
-   //public String getFtype() {
-	 //  return this.ftype;
-  // }
+   public String getFtype() {
+	   return this.ftype;
+   }
    
    
    /**
@@ -252,18 +245,18 @@ public class Item {
     * A setter method to change the type of the image 
     * @param ftype
     */
-   //public void setFtype(String ftype) {
-	   //this.ftype=ftype;
-  // }
+   public void setFtype(String ftype) {
+	   this.ftype=ftype;
+   }
    
    
    /**
     * A setter method to change the name of the image 
     * @param fname
     */
-  // public void setFname(String fname) {
-	//   this.fname=fname;
-  // }
+   public void setFname(String fname) {
+	   this.fname=fname;
+   }
    /**
     * A setter method to change the date an item was posted (in case of an error or if there's an update to the item's information)
     * @param date
