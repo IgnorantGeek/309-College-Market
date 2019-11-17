@@ -158,7 +158,7 @@ public class Item {
     * A getter method to get the BLOB of the file (image)
     * @return fdata
     */
-    @JsonIgnore
+    
    public byte[] getImage() {
 	   return this.fdata;
    }
