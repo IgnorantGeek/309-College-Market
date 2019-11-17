@@ -3,6 +3,7 @@ package org.campusmarket.app.controllers;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.campusmarket.app.exception.FileStorageException;
@@ -81,13 +82,13 @@ public class ItemController
 
 	 /**
 	  * A method to post a new item 
-	  * @param fname the file(image) that we want to post
+	  * @param the body of the item model class
 	  * @param sessid of the user posting the item
-	  * @param json other json data (name,price,category,condition)
-	  * @return the new item that was posted
 	  */
 	@PostMapping("/new")
-	public Item newItem(@RequestParam(name = "sessid", required = true) String sessid, @RequestParam  ("json")  String str){
+	public Item newItem(@RequestParam(name = "sessid", required = true) String sessid,
+			@RequestParam("fname") MultipartFile file, @RequestParam ("json") String str )
+	{
 		if (sessid.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
@@ -99,11 +100,11 @@ public class ItemController
 		String category=json.getString("category");
 		String cond=json.getString("condition");
 		
-       // String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-		//if(fileName.contains("..")) {
-          //  throw new FileStorageException("Filename contains invalid path characters " + fileName);
-        //}
+		if(fileName.contains("..")) {
+            throw new FileStorageException("Filename contains invalid path characters " + fileName);
+        }
 		
 		
         Session active = sessions.findBySessId(sessid);
@@ -114,7 +115,7 @@ public class ItemController
 		{	
 			User u=users.findById(sessions.findUserBySession(sessid));
 			
-			Item item=new Item (name,price,category,cond);
+			Item item=new Item (name,price,category,cond, fileName, file.getContentType(), file.getBytes());
 	
 			item.setUser(u);
 			items.save(item);
@@ -172,7 +173,6 @@ public class ItemController
 				oldItem.setPrice(item.getPrice());
 				oldItem.setCategory(item.getCategory());
 				oldItem.setCondition(item.getCondition());
-				oldItem.setImage(item.getImage());
 				items.save(oldItem);
 					
 				log.info(" success: the item with a reference number of " + refnum +" was updated");
@@ -391,8 +391,8 @@ public class ItemController
 	        Item f = files.getFile(refnum);
 
 	        return ResponseEntity.ok()
-	                //.contentType(MediaType.parseMediaType(f.getFtype()))
-	                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + f.getFname() + "\"")
+	                .contentType(MediaType.parseMediaType(f.getFtype()))
+	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + f.getFname() + "\"")
 	                .body(new ByteArrayResource(f.getImage()));
 	    }
 
