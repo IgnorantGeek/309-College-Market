@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -22,8 +23,7 @@
         <activity android:name=".EditPost" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".CartActivity" />
-        <!--        <activity android:name=".DeletePost" />-->
+        <activity android:name=".CartActivity" /> <!-- <activity android:name=".DeletePost" /> -->
         <activity android:name=".UserActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />

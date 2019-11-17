@@ -1,6 +1,7 @@
 package com.example.campusmarket;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -28,14 +29,25 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.campusmarket.app.AppController;
+import com.example.campusmarket.app.Client;
 import com.example.campusmarket.utils.Const;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Activity that represents a page to post a new item.
@@ -48,6 +60,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     private EditText etName, etPrice, etCondition, etCategory;
     private String TAG = NewPostActivity.class.getSimpleName();
     private String imageString;
+    private Uri uriImage;
+    private ProgressDialog pDialog;
 
     /**
      * Creates instance of NewPostActivity
@@ -60,6 +74,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
         Button btnSubmitPost = findViewById(R.id.btnSubmitPost);
         btnSubmitPost.setOnClickListener(this);
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
 
         // to make a new post the fields must be editable:
         etName = findViewById(R.id.etName);
@@ -83,7 +101,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSubmitPost:
+                // current way of posting item
                 postItem();
+                //multi-part way of posting an item
+                //doRequest(uriImage);
                 startActivity(new Intent(NewPostActivity.this,
                         DashboardActivity.class));
                 break;
@@ -109,8 +130,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
                 // selected file from gallery
-                Uri selectedImage = data.getData();
-                Bitmap bitmap = getPath(selectedImage);
+                uriImage = data.getData();
+                Bitmap bitmap = getPath(uriImage);
                 String filePath = String.valueOf(bitmap);
                 Log.d(TAG, filePath);
                 String converted = BitMapToString(bitmap);
@@ -137,12 +158,11 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
      * @param bitmap the bitmap to be converted
      * @return string representation of the bitmap
      */
-    public String BitMapToString(Bitmap bitmap){
+    public static String BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new  ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
         byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
+        return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
     /**
@@ -150,11 +170,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
      * @param encodedString the string that represents a bitmap
      * @return the converted bitmap object related to the string
      */
-    public Bitmap StringToBitMap(String encodedString){
+    public static Bitmap StringToBitMap(String encodedString){
         try {
             byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
+            return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
         } catch(Exception e) {
             e.getMessage();
             return null;
@@ -235,6 +254,80 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
+     * Creates the body of the multipart based on the file
+     * @param partName the name of the part (fname)
+     * @param fileUri the file representation of the image
+     * @return the MultipartBody.part
+     */
+    @NonNull
+    private MultipartBody.Part prepareFile(String partName, Uri fileUri)
+    {
+
+        File file = new File(fileUri.getPath());
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        file
+                );
+        return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
+    }
+
+    /**
+     * Performs the Multipart request for an item + image, using retrofit
+     * @param fileUri The Uri of the image to be added to the item
+     */
+    private void doRequest(Uri fileUri)
+    {
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(Const.URL_ITEM_NEW)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        String s = "condition";
+        Client client = retrofit.create(Client.class);
+        Call<ResponseBody> call = client.uploadImage(
+                createPartFromString(s),
+                prepareFile("photo", fileUri));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                Log.d(TAG, response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG, "Failure");
+            }
+        });
+
+    }
+
+    /**
+     * Creates the request body from the given string
+     * @param description The description of the parameter
+     * @return The requestBody to be used in the request
+     */
+    private RequestBody createPartFromString(String description) {
+        return RequestBody.create(okhttp3.MultipartBody.FORM, description);
+    }
+
+    /**
+     * Shows progress dialog during request
+     */
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    /**
+     * Hides progress dialog during request
+     */
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
+
+    /**
      * Posts the new item to the database with the information
      * that the user filled in on the page.
      * Called once they click "Post"
@@ -254,6 +347,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         }
         Log.d(TAG, "CHECKING THE IMAGE:" + imageString);
 
+        showProgressDialog();
         // Make post request for JSONObject using the url:
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.POST, url, js,
@@ -261,11 +355,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString() + " i am queen");
+                        hideProgressDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
+                hideProgressDialog();
             }
         }) {
 
@@ -293,7 +389,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         };
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq, "jobj_req");
-
     }
 
 }

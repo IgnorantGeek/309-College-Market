@@ -3,12 +3,14 @@ package com.example.campusmarket;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -88,6 +90,11 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
         postedDate.setText(item.getPostedDate());
         user.setText(item.getUser());
         refnum = item.getRefnum();
+
+        //Adding the image to the page
+        Bitmap imageBitmap = item.getImage();
+        ImageView image =  listViewItem.findViewById(R.id.imgPlaceholder);
+        image.setImageBitmap(imageBitmap);
 
         //returning the list of items as a whole
         return listViewItem;

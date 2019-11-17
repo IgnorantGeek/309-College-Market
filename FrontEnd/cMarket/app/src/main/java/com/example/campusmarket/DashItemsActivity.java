@@ -1,5 +1,7 @@
 package com.example.campusmarket;
 
+import android.graphics.Bitmap;
+
 /**
  * Class that helps represent the items on the Dashboard
  */
@@ -12,6 +14,7 @@ public class DashItemsActivity {
     private String postedDate;
     private String user;
     private String refnum;
+    private Bitmap image;
 
     // we will be calling this DashItemsActivity object --
     // in the main activity to get all of the necessary fields of an item
@@ -26,7 +29,7 @@ public class DashItemsActivity {
      * @param refnum refnum of item
      *
      */
-    public DashItemsActivity(String name, String price, String condition, String category, String postedDate, String user, String refnum) {
+    public DashItemsActivity(String name, String price, String condition, String category, String postedDate, String user, String refnum, String imageString) {
         this.name = name;
         this.price = price;
         this.condition = condition;
@@ -34,6 +37,8 @@ public class DashItemsActivity {
         this.postedDate = postedDate;
         this.user = user;
         this.refnum = refnum;
+        this.image = NewPostActivity.StringToBitMap(imageString);
+
 
     }
 
@@ -102,16 +107,15 @@ public class DashItemsActivity {
     }
 
     /**
-     * Will return the refnum of the item
-     * @return refnum of item
+     * Will return the date of the item
+     * @return date of item
      */
     public String getPostedDate(){
         return postedDate;
     }
 
     /**
-     * Can update the refnum of the item
-     * @param refnum refnum of item
+     * Can update the date of the item
      */
     public void setPostedDate(String postedDate){
         this.postedDate = postedDate;
@@ -147,6 +151,22 @@ public class DashItemsActivity {
      */
     public void setRefnum(String refnum){
         this.refnum = refnum;
+    }
+
+    /**
+     * Will return the image of the item
+     * @return image of item
+     */
+    public Bitmap getImage(){
+        return image;
+    }
+
+    /**
+     * Can update the image of the item
+     * @param image the Bitmap image to set
+     */
+    public void setImage(Bitmap image){
+        this.image = image;
     }
 
 
