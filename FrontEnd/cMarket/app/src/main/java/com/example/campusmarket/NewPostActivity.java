@@ -28,14 +28,25 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.campusmarket.app.AppController;
+import com.example.campusmarket.app.Client;
 import com.example.campusmarket.utils.Const;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Activity that represents a page to post a new item.
@@ -48,6 +59,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     private EditText etName, etPrice, etCondition, etCategory;
     private String TAG = NewPostActivity.class.getSimpleName();
     private String imageString;
+    private Uri uriImage;
 
     /**
      * Creates instance of NewPostActivity
@@ -83,7 +95,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSubmitPost:
+                // current way of posting item
                 postItem();
+                //multi-part way of posting an item
+                //doRequest(uriImage);
                 startActivity(new Intent(NewPostActivity.this,
                         DashboardActivity.class));
                 break;
@@ -109,8 +124,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
                 // selected file from gallery
-                Uri selectedImage = data.getData();
-                Bitmap bitmap = getPath(selectedImage);
+                uriImage = data.getData();
+                Bitmap bitmap = getPath(uriImage);
                 String filePath = String.valueOf(bitmap);
                 Log.d(TAG, filePath);
                 String converted = BitMapToString(bitmap);
@@ -234,6 +249,47 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @NonNull
+    private MultipartBody.Part prepareFile(String partName, Uri fileUri)
+    {
+
+        File file = new File(fileUri.getPath());
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        file
+                );
+        return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
+    }
+
+    private void doRequest(Uri fileUri)
+    {
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(Const.URL_ITEM_NEW)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        Client client = retrofit.create(Client.class);
+        Call<ResponseBody> call = client.uploadImage(
+                createPartFromString("condition"),
+                prepareFile("photo", fileUri));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private RequestBody createPartFromString(String condition) {
+        return RequestBody.create(okhttp3.MultipartBody.FORM, condition);
+    }
     /**
      * Posts the new item to the database with the information
      * that the user filled in on the page.

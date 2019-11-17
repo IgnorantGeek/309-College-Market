@@ -30,14 +30,25 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.campusmarket.app.AppController;
+import com.example.campusmarket.app.Client;
 import com.example.campusmarket.utils.Const;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Activity for editing a user's item post
@@ -53,6 +64,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     private Bitmap bmImage;
     private TextView tvUpload;
     private static final int PICK_FROM_GALLERY = 1;
+    private Uri uriImage;
 
     /**
      * Creates this instance of EditPost.
@@ -145,7 +157,6 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
         // post the new json object
         make_update_request(toAdd);
-
     }
 
     /**
@@ -285,8 +296,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
             // selected file from gallery
-            Uri selectedImage = data.getData();
-            bmImage = getPath(selectedImage);
+            uriImage = data.getData();
+            bmImage = getPath(uriImage);
             String filePath = String.valueOf(bmImage);
 
             if (filePath.equals("null"))
@@ -374,6 +385,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
             }
         }
     }
+
     /**
      * Waits for the user to click a button on the screen.
      * If the button is "Submit," it updates that item's info
