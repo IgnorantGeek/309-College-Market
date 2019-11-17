@@ -348,6 +348,20 @@ public class ItemController
  	}
  }
  
+     @GetMapping("/refnum/{refnum}")
+   	public Item findItemByRefnum(@PathVariable("refnum") int refnum)
+   	{	
+   		try 
+   		{
+       		return items.findByRefnum(refnum);
+   		}
+   		catch(Exception e)
+   		{
+       		log.error(e.getMessage());
+               throw new ResponseStatusException(HttpStatus.NOT_FOUND, "there's no such item.");
+       	}
+       }
+    
     
      /**
       * a method to search for items using their names AND conditions 
