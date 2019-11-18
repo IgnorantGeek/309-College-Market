@@ -1,8 +1,6 @@
 package com.example.campusmarket;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,8 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.campusmarket.utils.Const;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
@@ -20,115 +19,118 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Objects;
 
-public class WebSockets extends AppCompatActivity {
+public class WebSockets extends AppCompatActivity implements View.OnClickListener {
 
-    Button b1, b2;
-    EditText e1, e2;
-    TextView t1;
-
-    private WebSocketClient cc;
+    private Button btnConnect, btnSend;
+    private EditText etConnect, etMessage;
+    private TextView tvMessageBox;
+    private WebSocketClient client;
 
     /**
      * Creates this instance of the chat
-     * @param savedInstanceState
+     * @param savedInstanceState the saved instance
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_websockets);
 
-        b1 = (Button) findViewById(R.id.bt1);
-        b2 = (Button) findViewById(R.id.bt2);
-        e1 = (EditText) findViewById(R.id.et1);
-        e2 = (EditText) findViewById(R.id.et2);
-        t1 = (TextView) findViewById(R.id.tx1);
+        // initialize variables
+        btnConnect =  findViewById(R.id.btnConnectWebSockets);
+        btnSend =  findViewById(R.id.btnSendMessage);
+        etConnect =  findViewById(R.id.etUsername);
+        etMessage =  findViewById(R.id.etMessage);
+        tvMessageBox =  findViewById(R.id.tvMessageBox);
+        btnConnect.setOnClickListener(this);
+        btnSend.setOnClickListener(this);
+    }
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            /**
-             * Handles the button click of chat
-             * @param view
-             */
-            @Override
-            public void onClick(View view) {
-                Draft[] drafts = {new Draft_6455()};
+    /**
+     * Called when a user tries to connect to the websocket.
+     */
+    private void connectUser() {
+        Draft[] drafts = {new Draft_6455()};
+        String w = Const.URL_CHAT + "/" + etConnect.getText().toString();
+        Log.d("Socket: ", w);
+        try {
+            Log.d("Socket: ", "Trying socket");
+            client = new WebSocketClient(new URI(w), drafts[0]) {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onMessage(String message) {
+                    Log.d("", " run() returned: " + message);
+                    String s = tvMessageBox.getText().toString() + " ";
+                    tvMessageBox.setText(s + " Server: " + message);
+                }
 
                 /**
-                 * If running this on an android device, make sure it is on the same network as your
-                 * computer, and change the ip address to that of your computer.
-                 * If running on the emulator, you can use localhost.
-                 **/
-                String w = "ws://coms-309-jr-1.misc.iastate.edu:8080/chat/"+e1.getText().toString();
-                Log.d("Socket: ", w);
-                try {
-                    Log.d("Socket: ", "Trying socket");
-                    cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onMessage(String message) {
-                            Log.d("", " run() returned: " + message);
-                            String s=t1.getText().toString() + " ";
-                            //t1.setText("hello world");
-                            //Log.d("first", "run() returned: " + s);
-                            //s=t1.getText().toString();
-                            //Log.d("second", "run() returned: " + s);
-                            t1.setText(s+" Server: " + message);
-                        }
-
-                        /**
-                         * Called when chat is opened to establish connection
-                         * @param handshake
-                         */
-                        @Override
-                        public void onOpen(ServerHandshake handshake) {
-                            Log.d("OPEN", "run() returned: " + " is connecting ");
-                        }
-
-                        /**
-                         * Called when chat is closed to finish chat session
-                         * @param code
-                         * @param reason
-                         * @param remote
-                         */
-                        @Override
-                        public void onClose(int code, String reason, boolean remote) {
-                            Log.d("CLOSE", " onClose() returned: " + reason);
-                        }
-
-                        /**
-                         * Called if there is an error / exception in the chat
-                         * @param e
-                         */
-                        @Override
-                        public void onError(Exception e)
-                        {
-                            Log.d("Exception:", e.toString());
-                        }
-                    };
+                 * Called when chat is opened to establish connection
+                 * @param handshake the server handshake
+                 */
+                @Override
+                public void onOpen(ServerHandshake handshake) {
+                    Log.d("OPEN", "run() returned: " + " is connecting ");
                 }
-                catch (URISyntaxException e) {
-                    Log.d("Exception:", Objects.requireNonNull(e.getMessage()));
-                    e.printStackTrace();
-                }
-                cc.connect();
 
-            }
-        });
+                /**
+                 * Called when chat is closed to finish chat session
+                 * @param code the code (int)
+                 * @param reason the reason (String)
+                 * @param remote whether remote or not (boolean)
+                 */
+                @Override
+                public void onClose(int code, String reason, boolean remote) {
+                    Log.d("CLOSE", " onClose() returned: " + reason);
+                }
 
-        b2.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onClick(View v) {
-                try {
-                    cc.send(e2.getText().toString() + " ");
+                /**
+                 * Called if there is an error / exception in the chat
+                 * @param e the exception
+                 */
+                @Override
+                public void onError(Exception e) {
+                    Log.d("Exception:", e.toString());
                 }
-                catch (Exception e)
-                {
-                    Log.d("ExceptionSendMessage:", Objects.requireNonNull(e.getMessage()));
-                }
-            }
-        });
+            };
+        } catch (URISyntaxException e) {
+            if (e.getMessage() != null)
+                Log.d("ExceptionSendMessage:", e.getMessage());
+            e.printStackTrace();
+        }
+        client.connect();
+    }
+
+    /**
+     * Called when the user sends a message.
+     */
+    private void sendMessage() {
+        try {
+            client.send(etMessage.getText().toString() + " ");
+        } catch (Exception e) {
+            if (e.getMessage() != null)
+                Log.d("ExceptionSendMessage:", e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sees which button the user is going to click.
+     * Almost acts as a navbar
+     * @param view the View
+     */
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnConnectWebSockets:
+                connectUser();
+                break;
+            case R.id.btnSendMessage:
+                sendMessage();
+                break;
+            default:
+                break;
+        }
     }
 }
+

@@ -8,7 +8,7 @@
     tools:context="com.example.campusmarket.WebSockets">
 
     <EditText
-        android:id="@+id/et2"
+        android:id="@+id/etMessage"
         android:layout_width="406dp"
         android:layout_height="82dp"
         android:layout_marginTop="17dp"
@@ -17,20 +17,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt1" />
+        app:layout_constraintTop_toBottomOf="@+id/btnConnectWebSockets" />
 
     <Button
-        android:id="@+id/bt1"
+        android:id="@+id/btnConnectWebSockets"
         android:layout_width="414dp"
         android:layout_height="51dp"
         android:layout_marginTop="22dp"
         android:text="Connect to Messaging"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et1" />
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
     <EditText
-        android:id="@+id/et1"
+        android:id="@+id/etUsername"
         android:layout_width="408dp"
         android:layout_height="53dp"
         android:layout_marginTop="27dp"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvContactSeller" />
 
     <TextView
-        android:id="@+id/tx1"
+        android:id="@+id/tvMessageBox"
         android:layout_width="408dp"
         android:layout_height="254dp"
         android:layout_marginTop="36dp"
@@ -54,17 +54,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSendMessage" />
 
     <Button
-        android:id="@+id/bt2"
+        android:id="@+id/btnSendMessage"
         android:layout_width="411dp"
         android:layout_height="48dp"
         android:layout_marginTop="22dp"
         android:text="Send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et2" />
+        app:layout_constraintTop_toBottomOf="@+id/etMessage" />
 
     <TextView
         android:id="@+id/tvContactSeller"
@@ -75,7 +75,7 @@
         android:text="Contact Seller"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/et1"
+        app:layout_constraintBottom_toTopOf="@+id/etUsername"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
