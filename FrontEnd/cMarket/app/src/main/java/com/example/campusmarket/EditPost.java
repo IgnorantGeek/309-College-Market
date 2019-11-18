@@ -172,6 +172,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
             toAdd.put("user", oldObject.getJSONObject("user"));
             toAdd.put("condition", (etCondition.getText()).toString());
             toAdd.put("image", NewPostActivity.BitMapToString(bmImage));
+            toAdd.put("fname", "img");
+            toAdd.put("ftype", "image/png");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -245,6 +247,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                     params.put("user", js.getString("user"));
                     params.put("condition", js.getString("condition"));
                     params.put("image", NewPostActivity.BitMapToString(bmImage));
+                    params.put("fname", "img");
+                    params.put("ftype", "image/png");
                 }  catch (JSONException e) {
                     e.printStackTrace();
                 }
