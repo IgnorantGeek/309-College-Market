@@ -1,6 +1,7 @@
 package com.example.campusmarket;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,13 +17,14 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
+import org.w3c.dom.Text;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 public class WebSockets extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnConnect, btnSend;
+    private Button btnSend;
     private EditText etConnect, etMessage;
     private TextView tvMessageBox;
     private WebSocketClient client;
@@ -36,22 +38,34 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_websockets);
 
+        // display the users' names
+        Intent intent = getIntent();
+        String seller = intent.getStringExtra("seller");
+        String buyer = intent.getStringExtra("buyer");
+        if (seller != null && buyer != null)
+        {
+            String namesString  = seller + " & " + buyer;
+            TextView names = findViewById(R.id.tvUsersDM);
+            names.setText(namesString);
+        }
+
         // initialize variables
-        btnConnect =  findViewById(R.id.btnConnectWebSockets);
         btnSend =  findViewById(R.id.btnSendMessage);
         etConnect =  findViewById(R.id.etUsername);
         etMessage =  findViewById(R.id.etMessage);
         tvMessageBox =  findViewById(R.id.tvMessageBox);
-        btnConnect.setOnClickListener(this);
         btnSend.setOnClickListener(this);
+
+        // connect the user who is logged in (so they don't type in their own username)
+        connectUser(UserActivity.loggedInUsername);
     }
 
     /**
      * Called when a user tries to connect to the websocket.
      */
-    private void connectUser() {
+    private void connectUser(String username) {
         Draft[] drafts = {new Draft_6455()};
-        String w = Const.URL_CHAT + "/" + etConnect.getText().toString();
+        String w = Const.URL_CHAT + "/" + username;
         Log.d("Socket: ", w);
         try {
             Log.d("Socket: ", "Trying socket");
@@ -122,9 +136,6 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnConnectWebSockets:
-                connectUser();
-                break;
             case R.id.btnSendMessage:
                 sendMessage();
                 break;
