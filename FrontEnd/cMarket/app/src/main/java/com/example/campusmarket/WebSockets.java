@@ -29,7 +29,6 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
 
     private Button btnSend;
     private EditText etMessage;
-    private TextView tvMessageBox;
     private WebSocketClient client;
     private LinearLayout messageLayout;
     private Context parentView;
@@ -58,7 +57,6 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         // initialize variables
         btnSend =  findViewById(R.id.btnSendMessage);
         etMessage =  findViewById(R.id.etMessage);
-        tvMessageBox =  findViewById(R.id.tvMessageBox);
         btnSend.setOnClickListener(this);
         messageLayout =  findViewById(R.id.message_layout);
         messageLayout.setOrientation(LinearLayout.VERTICAL);
