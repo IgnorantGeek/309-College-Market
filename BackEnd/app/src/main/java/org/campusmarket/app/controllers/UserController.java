@@ -172,7 +172,7 @@ public class UserController
 
         try
         {
-            loggedIn.clearCart();
+            users.removeEverythingFromCart(loggedIn.getId());
             log.info("User with ID: " + loggedIn.getId() + " cleared shopping cart.");
             users.save(loggedIn);
         }
@@ -208,9 +208,9 @@ public class UserController
 
         if (dropItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
 
-        if (users.existsInUserCart(loggedIn.getId(), refnum))
+        if (users.existsInUserCart(loggedIn.getId(), refnum) == 1)
         {
-            loggedIn.removeItem(dropItem);
+            users.removeItemFromCart(loggedIn.getId(), refnum);
             log.info("User with ID: " + loggedIn.getId() + " dropped item with refnum: " + refnum + " from shopping cart.");
             users.save(loggedIn);
             return true;
