@@ -1,13 +1,20 @@
 package com.example.campusmarket;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 /**
  * Activity that represents the page after a user logs in / signs up
@@ -49,6 +56,36 @@ public class UserActivity extends Activity implements OnClickListener {
         btnNewPost.setOnClickListener(this);
         btnProfile = (Button) findViewById(R.id.btnGoToProfile);
         btnProfile.setOnClickListener(this);
+        findViewById(R.id.btnNotifcation).setOnClickListener(this);
+    }
+
+    public void notifyMe()
+    {
+        //testing: create a notification here.
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Log.d("Notifcaitons", "inside the if statement");
+
+            Intent intent = new Intent(this, WebSockets.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+//            Bitmap myBitmap = BitmapFactory.decodeResource(this.getResources(),R.drawable.campus_market_logo);
+            int color = 0xddb4ed;
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.DIRECT_MESSAGE_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.shopping_cart_notification)
+//                    .setStyle(new NotificationCompat.BigPictureStyle()
+//                            .bigPicture(myBitmap))
+                    .setContentTitle("Campus Market Message")
+                    .setContentText("You have a direct message from xyz")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setContentIntent(pendingIntent)
+                    .setColor(color)
+                    .setAutoCancel(true);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(MainActivity.notificationId++, builder.build());
+        }
     }
 
     /**
@@ -74,6 +111,9 @@ public class UserActivity extends Activity implements OnClickListener {
             case R.id.btnGoToProfile:
                 startActivity(new Intent(UserActivity.this,
                         ProfileActivity.class));
+                break;
+            case R.id.btnNotifcation:
+                notifyMe();
                 break;
             default:
                 break;
