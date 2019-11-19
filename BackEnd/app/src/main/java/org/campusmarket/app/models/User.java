@@ -69,8 +69,7 @@ public class User implements Serializable
     @JsonIgnore()
     private Set<Session> sessions;
 
-    @OneToMany(cascade = CascadeType.ALL,
-               orphanRemoval = true)
+    @OneToMany()
     @JoinTable(name = "shopping_carts", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     @JsonIgnore()
     private Set<Item> cart;
@@ -329,31 +328,5 @@ public class User implements Serializable
     public void dropSession(Session s)
     {
         this.sessions.remove(s);
-    }
-
-    /**
-     * A method to clear the cart for this user
-     */
-    public void clearCart()
-    {
-        this.cart.clear();
-    }
-
-    /**
-     * A method to add an item to the users shopping cart
-     * @param i
-     */
-    public void addItem(Item i)
-    {
-        this.cart.add(i);
-    }
-
-    /**
-     * A method to remove an item to a users shopping cart
-     * @param i
-     */
-    public void removeItem(Item i)
-    {
-        this.cart.remove(i);
     }
 }
