@@ -329,4 +329,13 @@ public class User implements Serializable
     {
         this.sessions.remove(s);
     }
+
+    /**
+     * A method to add an item to the users shopping cart
+     * @param i
+     */
+    public void addItem(Item i)
+    {
+        this.cart.add(i);
+    }
 }
