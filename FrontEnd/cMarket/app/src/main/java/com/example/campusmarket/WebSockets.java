@@ -1,12 +1,15 @@
 package com.example.campusmarket;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,9 +28,11 @@ import java.net.URISyntaxException;
 public class WebSockets extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnSend;
-    private EditText etConnect, etMessage;
+    private EditText etMessage;
     private TextView tvMessageBox;
     private WebSocketClient client;
+    private LinearLayout messageLayout;
+    private Context parentView;
 
     /**
      * Creates this instance of the chat
@@ -38,6 +43,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_websockets);
 
+        parentView = getApplicationContext();
         // display the users' names
         Intent intent = getIntent();
         String seller = intent.getStringExtra("seller");
@@ -51,10 +57,11 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
 
         // initialize variables
         btnSend =  findViewById(R.id.btnSendMessage);
-        etConnect =  findViewById(R.id.etUsername);
         etMessage =  findViewById(R.id.etMessage);
         tvMessageBox =  findViewById(R.id.tvMessageBox);
         btnSend.setOnClickListener(this);
+        messageLayout =  findViewById(R.id.message_layout);
+        messageLayout.setOrientation(LinearLayout.VERTICAL);
 
         // connect the user who is logged in (so they don't type in their own username)
         connectUser(UserActivity.loggedInUsername);
@@ -70,12 +77,23 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         try {
             Log.d("Socket: ", "Trying socket");
             client = new WebSocketClient(new URI(w), drafts[0]) {
+
                 @SuppressLint("SetTextI18n")
                 @Override
-                public void onMessage(String message) {
+                public void onMessage(final String message) {
                     Log.d("", " run() returned: " + message);
-                    String s = tvMessageBox.getText().toString() + " ";
-                    tvMessageBox.setText(s + " Server: " + message);
+                    // add this message to the scrollbox
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            // Stuff that updates the UI
+                            TextView tv = new TextView(parentView);
+                            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
+                            tv.setText(message);
+                            messageLayout.addView(tv);
+                        }
+                    });
                 }
 
                 /**
@@ -121,6 +139,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
     private void sendMessage() {
         try {
             client.send(etMessage.getText().toString() + " ");
+            etMessage.setText("");
         } catch (Exception e) {
             if (e.getMessage() != null)
                 Log.d("ExceptionSendMessage:", e.getMessage());

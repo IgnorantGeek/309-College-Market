@@ -9,40 +9,43 @@
 
     <EditText
         android:id="@+id/etMessage"
-        android:layout_width="374dp"
-        android:layout_height="84dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="240dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="276dp"
+
+
         android:hint="Enter your Message"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsersDM" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMessageBox" />
 
     <TextView
         android:id="@+id/tvMessageBox"
-        android:layout_width="385dp"
-        android:layout_height="255dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="27dp"
-        android:text="Conversation:"
+        android:layout_width="352dp"
+        android:layout_height="43dp"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSendMessage"
-        app:layout_constraintVertical_bias="0.108" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <Button
         android:id="@+id/btnSendMessage"
-        android:layout_width="382dp"
-        android:layout_height="49dp"
+        android:layout_width="114dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="212dp"
         android:text="Send"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etMessage" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/etMessage"
+        app:layout_constraintTop_toTopOf="@+id/scrollViewDM"
+        app:layout_constraintVertical_bias="0.993" />
 
     <TextView
         android:id="@+id/tvContactSeller"
@@ -66,10 +69,45 @@
         android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
         android:textColor="#673AB7"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvContactSeller" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Conversation:"
+        android:textColor="#673AB7"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsersDM" />
+
+    <ScrollView
+        android:id="@+id/scrollViewDM"
+        android:layout_width="354dp"
+        android:layout_height="302dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/etMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.878"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:layout_constraintVertical_bias="0.478">
+
+        <LinearLayout
+            android:id="@+id/message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

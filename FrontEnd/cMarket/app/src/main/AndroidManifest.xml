@@ -30,7 +30,9 @@
         <activity android:name=".JsonRequestActivity" />
         <activity android:name=".DropDownActivity" />
         <activity android:name=".NewPostActivity" />
-        <activity android:name=".WebSockets" />
+        <activity android:name=".WebSockets"
+            android:windowSoftInputMode="adjustPan"
+        />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
