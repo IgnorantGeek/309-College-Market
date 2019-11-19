@@ -110,7 +110,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.btnUploadImage:
                 selectImage();
-                 break;
+                break;
             default:
                 break;
         }
@@ -129,28 +129,28 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
-                // selected file from gallery
-                uriImage = data.getData();
-                Bitmap bitmap = getPath(uriImage);
-                String filePath = String.valueOf(bitmap);
-                Log.d(TAG, filePath);
-                String converted = BitMapToString(bitmap);
-                Log.d(TAG, converted);
-                Bitmap bconverted = StringToBitMap(converted);
+            // selected file from gallery
+            uriImage = data.getData();
+            Bitmap bitmap = getPath(uriImage);
+            String filePath = String.valueOf(bitmap);
+            Log.d(TAG, filePath);
+            String converted = BitMapToString(bitmap);
+            Log.d(TAG, converted);
+            Bitmap bconverted = StringToBitMap(converted);
 
-                if (filePath.equals("null"))
-                {
-                    String failure = "Error in uploading picture";
-                    tvUpload.setText(failure);
-                }
-                else
-                {
-                    String success = "Image uploaded";
-                    tvUpload.setText(success);
-                    imageUpload.setImageBitmap(bconverted);
-                    imageString = converted;
-                }
+            if (filePath.equals("null"))
+            {
+                String failure = "Error in uploading picture";
+                tvUpload.setText(failure);
             }
+            else
+            {
+                String success = "Image uploaded";
+                tvUpload.setText(success);
+                imageUpload.setImageBitmap(bconverted);
+                imageString = converted;
+            }
+        }
     }
 
     /**
@@ -342,6 +342,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             js.put("condition", (etCondition.getText()).toString());
             js.put("category", (etCategory.getText()).toString());
             js.put("image", imageString);
+            js.put("fname", "img");
+            js.put("ftype", "image/png");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -383,6 +385,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 params.put("condition", (etCondition.getText()).toString());
                 params.put("category", (etCategory.getText()).toString());
                 params.put("image", imageString);
+                params.put("fname", "img");
+                params.put("ftype", "image/png");
                 return params;
             }
 
