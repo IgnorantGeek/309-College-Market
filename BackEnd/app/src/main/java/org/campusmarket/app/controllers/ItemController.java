@@ -270,7 +270,7 @@ public class ItemController
 			catch (Exception e)
 			{
 				log.error("item with refnum"+ refnum + " not found" );
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "item with refnum " + refnum + " not found.", e);
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 			}
 		}
 		else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
