@@ -1,6 +1,7 @@
 package com.example.campusmarket;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.campusmarket.utils.Const;
 
@@ -65,6 +68,31 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         connectUser(UserActivity.loggedInUsername);
     }
 
+    public void notifyMe(String username)
+    {
+        //testing: create a notification here.
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+            Intent intent = new Intent(this, WebSockets.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+            int color = 0xddb4ed;
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.DIRECT_MESSAGE_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.shopping_cart_notification)
+                    .setContentTitle("Campus Market Message")
+                    .setContentText("You have a direct message from " + username)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setContentIntent(pendingIntent)
+                    .setColor(color)
+                    .setAutoCancel(true);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(MainActivity.notificationId++, builder.build());
+        }
+    }
+
     /**
      * Called when a user tries to connect to the websocket.
      */
@@ -78,8 +106,15 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
 
                 @SuppressLint("SetTextI18n")
                 @Override
-                public void onMessage(final String message) {
-                    Log.d("", " run() returned: " + message);
+                public void onMessage(final String wholeMessage) {
+                    Log.d("", " run() returned: " + wholeMessage);
+                    String[] parts = wholeMessage.split(":");
+                    String username = parts[0];
+                    String message = parts[1];
+                    if (!username.equals(UserActivity.loggedInUsername))
+                    {
+                        notifyMe(username);
+                    }
                     // add this message to the scrollbox
                     runOnUiThread(new Runnable() {
 
@@ -88,8 +123,9 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
                             // Stuff that updates the UI
                             TextView tv = new TextView(parentView);
                             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
-                            tv.setText(message);
+                            tv.setText(wholeMessage);
                             messageLayout.addView(tv);
+                            //notifyMe(username);
                         }
                     });
                 }
