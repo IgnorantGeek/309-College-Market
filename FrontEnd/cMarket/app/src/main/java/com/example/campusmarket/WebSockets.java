@@ -30,6 +30,7 @@ import java.net.URISyntaxException;
 
 public class WebSockets extends AppCompatActivity implements View.OnClickListener {
 
+    private String TAG = WebSockets.class.getSimpleName();
     private Button btnSend;
     private EditText etMessage;
     private WebSocketClient client;
@@ -50,6 +51,13 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         Intent intent = getIntent();
         String seller = intent.getStringExtra("seller");
         String buyer = intent.getStringExtra("buyer");
+        if (seller == null)
+        {
+            Log.d(TAG,"seller is null");
+        }if (buyer == null)
+        {
+            Log.d(TAG,"buyer is null");
+        }
         if (seller != null && buyer != null)
         {
             String namesString  = seller + " & " + buyer;
@@ -64,25 +72,41 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         messageLayout =  findViewById(R.id.message_layout);
         messageLayout.setOrientation(LinearLayout.VERTICAL);
 
+
+        String previousMessage = intent.getStringExtra("message");
+        if (previousMessage != null)
+        {
+            TextView tv = new TextView(parentView);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
+            tv.setText(previousMessage);
+            messageLayout.addView(tv);
+        }
+
         // connect the user who is logged in (so they don't type in their own username)
         connectUser(UserActivity.loggedInUsername);
     }
 
-    public void notifyMe(String username)
+    public void notifyMe(String seller, String buyer, String message)
     {
         //testing: create a notification here.
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
+            String messageFrom = seller.equals(UserActivity.loggedInUsername) ? buyer : seller;
+            String wholeMessage = messageFrom + ": " + message;
             Intent intent = new Intent(this, WebSockets.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            intent.putExtra("seller", seller);
+            intent.putExtra("buyer", buyer);
+            intent.putExtra("message", wholeMessage);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             int color = 0xddb4ed;
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MainActivity.DIRECT_MESSAGE_CHANNEL_ID)
                     .setSmallIcon(R.drawable.shopping_cart_notification)
-                    .setContentTitle("Campus Market Message")
-                    .setContentText("You have a direct message from " + username)
+                    .setContentTitle("Campus Market Message from " + messageFrom)
+                    .setContentText("Preview: " + message)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setContentIntent(pendingIntent)
+                    .setColorized(true)
                     .setColor(color)
                     .setAutoCancel(true);
 
@@ -91,6 +115,28 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
             // notificationId is a unique int for each notification that you must define
             notificationManager.notify(MainActivity.notificationId++, builder.build());
         }
+    }
+
+    /**
+     * Returns the username part of the message
+     * @param message the string that is sent from backend after a message is sent
+     * @return The username of who sent this message
+     */
+    private String getUsernameFromMessage(String message)
+    {
+        String[] parts = message.split(":");
+        return parts[0];
+    }
+
+    /**
+     * the string that is sent from backend after a message is sent
+     * @param message  The chat part of the message
+     * @return
+     */
+    private String getChatFromMessage(String message)
+    {
+        String[] parts = message.split(":");
+        return parts[1];
     }
 
     /**
@@ -108,14 +154,18 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
                 @Override
                 public void onMessage(final String wholeMessage) {
                     Log.d("", " run() returned: " + wholeMessage);
-                    String[] parts = wholeMessage.split(":");
-                    String username = parts[0];
-                    String message = parts[1];
-                    if (!username.equals(UserActivity.loggedInUsername))
+                    String username = getUsernameFromMessage(wholeMessage);
+                    String message = getChatFromMessage(wholeMessage);
+                    // do not notify or add the message if it is initial connection message
+                    if (username.equals("User"))
                     {
-                        notifyMe(username);
+                        return;
                     }
-                    // add this message to the scrollbox
+                    if (!username.equals(UserActivity.loggedInUsername) )
+                    {
+                        notifyMe(username, UserActivity.loggedInUsername, message);
+                    }
+                    // add this message to the scroll box
                     runOnUiThread(new Runnable() {
 
                         @Override
@@ -125,7 +175,6 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
                             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
                             tv.setText(wholeMessage);
                             messageLayout.addView(tv);
-                            //notifyMe(username);
                         }
                     });
                 }
