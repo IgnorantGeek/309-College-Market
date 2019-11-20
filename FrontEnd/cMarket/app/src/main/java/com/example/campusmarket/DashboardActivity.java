@@ -120,10 +120,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 // declaring what parameters will be added
                 String s = demoObject.getString("user");
                 JSONObject seller = new JSONObject(s);
+
+                // if we are the seller of the item, do not display it
+                String sellerName = seller.getString("username");
+                if (sellerName.equals(UserActivity.loggedInUsername))
+                {
+                    continue;
+                }
+
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
                         demoObject.getString("category"), demoObject.getString("postedDate"),
-                        seller.getString("username"), demoObject.getString("refnum"), demoObject.getString("image"));
+                        sellerName, demoObject.getString("refnum"), demoObject.getString("image"));
                 ItemList.add(item); // adding all of these new items for display
 
 

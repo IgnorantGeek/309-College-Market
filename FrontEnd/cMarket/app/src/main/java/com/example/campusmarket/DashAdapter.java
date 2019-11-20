@@ -33,6 +33,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
     private List<DashItemsActivity> ItemList;
     private Context mCtx;
     private String refnum;
+    private String usernameString;
 
     /**
      * So while creating the object of this adapter class we need to give demolist and context.
@@ -89,6 +90,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
         category.setText(item.getCategory());
         postedDate.setText(item.getPostedDate());
         user.setText(item.getUser());
+        usernameString = item.getUser();
         refnum = item.getRefnum();
 
         //Adding the image to the page
@@ -145,6 +147,8 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
             case R.id.btnContactSeller:
                 Intent intent = new Intent(mCtx, WebSockets.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("seller", usernameString);
+                intent.putExtra("buyer", UserActivity.loggedInUsername);
                 mCtx.startActivity(intent);
                 break;
             case R.id.btnAddToCart:
