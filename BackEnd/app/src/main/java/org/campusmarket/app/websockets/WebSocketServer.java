@@ -14,29 +14,55 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.campusmarket.app.models.User;
+import org.campusmarket.db.repositories.SessionsRepository;
+import org.campusmarket.db.repositories.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
-@ServerEndpoint(value = "/chat/{username}")
+@ServerEndpoint(value = "/chat/{sessid}", configurator = CustomConfigurator.class)
 @Component
 public class WebSocketServer
 {
     private static Map<Session, String> sessionUsernameMap = new HashMap<>();
 	private static Map<String, Session> usernameSessionMap = new HashMap<>();
 	
+	@Autowired
+	SessionsRepository sessions;
 
+	@Autowired
+	UsersRepository users;
     
     Log logger = LogFactory.getLog(WebSocketServer.class);
     
     @OnOpen
     public void onOpen(Session session, 
-    	      		   @PathParam("username") String username) throws IOException 
+    	      		   @PathParam("sessid") String sessid) throws IOException 
     {
-        logger.info("Entered into Open");
-        
-        sessionUsernameMap.put(session, username);
-        usernameSessionMap.put(username, session);
-        
-        String message="User:" + username + " has Joined the Chat";
+		logger.info("Entered into Open");
+		
+		if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+		}
+		
+		logger.info("Finding active session.....");
+		org.campusmarket.app.models.Session active = sessions.findBySessId(sessid);
+		logger.info("Session found.");
+
+		if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+
+
+		User loggedIn = users.findById(sessions.findUserBySession(sessid));
+        logger.info("Creating HashMaps......");
+        sessionUsernameMap.put(session, loggedIn.getUsername());
+        usernameSessionMap.put(loggedIn.getUsername(), session);
+		
+		logger.info("HashMaps created.");
+        String message="User:" + loggedIn.getUsername() + " has Joined the Chat";
         	broadcast(message);
 		
     }
@@ -77,7 +103,8 @@ public class WebSocketServer
     public void onError(Session session, Throwable throwable) 
     {
         // Do error handling here
-    	logger.info("Entered into Error");
+		logger.info("Entered into Error");
+		logger.error(throwable.getMessage(), throwable);
     }
     
 	private void sendMessageToPArticularUser(String username, String message) 
