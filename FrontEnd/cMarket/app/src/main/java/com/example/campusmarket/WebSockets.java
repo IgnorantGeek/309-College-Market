@@ -83,7 +83,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         }
 
         // connect the user who is logged in (so they don't type in their own username)
-        connectUser(UserActivity.loggedInUsername);
+        connectUser(UserActivity.sessionID);
     }
 
     public void notifyMe(String seller, String buyer, String message)
@@ -142,9 +142,9 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
     /**
      * Called when a user tries to connect to the websocket.
      */
-    private void connectUser(String username) {
+    private void connectUser(String sessID) {
         Draft[] drafts = {new Draft_6455()};
-        String w = Const.URL_CHAT + "/" + username;
+        String w = Const.URL_CHAT + "/" + sessID;
         Log.d("Socket: ", w);
         try {
             Log.d("Socket: ", "Trying socket");
