@@ -122,7 +122,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
      * @param message the string that is sent from backend after a message is sent
      * @return The username of who sent this message
      */
-    private String getUsernameFromMessage(String message)
+    public String getUsernameFromMessage(String message)
     {
         String[] parts = message.split(":");
         return parts[0];
@@ -133,7 +133,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
      * @param message  The chat part of the message
      * @return
      */
-    private String getChatFromMessage(String message)
+    public String getChatFromMessage(String message)
     {
         String[] parts = message.split(":");
         return parts[1];
