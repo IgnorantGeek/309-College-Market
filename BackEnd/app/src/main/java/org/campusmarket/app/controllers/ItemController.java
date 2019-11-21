@@ -319,7 +319,7 @@ public class ItemController
      * @return  a collection of the items that have that category sorted by price 
      */
     @GetMapping("/category/{category}")
-    public Collection<Item> findItemByCategory(@PathVariable("category") String category) {
+    public ArrayList<Item> findItemByCategory(@PathVariable("category") String category) {
     	try {
     	return items.findByCategory(category);
     	
@@ -370,7 +370,7 @@ public class ItemController
       * @return List of items with the name and condition provided (or part of them)
       */
     @GetMapping("/name/{name}/cond/{cond}")
-    public Collection<Item>findByCondAndName(@PathVariable("name") String name ,@PathVariable("cond") String cond){
+    public ArrayList<Item>findByCondAndName(@PathVariable("name") String name ,@PathVariable("cond") String cond){
     	try {
 		return items.findByCondAndName(name, cond);
 		

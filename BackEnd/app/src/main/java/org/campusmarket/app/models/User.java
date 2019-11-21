@@ -108,6 +108,25 @@ public class User implements Serializable
         this.admin = admin;
     }
     
+    
+    public User(int id,String username, 
+            String password,
+            String firstname,
+            String lastname,
+            String email,
+            String university,
+            boolean admin)
+{
+    	this.Id=id;
+    this.username = username;
+    this.password = password;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.email = email;
+    this.university = university;
+    this.admin = admin;
+}
+
 
     /*--- Getter Methods ---*/
     

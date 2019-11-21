@@ -97,6 +97,17 @@ public class Item {
 	   this.fdata=fdata;
    }
    
+   public Item (int refnum,String name, Double price, String category, String condition, User user){
+  	 this.refnum=refnum;
+	   this.name=name;
+	   this.price=price;
+	   this.category=category;
+	   this.cond=condition;
+	   this.user=user;
+   
+   
+   }
+   
    
    public Item(String name, Double price, String category, String condition, String fname, String ftype, byte[] fdata ) {
        this.name=name;

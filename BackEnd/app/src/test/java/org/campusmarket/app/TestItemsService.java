@@ -109,4 +109,75 @@ public class TestItemsService {
 		
 	}
 	
+	@Test // //test 2 FA- Demo4
+	public void getByNameAndCondTest() {
+ArrayList <Item> lst= new ArrayList<Item>();
+		
+		User sellerOne=new User ("Fadelsh", "abc123","Fadel","Alshammasi","fadelsh@iastate.edu","isu", false);
+		User sellerTwo= new User ("SM", "Coms309","Simanta","Mitra","smitra@iastate.edu","isu", true);
+		
+		
+		Item itemOne=new Item (1,"PS4",200.00,"Video games", "used",sellerOne );
+		Item itemTwo=new Item (2,"xBox",250.00,"Video games", "new",sellerTwo );
+		Item itemThree=new Item (3,"Nintendo Switch",300.00,"Video games", "used",sellerTwo );
+		Item itemFour=new Item (4,"xBox",435.00,"Video games", "new",sellerTwo );
+		Item itemFive=new Item (5,"xBox",536.00,"Video games", "new",sellerOne );
+		Item itemSix=new Item (6,"xBox",149.50,"Video games", "new",sellerOne );
+
+		lst.add(itemFive);
+		lst.add(itemSix);
+		lst.add(itemFour);
+		lst.add(itemTwo);
+	
+		
+		when(repo.findByCondAndName("xBox", "new")).thenReturn(lst);
+		
+		List<Item>itemList=itemService.findByCondAndName("xBox", "new");
+		List<Item>itemList2=itemService.findByCondAndName("xBox", "new");
+		List<Item>itemList3=itemService.findByCondAndName("xBox", "new");
+		
+		
+		assertEquals(4,itemList.size());
+		assertEquals(itemFive.getName(),itemList.get(0).getName());
+		assertEquals(itemFive.getCondition(),itemList.get(0).getCondition());
+		assertEquals(itemSix.getName(),itemList.get(1).getName());
+		assertEquals(itemSix.getCondition(),itemList.get(1).getCondition());
+		assertEquals(itemFour.getName(),itemList.get(2).getName());
+		assertEquals(itemFour.getCondition(),itemList.get(2).getCondition());
+		assertEquals(itemTwo.getName(),itemList.get(3).getName());
+		assertEquals(itemTwo.getCondition(),itemList.get(3).getCondition());
+		verify(repo,times(3)).findByCondAndName("xBox", "new");
+
+
+		
+	}
+	
+	@Test //test 3 FA- Demo4
+	public void getByCategoryTest() {
+		
+	ArrayList <Item> lst= new ArrayList<Item>();
+		
+		User sellerOne=new User ("Fadelsh", "abc123","Fadel","Alshammasi","fadelsh@iastate.edu","isu", false);
+		User sellerTwo= new User ("SM", "Coms309","Simanta","Mitra","smitra@iastate.edu","isu", true);
+		
+		
+		Item itemThree=new Item (3,"PS4",200.00,"Video games", "used",sellerOne );
+		Item itemFour=new Item (4,"xBox",200.00,"Video games", "used",sellerTwo );
+		
+
+
+		lst.add(itemThree);
+		lst.add(itemFour);
+		
+		when(repo.findByCategory("Video games")).thenReturn(lst);
+		
+		List<Item>itemList=itemService.findByCategory("Video games");
+		assertEquals(2,itemList.size());
+		assertEquals(itemThree.getCategory(), itemList.get(0).getCategory());
+		assertEquals(itemFour.getCategory(), itemList.get(1).getCategory());
+		verify(repo,times(1)).findByCategory("Video games");
+		
+	}
+	
+	
 }
