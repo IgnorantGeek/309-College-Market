@@ -106,7 +106,8 @@ public class TestUsersService
     }
     
     
-    @Test
+    
+    @Test //test 1 FA- Demo4
 	public void existsByUserName() {
     	User u= new User ("fadelsh","password","Fadel","Alshammasi","fadelsh@iastate.edu","ISU",false);
     	when(repo.existsByUserName("fadelsh")).thenReturn (1);
@@ -121,28 +122,7 @@ public class TestUsersService
     	
     }
     
-    @Test
-    public void getMyCartItemsTest() {
-    	
-    	//ArrayList <Item> lst= new ArrayList<Item>();
-    	
-    	User u= new User (1,"fadelsh","password","Fadel","Alshammasi","fadelsh@iastate.edu","ISU",false);
-    //	Item itemOne=new Item (1,"Cat",999.99,"Pet", "in good shape",u );
-    //	Item itemTwo=new Item (2,"BMW M4",9999.99,"Car", "Very good",u);
-    	//Item itemThree=new Item (3,"PS4",200.00,"Video games", "used",u );
-    	
-    //	lst.add(itemOne);
-    //	lst.add(itemTwo);
-    //	lst.add(itemThree);
-    	
-    	//
-    	
-    	
-    	
-    	
-    }
-    
-    
+
     
     
 }

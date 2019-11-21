@@ -109,7 +109,7 @@ public class TestItemsService {
 		
 	}
 	
-	@Test
+	@Test // //test 2 FA- Demo4
 	public void getByNameAndCondTest() {
 ArrayList <Item> lst= new ArrayList<Item>();
 		
@@ -152,7 +152,7 @@ ArrayList <Item> lst= new ArrayList<Item>();
 		
 	}
 	
-	@Test
+	@Test //test 3 FA- Demo4
 	public void getByCategoryTest() {
 		
 	ArrayList <Item> lst= new ArrayList<Item>();
