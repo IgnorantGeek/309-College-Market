@@ -1,7 +1,9 @@
 package com.example.campusmarket;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -122,5 +124,29 @@ public class MockitoExampleTest {
         //If your code cares what get(0) returns, then something else breaks (often even before verify() gets executed).
         //If your code doesn't care what get(0) returns, then it should not be stubbed.
         verify(mockedList).get(0);
+    }
+
+    @Test
+    public void demo4_k_test1()
+    {
+        WebSockets mockedWS = mock(WebSockets.class);
+        when(mockedWS.getUsernameFromMessage("Username: the message!")).thenReturn("Username");
+        Assert.assertEquals("Username", mockedWS.getUsernameFromMessage("Username: the message!"));
+    }
+
+    @Test
+    public void demo4_k_test2()
+    {
+        WebSockets mockedWS = mock(WebSockets.class);
+        when(mockedWS.getChatFromMessage("Username: the message!")).thenReturn(" the message!");
+        Assert.assertEquals(" the message!", mockedWS.getChatFromMessage("Username: the message!"));
+    }
+
+    @Test
+    public void demo4_k_test3()
+    {
+        WebSockets mockedWS = mock(WebSockets.class);
+        when(mockedWS.getUsernameFromMessage("This is a message, who sent it?")).thenReturn("");
+        Assert.assertEquals("", mockedWS.getUsernameFromMessage("This is a message, who sent it?"));
     }
 }
