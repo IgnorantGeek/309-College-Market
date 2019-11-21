@@ -42,7 +42,7 @@ public interface ItemsRepository extends JpaRepository<Item, Integer>
      */
     @Query(nativeQuery = true, value="SELECT * FROM items WHERE category=:category ORDER BY price")
     @Transactional(readOnly = true)
-    Collection<Item> findByCategory(@Param("category") String category);
+    ArrayList<Item> findByCategory(@Param("category") String category);
     
     /**
      * A method to search for items by their condition sorted by price
@@ -61,7 +61,7 @@ public interface ItemsRepository extends JpaRepository<Item, Integer>
      */
     @Query(nativeQuery = true, value="SELECT * FROM items WHERE name LIKE %:name% AND cond=:cond")
     @Transactional(readOnly = true)
-    Collection<Item>findByCondAndName(@Param("name") String name,@Param("cond") String cond);
+    ArrayList<Item>findByCondAndName(@Param("name") String name,@Param("cond") String cond);
     
     
     /**
