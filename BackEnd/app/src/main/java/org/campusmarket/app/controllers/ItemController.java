@@ -210,6 +210,8 @@ public class ItemController
 				oldItem.setPrice(item.getPrice());
 				oldItem.setCategory(item.getCategory());
 				oldItem.setCondition(item.getCondition());
+				oldItem.setImage(item.getImage());
+
 				items.save(oldItem);
 					
 				log.info(" success: the item with a reference number of " + refnum +" was updated");
