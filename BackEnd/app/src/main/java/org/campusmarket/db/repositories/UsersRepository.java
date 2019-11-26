@@ -87,6 +87,10 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     @Modifying
     @Transactional(readOnly = false)
     void removeEverythingFromCart(@Param("user_id") int user_id);
+    
+    @Query(nativeQuery = true, value = "SELECT user_id FROM shopping_carts WHERE item_id=:item_id")
+    @Transactional(readOnly = true)
+    int getBuyerId (@Param("item_id") int item_id);
 
     /**
      * A query method to check if an item exists in a users cart
