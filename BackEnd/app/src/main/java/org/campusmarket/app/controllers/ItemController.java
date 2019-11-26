@@ -265,7 +265,8 @@ public class ItemController
 		{
 			try 
 			{
-				users.removeItemFromCart(user.getId(), refnum);
+				int buyerId=users.getBuyerId(refnum);
+				users.removeItemFromCart(buyerId, refnum);
 				items.deleteById(refnum);
 				log.info(" success: the item with a reference number of " + refnum +" was deleted");
 				
