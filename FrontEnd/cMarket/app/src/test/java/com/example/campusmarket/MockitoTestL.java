@@ -5,6 +5,8 @@ import android.os.Build;
 import android.view.View;
 
 import com.example.campusmarket.dashboard.DashAdapter;
+import com.example.campusmarket.login.LoginActivity;
+import com.example.campusmarket.login.RegisterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

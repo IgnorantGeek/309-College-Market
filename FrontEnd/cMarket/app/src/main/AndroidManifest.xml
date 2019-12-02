@@ -26,8 +26,8 @@
         <activity android:name=".dashboard.DashboardActivity" />
         <activity android:name=".cart.CartActivity" /> <!-- <activity android:name=".DeletePost" /> -->
         <activity android:name=".UserActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".login.RegisterActivity" />
+        <activity android:name=".login.LoginActivity" />
         <activity android:name=".NewPostActivity" />
         <activity android:name=".WebSockets"
             android:windowSoftInputMode="adjustPan"
