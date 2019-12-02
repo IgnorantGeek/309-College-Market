@@ -9,6 +9,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.campusmarket.dashboard.DashboardActivity;
+
 /**
  * Activity that represents the page after a user logs in / signs up
  */
