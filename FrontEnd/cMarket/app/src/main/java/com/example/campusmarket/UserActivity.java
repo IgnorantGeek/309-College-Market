@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.campusmarket.dashboard.DashboardActivity;
+import com.example.campusmarket.profile.ProfileActivity;
 
 /**
  * Activity that represents the page after a user logs in / signs up
@@ -17,7 +18,7 @@ import com.example.campusmarket.dashboard.DashboardActivity;
 public class UserActivity extends Activity implements OnClickListener {
     private Button btnDashboard, btnNewPost, btnProfile;
     public static String loggedInUsername;
-    protected static String sessionID = "";
+    public static String sessionID = "";
 
     /**
      * Creates this instance of UserActivity.

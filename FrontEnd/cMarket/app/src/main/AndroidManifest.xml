@@ -20,9 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AccountSettingsActivity" />
-        <activity android:name=".EditPost" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".profile.AccountSettingsActivity" />
+        <activity android:name=".profile.EditPost" />
+        <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".dashboard.DashboardActivity" />
         <activity android:name=".cart.CartActivity" /> <!-- <activity android:name=".DeletePost" /> -->
         <activity android:name=".UserActivity" />
