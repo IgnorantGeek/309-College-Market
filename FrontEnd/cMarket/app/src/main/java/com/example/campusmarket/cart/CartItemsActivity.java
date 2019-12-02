@@ -1,4 +1,4 @@
-package com.example.campusmarket;
+package com.example.campusmarket.cart;
 
 public class CartItemsActivity {
 

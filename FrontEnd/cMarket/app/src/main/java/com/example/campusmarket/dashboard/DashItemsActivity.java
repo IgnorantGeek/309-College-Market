@@ -1,6 +1,8 @@
-package com.example.campusmarket;
+package com.example.campusmarket.dashboard;
 
 import android.graphics.Bitmap;
+
+import com.example.campusmarket.NewPostActivity;
 
 /**
  * Class that helps represent the items on the Dashboard

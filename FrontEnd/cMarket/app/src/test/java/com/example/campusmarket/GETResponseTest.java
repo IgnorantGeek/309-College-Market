@@ -4,6 +4,9 @@ package com.example.campusmarket;
 import android.os.Build;
 import android.view.View;
 
+import com.example.campusmarket.login.LoginActivity;
+import com.example.campusmarket.login.RegisterActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -15,7 +18,6 @@ import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

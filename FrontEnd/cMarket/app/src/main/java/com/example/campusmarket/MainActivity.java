@@ -1,20 +1,17 @@
 package com.example.campusmarket;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+
+import com.example.campusmarket.login.LoginActivity;
+import com.example.campusmarket.login.RegisterActivity;
 
 /**
  * Activity that represents the main page / welcome page / first page you go to when you open the app
