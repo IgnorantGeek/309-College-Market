@@ -20,7 +20,7 @@ import androidx.core.app.NotificationManagerCompat;
  * Activity that represents the page after a user logs in / signs up
  */
 public class UserActivity extends Activity implements OnClickListener {
-    private Button btnJson, btnDashboard, btnNewPost, btnProfile;
+    private Button btnDashboard, btnNewPost, btnProfile;
     public static String loggedInUsername;
     protected static String sessionID = "";
 
@@ -48,8 +48,6 @@ public class UserActivity extends Activity implements OnClickListener {
         TextView textView = findViewById(R.id.usernameWelcome);
         textView.setText(loggedInUsername);
 
-        btnJson = (Button) findViewById(R.id.btnContinue);
-        btnJson.setOnClickListener(this);
         btnDashboard = (Button) findViewById(R.id.btnGoToDashboard);
         btnDashboard.setOnClickListener(this);
         btnNewPost = (Button) findViewById(R.id.btnNewPost);
@@ -96,10 +94,6 @@ public class UserActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnContinue:
-                startActivity(new Intent(UserActivity.this,
-                        JsonRequestActivity.class));
-                break;
             case R.id.btnGoToDashboard:
                 startActivity(new Intent(UserActivity.this,
                         DashboardActivity.class));

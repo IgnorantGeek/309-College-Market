@@ -43,24 +43,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Button
-        android:id="@+id/btnContinue"
-        android:layout_width="333dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="36dp"
-        android:text="@string/cont"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameWelcome" />
-
-    <Button
         android:id="@+id/btnGoToDashboard"
         android:layout_width="333dp"
         android:layout_height="52dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="36dp"
         android:text="Go To Dashboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnContinue" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameWelcome" />
 
     <Button
         android:id="@+id/btnGoToProfile"
