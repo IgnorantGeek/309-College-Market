@@ -39,6 +39,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
 
     /**
      * Creates this instance of the chat
+     *
      * @param savedInstanceState the saved instance
      */
     @Override
@@ -51,31 +52,28 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         Intent intent = getIntent();
         String seller = intent.getStringExtra("seller");
         String buyer = intent.getStringExtra("buyer");
-        if (seller == null)
-        {
-            Log.d(TAG,"seller is null");
-        }if (buyer == null)
-        {
-            Log.d(TAG,"buyer is null");
+        if (seller == null) {
+            Log.d(TAG, "seller is null");
         }
-        if (seller != null && buyer != null)
-        {
-            String namesString  = seller + " & " + buyer;
+        if (buyer == null) {
+            Log.d(TAG, "buyer is null");
+        }
+        if (seller != null && buyer != null) {
+            String namesString = seller + " & " + buyer;
             TextView names = findViewById(R.id.tvUsersDM);
             names.setText(namesString);
         }
 
         // initialize variables
-        btnSend =  findViewById(R.id.btnSendMessage);
-        etMessage =  findViewById(R.id.etMessage);
+        btnSend = findViewById(R.id.btnSendMessage);
+        etMessage = findViewById(R.id.etMessage);
         btnSend.setOnClickListener(this);
-        messageLayout =  findViewById(R.id.message_layout);
+        messageLayout = findViewById(R.id.message_layout);
         messageLayout.setOrientation(LinearLayout.VERTICAL);
 
 
         String previousMessage = intent.getStringExtra("message");
-        if (previousMessage != null)
-        {
+        if (previousMessage != null) {
             TextView tv = new TextView(parentView);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
             tv.setText(previousMessage);
@@ -86,8 +84,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         connectUser(UserActivity.sessionID);
     }
 
-    public void notifyMe(String seller, String buyer, String message)
-    {
+    public void notifyMe(String seller, String buyer, String message) {
         //testing: create a notification here.
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
@@ -119,22 +116,22 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
 
     /**
      * Returns the username part of the message
+     *
      * @param message the string that is sent from backend after a message is sent
      * @return The username of who sent this message
      */
-    public String getUsernameFromMessage(String message)
-    {
+    public String getUsernameFromMessage(String message) {
         String[] parts = message.split(":");
         return parts[0];
     }
 
     /**
      * the string that is sent from backend after a message is sent
-     * @param message  The chat part of the message
+     *
+     * @param message The chat part of the message
      * @return
      */
-    public String getChatFromMessage(String message)
-    {
+    public String getChatFromMessage(String message) {
         String[] parts = message.split(":");
         return parts[1];
     }
@@ -157,12 +154,10 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
                     String username = getUsernameFromMessage(wholeMessage);
                     String message = getChatFromMessage(wholeMessage);
                     // do not notify or add the message if it is initial connection message
-                    if (username.equals("User"))
-                    {
+                    if (username.equals("User")) {
                         return;
                     }
-                    if (!username.equals(UserActivity.loggedInUsername) )
-                    {
+                    if (!username.equals(UserActivity.loggedInUsername)) {
                         notifyMe(username, UserActivity.loggedInUsername, message);
                     }
                     // add this message to the scroll box
@@ -233,6 +228,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
     /**
      * Sees which button the user is going to click.
      * Almost acts as a navbar
+     *
      * @param view the View
      */
     @Override

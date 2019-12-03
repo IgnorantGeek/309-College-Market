@@ -27,7 +27,4 @@ public class Const {
     public static final String URL_CHAT = "ws://coms-309-jr-1.misc.iastate.edu:8080/chat";
 
 
-
-
-
 }

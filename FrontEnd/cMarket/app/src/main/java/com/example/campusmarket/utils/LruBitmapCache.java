@@ -25,6 +25,7 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
 
     /**
      * Creates LruBitmapCache with given size
+     *
      * @param sizeInKiloBytes The size
      */
     public LruBitmapCache(int sizeInKiloBytes) {

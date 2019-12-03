@@ -23,6 +23,7 @@ public class UserActivity extends Activity implements OnClickListener {
     /**
      * Creates this instance of UserActivity.
      * Display's "Welcome, Username" where username is from previous activity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -33,9 +34,8 @@ public class UserActivity extends Activity implements OnClickListener {
         // Stores the  user's username
         Intent intent = getIntent();
         loggedInUsername = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        String sessMessage =  intent.getStringExtra("sessionID");
-        if (sessMessage != null)
-        {
+        String sessMessage = intent.getStringExtra("sessionID");
+        if (sessMessage != null) {
             sessionID = intent.getStringExtra("sessionID");
         }
         Log.d("This is the sessionID: ", sessionID);
@@ -55,6 +55,7 @@ public class UserActivity extends Activity implements OnClickListener {
     /**
      * Sees which button the user is going to click.
      * Almost acts as a navbar
+     *
      * @param v
      */
     @Override
