@@ -25,8 +25,6 @@ public class CartItemsActivity {
     public CartItemsActivity(String name, String price, String user, String refnum) {
         this.name = name;
         this.price = price;
-//        this.condition = condition;
-//        this.category = category;
         this.user = user;
         this.refnum = refnum;
     }
@@ -66,38 +64,6 @@ public class CartItemsActivity {
     public void setPrice(String price) {
         this.price = price;
     }
-
-//    /**
-//     * Will return the condition of the item
-//     * @return condition of item
-//     */
-//    public String getCondition(){
-//        return condition;
-//    }
-//
-//    /**
-//     * Can update the condition of the item
-//     * @param condition condition of item
-//     */
-//    public void setCondition(String condition){
-//        this.condition = condition;
-//    }
-//
-//    /**
-//     * Will return the category of the item
-//     * @return category of item
-//     */
-//    public String getCategory(){
-//        return category;
-//    }
-//
-//    /**
-//     * Can update the category of the item
-//     * @param category category of item
-//     */
-//    public void setCategory(String category){
-//        this.category = category;
-//    }
 
     /**
      * Will return the seller of the item

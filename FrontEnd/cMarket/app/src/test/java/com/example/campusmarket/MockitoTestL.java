@@ -35,7 +35,8 @@ import static org.mockito.Mockito.when;
 public class MockitoTestL {
 
     private View.OnClickListener onClickListener;
-    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
 
     /**
@@ -48,6 +49,7 @@ public class MockitoTestL {
     /**
      * Checks to see if login_return method returns
      * true like it should
+     *
      * @throws JSONException
      */
     @Test
@@ -78,7 +80,7 @@ public class MockitoTestL {
      * when login form is completed
      */
     @Test
-    public void syntax_register (){
+    public void syntax_register() {
         RegisterActivity regActivity = mock(RegisterActivity.class);
         String usernameCorrect = "lkrohn";
         String passwordCorrect = "password1!";
@@ -101,16 +103,17 @@ public class MockitoTestL {
         String sessionID = "12345ABCDE";
 
         JSONObject response = new JSONObject();
-            response.put("username", usernameCorrect);
-            response.put("password", passwordCorrect);
+        response.put("username", usernameCorrect);
+        response.put("password", passwordCorrect);
 
-            logActivity.finishLogIn(usernameCorrect, sessionID);
-            verify(logActivity,  times(1)).finishLogIn(usernameCorrect, sessionID);
+        logActivity.finishLogIn(usernameCorrect, sessionID);
+        verify(logActivity, times(1)).finishLogIn(usernameCorrect, sessionID);
     }
 
     /**
      * Verifies the fields of the json object that
      * represent an item added to a cart
+     *
      * @throws JSONException
      */
     @Test
@@ -138,12 +141,13 @@ public class MockitoTestL {
 
 
         addCartActivity.addItem();
-        verify(addCartActivity,  times(1)).addItem();
+        verify(addCartActivity, times(1)).addItem();
     }
 
     /**
      * Verifies the fields of the json object that
      * will be posted to the dashboard as a new item
+     *
      * @throws JSONException
      */
     @Test
@@ -166,7 +170,7 @@ public class MockitoTestL {
         response.put("image", imageCorrect);
 
         postActivity.postItem();
-        verify(postActivity,  times(1)).postItem();
+        verify(postActivity, times(1)).postItem();
     }
 
 }

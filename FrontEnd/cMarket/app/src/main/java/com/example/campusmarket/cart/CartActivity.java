@@ -138,20 +138,4 @@ public class CartActivity extends AppCompatActivity {
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
-//    /**
-//     * Handles the action on button click
-//     * @param view
-//     */
-//    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.btnViewCart:
-//                Intent intent = new Intent(this, CartActivity.class);
-//                startActivity(intent);
-//                break;
-//            default:
-//                break;
-//        }
-
-
 }

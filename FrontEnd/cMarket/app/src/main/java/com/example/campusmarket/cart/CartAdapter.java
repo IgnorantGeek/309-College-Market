@@ -86,18 +86,6 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         user.setText(item.getUser());
         refnum = item.getRefnum();
 
-
-//        btnContactSeller.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(mCtx, WebSockets.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mCtx.startActivity(intent);
-//            }
-//        });
-
-
         //returning the list of items as a whole
         return listViewItem;
 
