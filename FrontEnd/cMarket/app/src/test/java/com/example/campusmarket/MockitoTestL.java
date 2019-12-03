@@ -4,6 +4,8 @@ package com.example.campusmarket;
 import android.os.Build;
 import android.view.View;
 
+import com.example.campusmarket.cart.CartActivity;
+import com.example.campusmarket.cart.CartAdapter;
 import com.example.campusmarket.dashboard.DashAdapter;
 import com.example.campusmarket.login.LoginActivity;
 import com.example.campusmarket.login.RegisterActivity;
@@ -143,34 +145,66 @@ public class MockitoTestL {
         addCartActivity.addItem();
         verify(addCartActivity, times(1)).addItem();
     }
+    
+//    /**
+//     * Verifies the fields of the json object that
+//     * will be posted to the dashboard as a new item
+//     *
+//     * @throws JSONException
+//     */
+//    @Test
+//    public void postItem_check() throws JSONException {
+//        NewPostActivity postActivity = mock(NewPostActivity.class);
+//
+//        // Create the user JSON Object
+//        String nameCorrect = "iphone";
+//        String priceCorrect = "250.0";
+//        String conditionCorrect = "used";
+//        String categoryCorrect = "electronics";
+//        String imageCorrect = "";
+//
+//        //verify the fields are correct to add the item
+//        JSONObject response = new JSONObject();
+//        response.put("name", nameCorrect);
+//        response.put("price", priceCorrect);
+//        response.put("condition", conditionCorrect);
+//        response.put("category", categoryCorrect);
+//        response.put("image", imageCorrect);
+//
+//        postActivity.postItem();
+//        verify(postActivity, times(1)).postItem();
+//    }
+//
 
     /**
-     * Verifies the fields of the json object that
-     * will be posted to the dashboard as a new item
+     * ------------------------
+     * Mockito test for demo 5
+     * ------------------------
+     */
+
+
+    /**
+     * Verifies the item and all of
+     * its fields were removed from cart
      *
      * @throws JSONException
      */
     @Test
-    public void postItem_check() throws JSONException {
-        NewPostActivity postActivity = mock(NewPostActivity.class);
+    public void clearCart_verify() throws JSONException {
+        CartAdapter cartAdapt = mock(CartAdapter.class);
+        // Create the cart JSON Object
+        String name = "Phone Charger";
+        String price = "25.50";
+        String user = "lkrohn";
 
-        // Create the user JSON Object
-        String nameCorrect = "iphone";
-        String priceCorrect = "250.0";
-        String conditionCorrect = "used";
-        String categoryCorrect = "electronics";
-        String imageCorrect = "";
-
-        //verify the fields are correct to add the item
         JSONObject response = new JSONObject();
-        response.put("name", nameCorrect);
-        response.put("price", priceCorrect);
-        response.put("condition", conditionCorrect);
-        response.put("category", categoryCorrect);
-        response.put("image", imageCorrect);
+        response.put("item name", name);
+        response.put("price", price);
+        response.put("seller", user);
 
-        postActivity.postItem();
-        verify(postActivity, times(1)).postItem();
+        cartAdapt.clearItems();
+        verify(cartAdapt, times(1)).clearItems();
     }
+
 
 }
