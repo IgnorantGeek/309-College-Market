@@ -268,7 +268,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * Goes to the next intent
      */
     public void finishSignUp(String username, String sessionID) {
-
         // sending user to the next page by creating a new intent
         Intent intent = new Intent(this, UserActivity.class);
         EditText editText = (EditText) findViewById(R.id.etUsername);

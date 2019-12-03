@@ -156,7 +156,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                 MainActivity.class));
     }
 
-
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnDeleteAccount) {

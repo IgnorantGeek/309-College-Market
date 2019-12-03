@@ -144,26 +144,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 // actually calling the adapter
                 listView.setAdapter(adapter);
 
-//                Searchable dash feature:
-//                etSearch.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable editable) {
-//                        // don't need to change anything here for now
-//
-//                    }
-//                });
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

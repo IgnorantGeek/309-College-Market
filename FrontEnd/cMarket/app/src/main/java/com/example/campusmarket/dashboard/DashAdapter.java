@@ -167,8 +167,3 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
         }
     }
 }
-
-
-
-
-
