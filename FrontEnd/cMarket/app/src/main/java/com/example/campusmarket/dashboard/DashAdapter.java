@@ -99,7 +99,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
 
         //Adding the image to the page
         Bitmap imageBitmap = item.getImage();
-        ImageView image =  listViewItem.findViewById(R.id.imgPlaceholder);
+        ImageView image = listViewItem.findViewById(R.id.imgPlaceholder);
         image.setImageBitmap(imageBitmap);
 
         //returning the list of items as a whole
@@ -112,7 +112,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
      * that was provided for the item on the page
      * Called once they click "Add To Cart"
      */
-    public void addItem(){
+    public void addItem() {
         // make json object
         String url = Const.URL_CART_ADD
                 + "/" + refnum + "?sessid=" + UserActivity.sessionID;
@@ -163,7 +163,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
                 mCtx.startActivity(intent2);
                 break;
             default:
-            break;
+                break;
         }
     }
 }

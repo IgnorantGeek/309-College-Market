@@ -40,6 +40,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     Activity activity;
     List<DashItemsActivity> ItemList;
     private Button btnViewCart, btnNav;
+
     /**
      * Creates this instance of Dashboard
      *
@@ -126,8 +127,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
                 // if we are the seller of the item, do not display it
                 String sellerName = seller.getString("username");
-                if (sellerName.equals(UserActivity.loggedInUsername))
-                {
+                if (sellerName.equals(UserActivity.loggedInUsername)) {
                     continue;
                 }
 
