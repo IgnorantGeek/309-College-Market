@@ -79,7 +79,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
      *
      * @param username the username of the user to be deleted
      */
-    public void findByID(String username) {
+    private void findByID(String username) {
         String url = Const.URL_USER_USERNAME + "/" + username + "?sessid=" + UserActivity.sessionID;
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.GET, url, null,
@@ -110,7 +110,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
      *
      * @param ID the ID of the user to delete
      */
-    public void deleteAccount(String ID) {
+    private void deleteAccount(String ID) {
         String url = Const.URL_USER_DELETE + "/" + ID + "?sessid=" + UserActivity.sessionID;
         //to delete cart item  "refnum"
         showProgressDialog();

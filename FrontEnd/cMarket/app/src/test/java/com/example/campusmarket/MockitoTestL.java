@@ -145,7 +145,7 @@ public class MockitoTestL {
         addCartActivity.addItem();
         verify(addCartActivity, times(1)).addItem();
     }
-    
+
 //    /**
 //     * Verifies the fields of the json object that
 //     * will be posted to the dashboard as a new item
