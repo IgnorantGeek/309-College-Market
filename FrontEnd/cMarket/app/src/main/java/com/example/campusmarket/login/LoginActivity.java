@@ -37,11 +37,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private String TAG = LoginActivity.class.getSimpleName();
     private AwesomeValidation awesomeValidation;
+    private ProgressDialog pDialog;
     EditText etUsername;
     EditText etPassword;
     Button btnLogin;
     TextView registerLink, valid_user;
-    private ProgressDialog pDialog;
 
     /**
      * Creates this instance on Login
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      *
      * @return True if syntax is valid, False is syntax is invalid
      */
-    public boolean validateForm() {
+    private boolean validateForm() {
         return awesomeValidation.validate();
     }
 
@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Creates a new session based on the user's username & password.
      */
-    public void createSession() {
+    private void createSession() {
         showProgressDialog();
         final String incorrect = "Username / Password incorrect";
         JSONObject js = new JSONObject();

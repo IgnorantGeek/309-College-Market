@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      *
      * @return true if validation was successful, false otherwise
      */
-    public boolean validateForm() {
+    private boolean validateForm() {
         // first validate the form, then move ahead
         // if this becomes true, validation is successful
         if (awesomeValidation.validate()) {
@@ -124,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      *
      * @return successful status
      */
-    public boolean make_register_request() {
+    private boolean make_register_request() {
 
         final JSONObject js = new JSONObject();
         try {
@@ -193,7 +193,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * Creates a new session based on the user's username & password.
      */
-    public void createSession() {
+    private void createSession() {
         JSONObject js = new JSONObject();
         try {
             js.put("username", (etUsername.getText()).toString());
