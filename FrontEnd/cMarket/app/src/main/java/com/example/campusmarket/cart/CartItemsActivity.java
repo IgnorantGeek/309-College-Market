@@ -4,8 +4,6 @@ public class CartItemsActivity {
 
     private String name;
     private String price;
-    //    private String condition;
-//    private String category;
     private String user;
     private String refnum;
 

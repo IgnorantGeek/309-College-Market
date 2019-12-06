@@ -112,7 +112,7 @@ public class DashAdapter extends ArrayAdapter<DashItemsActivity> implements View
      * that was provided for the item on the page
      * Called once they click "Add To Cart"
      */
-    public void addItem() {
+    private void addItem() {
         // make json object
         String url = Const.URL_CART_ADD
                 + "/" + refnum + "?sessid=" + UserActivity.sessionID;
