@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigInteger;
 import java.util.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
@@ -77,6 +78,20 @@ public interface UsersRepository extends JpaRepository<User, Integer>
     @Transactional(readOnly = true)
     List<Integer> getShoppingCartItems(@Param("user_id") int user_id);
 
+    @Query(nativeQuery = true, value = "DELETE FROM shopping_carts WHERE user_id=:user_id AND item_id=:item_id")
+    @Modifying
+    @Transactional(readOnly = false)
+    void removeItemFromCart(@Param("user_id") int user_id, @Param("item_id") int item_id);
+
+    @Query(nativeQuery = true, value = "DELETE FROM shopping_carts WHERE user_id=:user_id")
+    @Modifying
+    @Transactional(readOnly = false)
+    void removeEverythingFromCart(@Param("user_id") int user_id);
+    
+    @Query(nativeQuery = true, value = "SELECT user_id FROM shopping_carts WHERE item_id=:item_id")
+    @Transactional(readOnly = true)
+    int getBuyerId (@Param("item_id") int item_id);
+
     /**
      * A query method to check if an item exists in a users cart
      * @param user_id the user id to check
@@ -85,6 +100,6 @@ public interface UsersRepository extends JpaRepository<User, Integer>
      */
     @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT * FROM shopping_carts WHERE user_id=:user_id AND item_id=:item_id)")
     @Transactional(readOnly = true)
-    boolean existsInUserCart(@Param("user_id") int user_id, @Param("item_id") int item_id);
+    int existsInUserCart(@Param("user_id") int user_id, @Param("item_id") int item_id);
 }
 

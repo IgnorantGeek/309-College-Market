@@ -1,4 +1,4 @@
-package com.example.campusmarket;
+package com.example.campusmarket.dashboard;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.campusmarket.cart.CartActivity;
+import com.example.campusmarket.R;
+import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
@@ -32,14 +35,14 @@ import java.util.List;
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = DashboardActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-    private String  tag_json_arry = "jarray_req";
+    private String tag_json_arry = "jarray_req";
     ListView listView;
     Activity activity;
     List<DashItemsActivity> ItemList;
-//    Button btnContactSeller;
-
+    private Button btnViewCart, btnNav;
     /**
      * Creates this instance of Dashboard
+     *
      * @param savedInstanceState
      */
     @Override
@@ -53,7 +56,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         listView = findViewById(R.id.listView);
         ItemList = new ArrayList<>();
-//        btnContactSeller = findViewById(R.id.btnContactSeller);
+        btnViewCart = findViewById(R.id.btnViewCart);
+        btnViewCart.setOnClickListener(this);
+        btnNav = findViewById(R.id.btnNav);
+        btnNav.setOnClickListener(this);
+
 
         makeJsonArryReq();
 
@@ -77,7 +84,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * Making json array request post
-     * */
+     */
     private void makeJsonArryReq() {
         showProgressDialog();
         JsonArrayRequest req = new JsonArrayRequest(Const.URL_ITEM_ALL,
@@ -104,11 +111,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * Parse the JSON item array so you only add the item names.
+     *
      * @param response
      */
     private void addItemNames(JSONArray response) {
-        for (int i = 0; i < response.length(); i++)
-        {
+        for (int i = 0; i < response.length(); i++) {
             try {
 
                 // declaring new json object
@@ -116,11 +123,19 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 // declaring what parameters will be added
                 String s = demoObject.getString("user");
                 JSONObject seller = new JSONObject(s);
+
+                // if we are the seller of the item, do not display it
+                String sellerName = seller.getString("username");
+                if (sellerName.equals(UserActivity.loggedInUsername))
+                {
+                    continue;
+                }
+
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"), seller.getString("username") );
+                        demoObject.getString("category"), demoObject.getString("postedDate"),
+                        sellerName, demoObject.getString("refnum"), demoObject.getString("image"));
                 ItemList.add(item); // adding all of these new items for display
-
 
 
                 // setting up new adapter that will place items accordingly
@@ -160,14 +175,29 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+    /**
+     * Handles the action on button click
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
-//        if (view.getId() == R.id.btnContactSeller) {
-//            startActivity(new Intent(DashboardActivity.this,
-//                    WebSockets.class));
-//        }
-
+        switch (view.getId()) {
+            case R.id.btnViewCart:
+                Intent intent = new Intent(this, CartActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnNav:
+                Intent intent2 = new Intent(this, UserActivity.class);
+                startActivity(intent2);
+                break;
+            default:
+                break;
+        }
     }
-
-
 }
+
+
+
+
+

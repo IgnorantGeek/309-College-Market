@@ -1,4 +1,8 @@
-package com.example.campusmarket;
+package com.example.campusmarket.dashboard;
+
+import android.graphics.Bitmap;
+
+import com.example.campusmarket.NewPostActivity;
 
 /**
  * Class that helps represent the items on the Dashboard
@@ -9,7 +13,10 @@ public class DashItemsActivity {
     private String price;
     private String condition;
     private String category;
+    private String postedDate;
     private String user;
+    private String refnum;
+    private Bitmap image;
 
     // we will be calling this DashItemsActivity object --
     // in the main activity to get all of the necessary fields of an item
@@ -20,14 +27,21 @@ public class DashItemsActivity {
      * @param price price of item
      * @param condition condition of item
      * @param category category of item
-     * @param user
+     * @param user seller of item
+     * @param refnum refnum of item
+     *
      */
-    public DashItemsActivity(String name, String price, String condition, String category, String user) {
+    public DashItemsActivity(String name, String price, String condition, String category, String postedDate, String user, String refnum, String imageString) {
         this.name = name;
         this.price = price;
         this.condition = condition;
         this.category = category;
+        this.postedDate = postedDate;
         this.user = user;
+        this.refnum = refnum;
+        this.image = NewPostActivity.StringToBitMap(imageString);
+
+
     }
 
     /**
@@ -95,6 +109,21 @@ public class DashItemsActivity {
     }
 
     /**
+     * Will return the date of the item
+     * @return date of item
+     */
+    public String getPostedDate(){
+        return postedDate;
+    }
+
+    /**
+     * Can update the date of the item
+     */
+    public void setPostedDate(String postedDate){
+        this.postedDate = postedDate;
+    }
+
+    /**
      * Will return the seller of the item
      * @return seller of item
      */
@@ -104,10 +133,44 @@ public class DashItemsActivity {
 
     /**
      * Can update the seller of the item
-     * @param user seller of the item
+     * @param user seller of item
      */
     public void setUser(String user){
-        this.category = user;
+        this.user = user;
     }
+
+    /**
+     * Will return the refnum of the item
+     * @return refnum of item
+     */
+    public String getRefnum(){
+        return refnum;
+    }
+
+    /**
+     * Can update the refnum of the item
+     * @param refnum refnum of item
+     */
+    public void setRefnum(String refnum){
+        this.refnum = refnum;
+    }
+
+    /**
+     * Will return the image of the item
+     * @return image of item
+     */
+    public Bitmap getImage(){
+        return image;
+    }
+
+    /**
+     * Can update the image of the item
+     * @param image the Bitmap image to set
+     */
+    public void setImage(Bitmap image){
+        this.image = image;
+    }
+
+
 
 }

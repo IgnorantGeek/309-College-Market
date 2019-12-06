@@ -1,4 +1,4 @@
-package com.example.campusmarket;
+package com.example.campusmarket.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.campusmarket.MainActivity;
+import com.example.campusmarket.R;
+import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
@@ -108,6 +111,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     public void deleteAccount(String ID)
     {
         String url = Const.URL_USER_DELETE + "/" + ID + "?sessid=" + UserActivity.sessionID;
+        //to delete cart item  "refnum"
         showProgressDialog();
         // Make request for JSONObject
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(

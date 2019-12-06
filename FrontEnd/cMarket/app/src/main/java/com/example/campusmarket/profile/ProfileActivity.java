@@ -1,4 +1,4 @@
-package com.example.campusmarket;
+package com.example.campusmarket.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.campusmarket.R;
+import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
@@ -140,8 +142,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             b.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(ProfileActivity.this, EditPost.class);
-                    String message = o.toString();
-                    intent.putExtra("ExtraMessage", message);
+                    //String message = o.toString();
+                    String refnum = "";
+                    try {
+                        refnum = o.getString("refnum");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    intent.putExtra("refnum", refnum);
                     startActivity(intent);
                 }
             });

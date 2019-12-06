@@ -1,4 +1,4 @@
-package com.example.campusmarket;
+package com.example.campusmarket.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,8 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.campusmarket.MainActivity;
+import com.example.campusmarket.R;
+import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 

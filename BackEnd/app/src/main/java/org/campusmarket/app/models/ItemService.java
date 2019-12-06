@@ -1,6 +1,7 @@
 package org.campusmarket.app.models;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.campusmarket.app.exception.FileStorageException;
@@ -54,6 +55,7 @@ public class ItemService {
 	}
 	
 	
+	/*
 	 public Item storeFile(MultipartFile file) {
 	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -69,7 +71,7 @@ public class ItemService {
 	            throw new FileStorageException("Couldn't save file into the db " + fileName + ". Please try again", ex);
 	        }
 	    }
-
+*/
 	    /**
 	     * A method to search for a file in the db
 	     * @param id
@@ -84,6 +86,15 @@ public class ItemService {
 	    		throw new MyFileNotFoundException("Couldn't find file with id " + refnum);
 	    	}
 	    }
+	    public ArrayList<Item>findByCategory( @Param("category") String category){
+			 return repo.findByCategory(category);
+		}
+		  
+	    public ArrayList<Item>findByCondAndName( @Param("name") String name, @Param("cond") String cond){
+			 return repo.findByCondAndName(name, cond);
+		}
+	    
+	    
 	}
 
 	

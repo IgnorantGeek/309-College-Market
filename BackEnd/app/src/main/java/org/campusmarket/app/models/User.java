@@ -69,8 +69,7 @@ public class User implements Serializable
     @JsonIgnore()
     private Set<Session> sessions;
 
-    @OneToMany(cascade = CascadeType.ALL,
-               orphanRemoval = true)
+    @OneToMany()
     @JoinTable(name = "shopping_carts", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     @JsonIgnore()
     private Set<Item> cart;
@@ -109,6 +108,25 @@ public class User implements Serializable
         this.admin = admin;
     }
     
+    
+    public User(int id,String username, 
+            String password,
+            String firstname,
+            String lastname,
+            String email,
+            String university,
+            boolean admin)
+{
+    	this.Id=id;
+    this.username = username;
+    this.password = password;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.email = email;
+    this.university = university;
+    this.admin = admin;
+}
+
 
     /*--- Getter Methods ---*/
     
@@ -332,28 +350,11 @@ public class User implements Serializable
     }
 
     /**
-     * A method to clear the cart for this user
-     */
-    public void clearCart()
-    {
-        this.cart.clear();
-    }
-
-    /**
      * A method to add an item to the users shopping cart
      * @param i
      */
     public void addItem(Item i)
     {
         this.cart.add(i);
-    }
-
-    /**
-     * A method to remove an item to a users shopping cart
-     * @param i
-     */
-    public void removeItem(Item i)
-    {
-        this.cart.remove(i);
     }
 }
