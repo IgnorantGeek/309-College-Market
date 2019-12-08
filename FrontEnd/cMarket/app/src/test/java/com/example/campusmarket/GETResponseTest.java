@@ -31,7 +31,8 @@ import static org.mockito.Mockito.when;
 public class GETResponseTest {
 
     private View.OnClickListener onClickListener;
-    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Test
     public void register_response_test1() throws JSONException {
@@ -82,12 +83,11 @@ public class GETResponseTest {
 
 
         regActivity.finishSignUp(usernameCorrect, sessionID);
-        verify(regActivity,  times(1)).finishSignUp(usernameCorrect, sessionID);
+        verify(regActivity, times(1)).finishSignUp(usernameCorrect, sessionID);
     }
 
     @Test
-    public void valid_syntax_login()
-    {
+    public void valid_syntax_login() {
         LoginActivity logActivity = mock(LoginActivity.class);
         String usernameCorrect = "Sponge123";
         String passwordCorrect = "Password123";

@@ -34,6 +34,11 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
     private Button btnClear;
     private String refnum;
 
+    /** These methods need to be public since
+     *  they are referenced in other classes
+     *
+     */
+
     /**
      * So while creating the object of this adapter class we need to give demolist and context.
      * The adapter is what actually puts the info into the dashboard in the format specified by the lv_rows layout.
@@ -86,18 +91,6 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         user.setText(item.getUser());
         refnum = item.getRefnum();
 
-
-//        btnContactSeller.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(mCtx, WebSockets.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mCtx.startActivity(intent);
-//            }
-//        });
-
-
         //returning the list of items as a whole
         return listViewItem;
 
@@ -108,7 +101,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
      * that was provided for the item on the page
      * Called once they click "Remove from Cart"
      */
-    public void removeItem() {
+    private void removeItem() {
         // make json object
         String url = Const.URL_CART_DELETE
                 + "/" + refnum + "?sessid=" + UserActivity.sessionID;
@@ -141,7 +134,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
      * the information that was provided for the items on the page
      * Called once they click "Clear Cart"
      */
-    public void clearItems() {
+    private void clearItems() {
         // make json object
         String url = Const.URL_CART_CLEAR
                 + "?sessid=" + UserActivity.sessionID;

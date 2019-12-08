@@ -37,14 +37,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private String TAG = LoginActivity.class.getSimpleName();
     private AwesomeValidation awesomeValidation;
+    private ProgressDialog pDialog;
     EditText etUsername;
     EditText etPassword;
     Button btnLogin;
     TextView registerLink, valid_user;
-    private ProgressDialog pDialog;
 
     /**
      * Creates this instance on Login
+     *
      * @param savedInstanceState the Saved Instance
      */
     @Override
@@ -100,9 +101,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * Checks if the username and password fields meet our syntax requirements
+     *
      * @return True if syntax is valid, False is syntax is invalid
      */
-    public boolean validateForm() {
+    private boolean validateForm() {
         return awesomeValidation.validate();
     }
 
@@ -110,13 +112,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * When the user tries to click "Log In", make sure the fields are valid
      * If syntax is valid, check if the user exists in the DB
      * If syntax is not valid, tell the user what they need to change
+     *
      * @param view the View
      */
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.bLogin) {
-            if (validateForm())
-            {
+            if (validateForm()) {
                 createSession();
             }
         }
@@ -125,8 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Creates a new session based on the user's username & password.
      */
-    public void createSession()
-    {
+    public void createSession() {
         showProgressDialog();
         final String incorrect = "Username / Password incorrect";
         JSONObject js = new JSONObject();
@@ -138,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         // Make request for JSONObject
-       JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.POST, Const.URL_SESSION_NEW, js,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -159,12 +160,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onErrorResponse(VolleyError error) {
                 hideProgressDialog();
                 Log.d(TAG, "ERROR IN CREATE SESSION ");
-                if (error == null )
-                {
+                if (error == null) {
                     Log.d(TAG, "ERROR is null ");
                     return;
                 }
-                if ( error.networkResponse == null) {
+                if (error.networkResponse == null) {
                     Log.d(TAG, "ERROR network response is null");
                     return;
                 }
@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 final String statusCode = String.valueOf(error.networkResponse.statusCode);
                 //get response body and parse with appropriate encoding
                 try {
-                    body = new String(error.networkResponse.data,"UTF-8");
+                    body = new String(error.networkResponse.data, "UTF-8");
                     valid_user.setText(incorrect);
                 } catch (UnsupportedEncodingException e) {
                     // exception
@@ -207,9 +207,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Starts the new UserActivity and passes the username.
      * Called when the log in has valid syntax and username / password is correct.
+     *
      * @param username User's username
      */
-    public void finishLogIn(String username, String sessionID) {
+    private void finishLogIn(String username, String sessionID) {
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(MainActivity.EXTRA_MESSAGE, username);
         intent.putExtra("sessionID", sessionID);

@@ -52,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * Creates this instance of RegisterActivity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -89,9 +90,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * Checks if the validation is successful. If it is, then it calls finishSignUp()
+     *
      * @return true if validation was successful, false otherwise
      */
-    public boolean validateForm() {
+    private boolean validateForm() {
         // first validate the form, then move ahead
         // if this becomes true, validation is successful
         if (awesomeValidation.validate()) {
@@ -106,6 +108,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * When the user clicks to register, calls validateForm() to make sure syntax is legal
+     *
      * @param view
      */
     @Override
@@ -118,9 +121,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     /**
      * Posts the use to the database
+     *
      * @return successful status
      */
-    public boolean make_register_request() {
+    private boolean make_register_request() {
 
         final JSONObject js = new JSONObject();
         try {
@@ -172,9 +176,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     params.put("email", js.getString("email"));
                     params.put("university", js.getString("university"));
                     params.put("admin", "false");
-                }  catch (JSONException e) {
-                e.printStackTrace();
-            }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 return params;
             }
 
@@ -189,8 +193,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * Creates a new session based on the user's username & password.
      */
-    public void createSession()
-    {
+    public void createSession() {
         JSONObject js = new JSONObject();
         try {
             js.put("username", (etUsername.getText()).toString());
@@ -218,12 +221,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "ERROR IN CREATE SESSION ");
-                if (error == null )
-                {
+                if (error == null) {
                     Log.d(TAG, "ERROR is null ");
                     return;
                 }
-                if ( error.networkResponse == null) {
+                if (error.networkResponse == null) {
                     Log.d(TAG, "ERROR network response is null");
                     return;
                 }
@@ -232,7 +234,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 //final String statusCode = String.valueOf(error.networkResponse.statusCode);
                 //get response body and parse with appropriate encoding
                 try {
-                    body = new String(error.networkResponse.data,"UTF-8");
+                    body = new String(error.networkResponse.data, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     // exception
                 }
@@ -266,7 +268,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * Goes to the next intent
      */
     public void finishSignUp(String username, String sessionID) {
-
         // sending user to the next page by creating a new intent
         Intent intent = new Intent(this, UserActivity.class);
         EditText editText = (EditText) findViewById(R.id.etUsername);
