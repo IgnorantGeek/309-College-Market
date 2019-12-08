@@ -134,7 +134,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
      * the information that was provided for the items on the page
      * Called once they click "Clear Cart"
      */
-    private void clearItems() {
+    public void clearItems() {
         // make json object
         String url = Const.URL_CART_CLEAR
                 + "?sessid=" + UserActivity.sessionID;

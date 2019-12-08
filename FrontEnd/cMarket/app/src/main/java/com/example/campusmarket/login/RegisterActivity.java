@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      *
      * @return true if validation was successful, false otherwise
      */
-    private boolean validateForm() {
+    public boolean validateForm() {
         // first validate the form, then move ahead
         // if this becomes true, validation is successful
         if (awesomeValidation.validate()) {
@@ -124,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      *
      * @return successful status
      */
-    private boolean make_register_request() {
+    public boolean make_register_request() {
 
         final JSONObject js = new JSONObject();
         try {
