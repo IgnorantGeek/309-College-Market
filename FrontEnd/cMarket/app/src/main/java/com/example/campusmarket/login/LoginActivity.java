@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      *
      * @return True if syntax is valid, False is syntax is invalid
      */
-    private boolean validateForm() {
+    public boolean validateForm() {
         return awesomeValidation.validate();
     }
 
@@ -210,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      *
      * @param username User's username
      */
-    private void finishLogIn(String username, String sessionID) {
+    public void finishLogIn(String username, String sessionID) {
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(MainActivity.EXTRA_MESSAGE, username);
         intent.putExtra("sessionID", sessionID);
