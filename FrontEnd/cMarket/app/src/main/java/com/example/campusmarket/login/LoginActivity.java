@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Creates a new session based on the user's username & password.
      */
-    private void createSession() {
+    public void createSession() {
         showProgressDialog();
         final String incorrect = "Username / Password incorrect";
         JSONObject js = new JSONObject();
@@ -210,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      *
      * @param username User's username
      */
-    public void finishLogIn(String username, String sessionID) {
+    private void finishLogIn(String username, String sessionID) {
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(MainActivity.EXTRA_MESSAGE, username);
         intent.putExtra("sessionID", sessionID);

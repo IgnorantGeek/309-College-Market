@@ -332,7 +332,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
      * that the user filled in on the page.
      * Called once they click "Post"
      */
-    public void postItem() {
+    private void postItem() {
         // make json object
         String url = Const.URL_ITEM_NEW + "?sessid=" + UserActivity.sessionID;
         JSONObject js = new JSONObject();

@@ -193,7 +193,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     /**
      * Creates a new session based on the user's username & password.
      */
-    private void createSession() {
+    public void createSession() {
         JSONObject js = new JSONObject();
         try {
             js.put("username", (etUsername.getText()).toString());
