@@ -96,12 +96,13 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
 
     }
 
+    //making this public for testing
     /**
      * Removes the item from the user's cart with the information
      * that was provided for the item on the page
      * Called once they click "Remove from Cart"
      */
-    private void removeItem() {
+    public void removeItem() {
         // make json object
         String url = Const.URL_CART_DELETE
                 + "/" + refnum + "?sessid=" + UserActivity.sessionID;
