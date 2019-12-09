@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 public class UserService
 {
     @Autowired
-    UsersRepository repo;
+    private UsersRepository repo;
     
     @Autowired
-    ItemsRepository repoItems;
+    private ItemsRepository repoItems;
 
     /**
      * A method to get all users

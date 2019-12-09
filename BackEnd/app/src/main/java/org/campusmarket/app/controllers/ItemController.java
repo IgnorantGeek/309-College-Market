@@ -67,7 +67,7 @@ public class ItemController
 	 * @return a list of all items 
 	 */
 	@RequestMapping("/all")
-	public List<Item> getAll()
+	private List<Item> getAll()
 	{
 		try 
 		{
@@ -86,7 +86,7 @@ public class ItemController
 	  * @param sessid of the user posting the item
 	  */
 	@PostMapping("/new/file")
-	public Item newItem(@RequestParam(name = "sessid", required = true) String sessid,
+	private Item newItem(@RequestParam(name = "sessid", required = true) String sessid,
 			@RequestParam("fname") MultipartFile file, @RequestParam ("json") String str )
 	{
 		if (sessid.isEmpty())
@@ -134,7 +134,7 @@ public class ItemController
 	
 	
 	@PostMapping("/new")
-	public Item newItem2(@RequestBody Item item ,@RequestParam(name = "sessid", required = true) String sessid){
+	private Item newItem2(@RequestBody Item item ,@RequestParam(name = "sessid", required = true) String sessid){
 		if (sessid.isEmpty())
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
@@ -174,7 +174,7 @@ public class ItemController
 	 * @param sessid
 	 */
     @PutMapping("/update/{refnum}")
-	public void updateItem(@RequestBody Item item, 
+	private void updateItem(@RequestBody Item item, 
 							@PathVariable (value = "refnum") int refnum,
 							@RequestParam(name = "sessid", required = true) String sessid) 
 	{
@@ -232,7 +232,7 @@ public class ItemController
      * @param sessid
      */
     @RequestMapping(value = "/delete/{refnum}", method = RequestMethod.DELETE)
-	public void deleteItem( @PathVariable(value = "refnum") int refnum,
+	private void deleteItem( @PathVariable(value = "refnum") int refnum,
 							@RequestParam(name = "sessid", required = true) String sessid)
     {
     	if (sessid.isEmpty())
@@ -285,7 +285,7 @@ public class ItemController
      * @return an arrylist of the items for that seller
      */
     @GetMapping("/seller/{username}")
-	public ArrayList<Item> findItemBySeller(@PathVariable("username") String seller)
+	private ArrayList<Item> findItemBySeller(@PathVariable("username") String seller)
 	{	
 		try 
 		{
@@ -304,7 +304,7 @@ public class ItemController
        * @return a collection of the items that have that name(or part of it) sorted by price
        */
     @GetMapping("/name/{name}")
-    public Collection<Item> findItemByName(@PathVariable("name") String name) {
+    private Collection<Item> findItemByName(@PathVariable("name") String name) {
     	
     	try {
     	return items.findByName(name);
@@ -322,7 +322,7 @@ public class ItemController
      * @return  a collection of the items that have that category sorted by price 
      */
     @GetMapping("/category/{category}")
-    public ArrayList<Item> findItemByCategory(@PathVariable("category") String category) {
+    private ArrayList<Item> findItemByCategory(@PathVariable("category") String category) {
     	try {
     	return items.findByCategory(category);
     	
@@ -340,7 +340,7 @@ public class ItemController
      * @return a collection of the items that have that condition sorted by price
      */
     @GetMapping("/cond/{cond}")
-    public Collection<Item> findItemByCondition(@PathVariable("cond") String cond) {
+    private Collection<Item> findItemByCondition(@PathVariable("cond") String cond) {
     	try {
     	return items.findByCond(cond);
     	
@@ -352,7 +352,7 @@ public class ItemController
  }
  
      @GetMapping("/refnum/{refnum}")
-   	public Item findItemByRefnum(@PathVariable("refnum") int refnum)
+     private Item findItemByRefnum(@PathVariable("refnum") int refnum)
    	{	
    		try 
    		{
@@ -373,7 +373,7 @@ public class ItemController
       * @return List of items with the name and condition provided (or part of them)
       */
     @GetMapping("/name/{name}/cond/{cond}")
-    public ArrayList<Item>findByCondAndName(@PathVariable("name") String name ,@PathVariable("cond") String cond){
+    private ArrayList<Item>findByCondAndName(@PathVariable("name") String name ,@PathVariable("cond") String cond){
     	try {
 		return items.findByCondAndName(name, cond);
 		
@@ -390,7 +390,7 @@ public class ItemController
      * @return List of items with the category & condition & price provided sorted by price
      */
     @GetMapping("/category/{category}/cond/{cond}/price/{price}")
-    public Collection<Item>findByCondPriceCategory(@PathVariable("cond") String cond ,@PathVariable("category") String category, @PathVariable("price") double price){
+    private Collection<Item>findByCondPriceCategory(@PathVariable("cond") String cond ,@PathVariable("category") String category, @PathVariable("price") double price){
     	try {
 		return items.findByCondAndCategoryAndPrice(cond, category, price);
     	} catch (Exception e) {
@@ -404,7 +404,7 @@ public class ItemController
      * @param sessid
      */
     @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
-    public void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
+    private void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
     {
 		if (sessid.isEmpty())
         {
@@ -440,7 +440,7 @@ public class ItemController
 	  * @return
 	  */
 	   @GetMapping("/download/{refnum}")
-	    public ResponseEntity<Resource> downloadFile(@PathVariable int refnum) {
+	   private ResponseEntity<Resource> downloadFile(@PathVariable int refnum) {
 	       
 	        Item f = files.getFile(refnum);
 

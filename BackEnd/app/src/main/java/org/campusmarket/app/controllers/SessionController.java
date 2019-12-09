@@ -49,7 +49,7 @@ public class SessionController
      * @return 16 character session id
      */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public Session newSession(@RequestBody final LoginRequest req)
+    private Session newSession(@RequestBody final LoginRequest req)
     {
         User find = users.findByUsername(req.getUsername());
         // Check for errors
@@ -105,7 +105,7 @@ public class SessionController
      * @return The session for admin 
      */
     @RequestMapping(value = "/sessid/{sess_id}", method = RequestMethod.GET)
-    public Session findById(@PathVariable("sess_id") String getId, @RequestParam(name = "sessid", required = true) String sessid)
+    private Session findById(@PathVariable("sess_id") String getId, @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -138,7 +138,7 @@ public class SessionController
      * @return  sessions for all users who are admins
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Session> getAll()
+    private List<Session> getAll()
     {
         try
         {
@@ -157,7 +157,7 @@ public class SessionController
      * @param sessid
      */
     @RequestMapping(value = "/close/{sessid}", method = RequestMethod.DELETE)
-    public void closeSession(@PathVariable("sessid") String close_id, @RequestParam(name = "sessid", required = true) String sessid)
+    private void closeSession(@PathVariable("sessid") String close_id, @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -193,7 +193,7 @@ public class SessionController
      * @param sessid
      */
     @RequestMapping(value = "/close/this", method = RequestMethod.DELETE)
-    public void closeThisSession(@RequestParam(name = "sessid", required = true) String sessid)
+    private void closeThisSession(@RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -254,7 +254,7 @@ public class SessionController
      * @return an arraylist of sessions found by that id
      */
     @RequestMapping(value = "/userid/{userid}", method = RequestMethod.GET)
-    public ArrayList<Session> getAllByUser(@PathVariable("userid") int id, @RequestParam(name = "sessid", required = true) String sessid)
+   private ArrayList<Session> getAllByUser(@PathVariable("userid") int id, @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {

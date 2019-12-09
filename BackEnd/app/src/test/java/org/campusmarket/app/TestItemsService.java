@@ -24,11 +24,11 @@ import org.mockito.MockitoAnnotations;
 public class TestItemsService {
 	
 	@InjectMocks
-	ItemService itemService;
+	private ItemService itemService;
 
 	
 	@Mock
-	ItemsRepository repo;
+	private ItemsRepository repo;
 	
 	@Before
 	public void init() {

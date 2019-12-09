@@ -58,7 +58,7 @@ public class UserController
      * @return a list of all users in the database
      */
    @RequestMapping("/all")
-    public List<User> getAll()
+   private List<User> getAll()
     {
         try
         {
@@ -77,7 +77,7 @@ public class UserController
     * @return true if it does, otherwise false
     */
     @RequestMapping("/exists/username/{username}")
-    public boolean checkUsername(@PathVariable("username") String username)
+    private boolean checkUsername(@PathVariable("username") String username)
     {
         if (users.existsByUserName(username) == 1) return true;
         else return false;
@@ -89,7 +89,7 @@ public class UserController
      * @return true if it does, otherwise false
      */
     @RequestMapping("/exists/email/{email}")
-    public boolean checkEmail(@PathVariable("email") String email)
+    private boolean checkEmail(@PathVariable("email") String email)
     {
         User u = users.findByEmail(email);
         if (u == null) return false;
@@ -97,7 +97,7 @@ public class UserController
     }
 
     @RequestMapping(value = "/cart/count", method = RequestMethod.GET)
-    public int getCartCount(@RequestParam(name = "sessid", required = true) String sessid)
+    private int getCartCount(@RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -121,7 +121,7 @@ public class UserController
     }
 
     @RequestMapping("/cart/get")
-    public List<Item> getMyCartItems(@RequestParam(name = "sessid", required = true) String sessid)
+    private List<Item> getMyCartItems(@RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -157,7 +157,7 @@ public class UserController
      * @return nothing (void)
      */
     @RequestMapping("/cart/clear")
-    public void clearCartItems(@RequestParam(name = "sessid", required = true) String sessid)
+    private void clearCartItems(@RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -190,7 +190,7 @@ public class UserController
      * @return true if drop was successful
      */
     @RequestMapping("/cart/drop/{refnum}")
-    public boolean dropFromMyCart(@PathVariable("refnum") int refnum,
+    private boolean dropFromMyCart(@PathVariable("refnum") int refnum,
                                   @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
@@ -225,7 +225,7 @@ public class UserController
      * @return true if add was successful
      */
     @RequestMapping("/cart/add/{refnum}")
-    public boolean addToMyCart(@PathVariable("refnum") int refnum,
+    private boolean addToMyCart(@PathVariable("refnum") int refnum,
                                @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
@@ -260,7 +260,7 @@ public class UserController
      * @return the user that has that id
      */
     @GetMapping("/id/{id}")
-    public User findUserById(@PathVariable("id") int id,
+    private User findUserById(@PathVariable("id") int id,
                              @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
@@ -300,7 +300,7 @@ public class UserController
      * @return the user that has that email
      */
     @GetMapping("/email/{email}")
-    public User findUserByEmail(@PathVariable("email") String email, @RequestParam(name = "sessid", required = true) String sessid)
+    private User findUserByEmail(@PathVariable("email") String email, @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -339,7 +339,7 @@ public class UserController
      * @return the user that has that username
      */
     @GetMapping("/username/{username}")
-    public User findUserByUserName(@PathVariable("username") String username, @RequestParam(name = "sessid", required = true) String sessid)
+    private User findUserByUserName(@PathVariable("username") String username, @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -376,7 +376,7 @@ public class UserController
      * @param user
      */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public User newUser(@RequestBody final User user)
+    private User newUser(@RequestBody final User user)
     {
         try
         {
@@ -397,7 +397,7 @@ public class UserController
      * @param sessid
      */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
+    private void deleteUser(@PathVariable("id") int id, @RequestParam(name = "sessid", required = true) String sessid)
     {
         if (sessid.isEmpty())
         {
@@ -480,7 +480,7 @@ public class UserController
  * @param sessid the session id of the logged in user
  */
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public void updateUser(@RequestBody User u,
+    private void updateUser(@RequestBody User u,
                            @PathVariable("id") int id,
                            @RequestParam(name = "sessid", required = true) String sessid)
     {
@@ -528,7 +528,7 @@ public class UserController
      * @return string representation of the user
      */
     @RequestMapping(value = "/toString/{id}")
-    public String UserToString(@PathVariable("id") int id)
+    private String UserToString(@PathVariable("id") int id)
     {
         try
         {
