@@ -7,11 +7,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.campusmarket.app.models.Item;
-import org.campusmarket.app.models.ItemService;
+import org.campusmarket.app.models.services.ItemService;
 import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.ItemsRepository;
 import org.junit.Before;

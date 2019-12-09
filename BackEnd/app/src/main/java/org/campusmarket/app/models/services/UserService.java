@@ -1,8 +1,7 @@
-package org.campusmarket.app.models;
+package org.campusmarket.app.models.services;
 
-import java.util.ArrayList;
 import java.util.List;
-
+import org.campusmarket.app.models.User;
 import org.campusmarket.db.repositories.ItemsRepository;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;

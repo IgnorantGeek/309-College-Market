@@ -1,17 +1,17 @@
-package org.campusmarket.app.models;
-import java.io.IOException;
+package org.campusmarket.app.models.services;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.campusmarket.app.exception.FileStorageException;
+import org.campusmarket.app.models.Item;
 import org.campusmarket.app.exception.MyFileNotFoundException;
 import org.campusmarket.db.repositories.ItemsRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
+
+
 
 /**
  * A service class to help testing the mockito for items 

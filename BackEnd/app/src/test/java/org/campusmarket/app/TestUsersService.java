@@ -10,9 +10,8 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.campusmarket.app.models.Item;
 import org.campusmarket.app.models.User;
-import org.campusmarket.app.models.UserService;
+import org.campusmarket.app.models.services.UserService;
 import org.campusmarket.db.repositories.UsersRepository;
 import org.junit.Before;
 import org.junit.Test;
