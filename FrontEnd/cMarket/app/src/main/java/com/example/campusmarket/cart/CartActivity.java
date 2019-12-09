@@ -2,8 +2,11 @@ package com.example.campusmarket.cart;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.campusmarket.CheckOutActivity;
+import com.example.campusmarket.MainActivity;
 import com.example.campusmarket.R;
 import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
@@ -24,8 +29,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private Button checkOut;
     private String TAG = CartActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String tag_json_arry = "jarray_req";
@@ -49,12 +55,15 @@ public class CartActivity extends AppCompatActivity {
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
+        checkOut = findViewById(R.id.btnCheckOut);
+        checkOut.setOnClickListener(this);
         listView = findViewById(R.id.listView);
         CartList = new ArrayList<>();
 //        Intent intent = getIntent();
 //        refnum =  intent.getStringExtra("refnum");
 
         makeJsonArryReq();
+
 
     }
 
@@ -138,4 +147,16 @@ public class CartActivity extends AppCompatActivity {
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
+    private void checkOut() {
+        Intent intent = new Intent(this, CheckOutActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btnCheckOut)
+        {
+            checkOut();
+        }
+    }
 }
