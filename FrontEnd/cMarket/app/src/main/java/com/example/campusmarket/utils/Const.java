@@ -20,10 +20,10 @@ public class Const {
     public static final String URL_ITEM_NEW = "http://coms-309-jr-1.misc.iastate.edu:8080/items/new";
     public static final String URL_ITEM_SELLER = "http://coms-309-jr-1.misc.iastate.edu:8080/items/seller";
     public static final String URL_SESSION_NEW = "http://coms-309-jr-1.misc.iastate.edu:8080/sessions/new";
-    public static final String URL_CART_ALL = "http://coms-309-jr-1.misc.iastate.edu:8080/users/cart/get";
-    public static final String URL_CART_ADD = "http://coms-309-jr-1.misc.iastate.edu:8080/users/cart/add";
-    public static final String URL_CART_DELETE = "http://coms-309-jr-1.misc.iastate.edu:8080/users/cart/drop";
-    public static final String URL_CART_CLEAR = "http://coms-309-jr-1.misc.iastate.edu:8080/users/cart/clear";
+    public static final String URL_CART_ALL = "http://coms-309-jr-1.misc.iastate.edu:8080/carts/get";
+    public static final String URL_CART_ADD = "http://coms-309-jr-1.misc.iastate.edu:8080/carts/add";
+    public static final String URL_CART_DELETE = "http://coms-309-jr-1.misc.iastate.edu:8080/carts/drop";
+    public static final String URL_CART_CLEAR = "http://coms-309-jr-1.misc.iastate.edu:8080/carts/clear";
     public static final String URL_CHAT = "ws://coms-309-jr-1.misc.iastate.edu:8080/chat";
 
 
