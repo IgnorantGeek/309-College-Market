@@ -34,7 +34,7 @@
 	 * @author fadelalshammasi
 	 * @author nheisler 
 	 */
-	@RequestMapping("/cart")
+	@RequestMapping("/carts")
 	@RestController
 	public class CartController
 	{
