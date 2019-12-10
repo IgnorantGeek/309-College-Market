@@ -3,6 +3,8 @@ package com.example.campusmarket;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.example.campusmarket.dashboard.DashboardActivity;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -33,6 +35,7 @@ public class MockitoExampleTest {
     public void setup() {
         System.out.println("Testing");
     }
+
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
@@ -102,8 +105,7 @@ public class MockitoExampleTest {
     }
 
     @Test
-    public void mockito_test_2()
-    {
+    public void mockito_test_2() {
         //You can mock concrete classes, not just interfaces
         LinkedList mockedList = mock(LinkedList.class);
 
@@ -127,26 +129,55 @@ public class MockitoExampleTest {
     }
 
     @Test
-    public void demo4_k_test1()
-    {
+    public void demo4_k_test1() {
         WebSockets mockedWS = mock(WebSockets.class);
         when(mockedWS.getUsernameFromMessage("Username: the message!")).thenReturn("Username");
         Assert.assertEquals("Username", mockedWS.getUsernameFromMessage("Username: the message!"));
     }
 
     @Test
-    public void demo4_k_test2()
-    {
+    public void demo4_k_test2() {
         WebSockets mockedWS = mock(WebSockets.class);
         when(mockedWS.getChatFromMessage("Username: the message!")).thenReturn(" the message!");
         Assert.assertEquals(" the message!", mockedWS.getChatFromMessage("Username: the message!"));
     }
 
     @Test
-    public void demo4_k_test3()
-    {
+    public void demo4_k_test3() {
         WebSockets mockedWS = mock(WebSockets.class);
         when(mockedWS.getUsernameFromMessage("This is a message, who sent it?")).thenReturn("");
         Assert.assertEquals("", mockedWS.getUsernameFromMessage("This is a message, who sent it?"));
+    }
+/* -------------------------------------------------------------------------------------------------------------- */
+    @Test
+    public void demo5_k_test1() {
+        // testing a date conversion
+        DashboardActivity mockedDA = mock(DashboardActivity.class);
+        when(mockedDA.convertDate("2019-12-01")).thenReturn("December 1, 2019");
+        Assert.assertEquals("December 1, 2019", mockedDA.convertDate("2019-12-01"));
+    }
+
+    @Test
+    public void demo5_k_test2() {
+        // testing another date conversion
+        DashboardActivity mockedDA = mock(DashboardActivity.class);
+        when(mockedDA.convertDate("2017-06-05")).thenReturn("June 5, 2017");
+        Assert.assertEquals("June 5, 2017", mockedDA.convertDate("2017-06-05"));
+    }
+
+    @Test
+    public void demo5_k_test3() {
+        // testing a string that is not a date
+        DashboardActivity mockedDA = mock(DashboardActivity.class);
+        when(mockedDA.convertDate("not a date")).thenReturn("");
+        Assert.assertEquals("", mockedDA.convertDate("not a date"));
+    }
+
+    @Test
+    public void demo5_k_test4() {
+        // testing a date with an incorrect month
+        DashboardActivity mockedDA = mock(DashboardActivity.class);
+        when(mockedDA.convertDate("2019-13-18")).thenReturn("");
+        Assert.assertEquals("", mockedDA.convertDate("2019-13-18"));
     }
 }

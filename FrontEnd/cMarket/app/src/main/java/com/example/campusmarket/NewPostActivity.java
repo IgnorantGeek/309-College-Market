@@ -66,6 +66,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Creates instance of NewPostActivity
+     *
      * @param savedInstanceState the Saved Instance
      */
     @Override
@@ -96,6 +97,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * When the user clicks to submit their post, calls postItem()
+     *
      * @param v theView
      */
     @Override
@@ -120,16 +122,16 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * Parses the result of the PhotoPickerIntent.
      * Displays the filepath and a preview of the image on the NewPost page
+     *
      * @param requestCode the request code
-     * @param resultCode the result code
-     * @param data the data
+     * @param resultCode  the result code
+     * @param data        the data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK)
-        {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             // selected file from gallery
             uriImage = data.getData();
             Bitmap bitmap = getPath(uriImage);
@@ -139,13 +141,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             Log.d(TAG, converted);
             Bitmap bconverted = StringToBitMap(converted);
 
-            if (filePath.equals("null"))
-            {
+            if (filePath.equals("null")) {
                 String failure = "Error in uploading picture";
                 tvUpload.setText(failure);
-            }
-            else
-            {
+            } else {
                 String success = "Image uploaded";
                 tvUpload.setText(success);
                 imageUpload.setImageBitmap(bconverted);
@@ -156,26 +155,28 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Converts a bitmap to a string
+     *
      * @param bitmap the bitmap to be converted
      * @return string representation of the bitmap
      */
-    public static String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
+    public static String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
     /**
      * Converts a string to a bitmap
+     *
      * @param encodedString the string that represents a bitmap
      * @return the converted bitmap object related to the string
      */
-    public static Bitmap StringToBitMap(String encodedString){
+    public static Bitmap StringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
@@ -184,6 +185,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Returns the path to this iamge
+     *
      * @param uri The place where the image is from
      * @return the Bitmap of the image
      */
@@ -209,22 +211,18 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted already. Check if need to tell user why we need permission
             boolean rationale = ActivityCompat.shouldShowRequestPermissionRationale(NewPostActivity.this, Manifest.permission.WRITE_CALENDAR);
-            if (rationale)
-            {
+            if (rationale) {
                 // then we need to show the rationale
                 String message = "Permission to gallery must be given to upload an image";
                 tvUpload.setText(message);
 
-            }
-            else
-            {
+            } else {
                 // don't need to show the rationale, just ask for permission
                 ActivityCompat.requestPermissions(NewPostActivity.this, new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
             }
-        }
-        else {
+        } else {
             // Permission has already been granted, go ahead
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
@@ -234,13 +232,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * After we request permission, use what the user responded with.
-     * @param requestCode the request code
-     * @param permissions the permission array
+     *
+     * @param requestCode  the request code
+     * @param permissions  the permission array
      * @param grantResults the result of the permission grant
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PICK_FROM_GALLERY) {// If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -256,13 +254,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Creates the body of the multipart based on the file
+     *
      * @param partName the name of the part (fname)
-     * @param fileUri the file representation of the image
+     * @param fileUri  the file representation of the image
      * @return the MultipartBody.part
      */
     @NonNull
-    private MultipartBody.Part prepareFile(String partName, Uri fileUri)
-    {
+    private MultipartBody.Part prepareFile(String partName, Uri fileUri) {
 
         File file = new File(fileUri.getPath());
         RequestBody requestFile =
@@ -275,10 +273,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Performs the Multipart request for an item + image, using retrofit
+     *
      * @param fileUri The Uri of the image to be added to the item
      */
-    private void doRequest(Uri fileUri)
-    {
+    private void doRequest(Uri fileUri) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(Const.URL_ITEM_NEW)
                 .addConverterFactory(GsonConverterFactory.create());
@@ -305,6 +303,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Creates the request body from the given string
+     *
      * @param description The description of the parameter
      * @return The requestBody to be used in the request
      */
@@ -328,12 +327,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             pDialog.hide();
     }
 
+    //making this public for testing purposes
     /**
      * Posts the new item to the database with the information
      * that the user filled in on the page.
      * Called once they click "Post"
      */
-    public void postItem(){
+    public void postItem() {
         // make json object
         String url = Const.URL_ITEM_NEW + "?sessid=" + UserActivity.sessionID;
         JSONObject js = new JSONObject();

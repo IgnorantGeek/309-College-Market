@@ -34,6 +34,11 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
     private Button btnClear;
     private String refnum;
 
+    /** These methods need to be public since
+     *  they are referenced in other classes
+     *
+     */
+
     /**
      * So while creating the object of this adapter class we need to give demolist and context.
      * The adapter is what actually puts the info into the dashboard in the format specified by the lv_rows layout.
@@ -86,23 +91,12 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         user.setText(item.getUser());
         refnum = item.getRefnum();
 
-
-//        btnContactSeller.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(mCtx, WebSockets.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mCtx.startActivity(intent);
-//            }
-//        });
-
-
         //returning the list of items as a whole
         return listViewItem;
 
     }
 
+    //making this public for testing
     /**
      * Removes the item from the user's cart with the information
      * that was provided for the item on the page

@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Creates instance of MainActivity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Called when the user clicks to log in.
      * Brings user to LoginActivity page
+     *
      * @param view
      */
     public void logIn(View view) {
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Called when the user clicks to sign up.
      * Brings user to RegisterActivity page
+     *
      * @param view
      */
     public void signUp(View view) {
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
      * Called when user clicks on "Test"
      * Brings user to page after Login/Register
      * For testing purposes only
+     *
      * @param view
      */
     public void testButton(View view) {
@@ -95,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Function to test Mockito.
      * For testing purposes only
+     *
      * @param s
      * @return the  string
      */

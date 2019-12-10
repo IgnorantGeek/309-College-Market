@@ -28,15 +28,16 @@ public class CartActivity extends AppCompatActivity {
 
     private String TAG = CartActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-    private String  tag_json_arry = "jarray_req";
+    private String tag_json_arry = "jarray_req";
     private String refnum;
-//    Button btnViewCart;
+    //    Button btnViewCart;
     ListView listView;
     Activity activity;
     List<CartItemsActivity> CartList;
 
     /**
      * Creates this instance of Dashboard
+     *
      * @param savedInstanceState
      */
     @Override
@@ -75,7 +76,7 @@ public class CartActivity extends AppCompatActivity {
 
     /**
      * Making json array request post
-     * */
+     */
     private void makeJsonArryReq() {
         showProgressDialog();
         String url = Const.URL_CART_ALL + "?sessid=" + UserActivity.sessionID;
@@ -103,11 +104,11 @@ public class CartActivity extends AppCompatActivity {
 
     /**
      * Parse the JSON item array so you only add the item names.
+     *
      * @param response
      */
     private void addItemNames(JSONArray response) {
-        for (int i = 0; i < response.length(); i++)
-        {
+        for (int i = 0; i < response.length(); i++) {
             try {
 
                 // declaring new json object
@@ -118,7 +119,6 @@ public class CartActivity extends AppCompatActivity {
                 CartItemsActivity item = new CartItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), seller.getString("username"), demoObject.getString("refnum"));
                 CartList.add(item); // adding all of these new items for display
-
 
 
                 // setting up new adapter that will place items accordingly
@@ -137,21 +137,5 @@ public class CartActivity extends AppCompatActivity {
         }
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
-
-//    /**
-//     * Handles the action on button click
-//     * @param view
-//     */
-//    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.btnViewCart:
-//                Intent intent = new Intent(this, CartActivity.class);
-//                startActivity(intent);
-//                break;
-//            default:
-//                break;
-//        }
-
 
 }

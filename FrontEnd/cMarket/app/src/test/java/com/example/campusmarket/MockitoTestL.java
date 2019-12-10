@@ -4,6 +4,8 @@ package com.example.campusmarket;
 import android.os.Build;
 import android.view.View;
 
+import com.example.campusmarket.cart.CartActivity;
+import com.example.campusmarket.cart.CartAdapter;
 import com.example.campusmarket.dashboard.DashAdapter;
 import com.example.campusmarket.login.LoginActivity;
 import com.example.campusmarket.login.RegisterActivity;
@@ -35,7 +37,8 @@ import static org.mockito.Mockito.when;
 public class MockitoTestL {
 
     private View.OnClickListener onClickListener;
-    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
 
     /**
@@ -48,6 +51,7 @@ public class MockitoTestL {
     /**
      * Checks to see if login_return method returns
      * true like it should
+     *
      * @throws JSONException
      */
     @Test
@@ -78,7 +82,7 @@ public class MockitoTestL {
      * when login form is completed
      */
     @Test
-    public void syntax_register (){
+    public void syntax_register() {
         RegisterActivity regActivity = mock(RegisterActivity.class);
         String usernameCorrect = "lkrohn";
         String passwordCorrect = "password1!";
@@ -101,16 +105,17 @@ public class MockitoTestL {
         String sessionID = "12345ABCDE";
 
         JSONObject response = new JSONObject();
-            response.put("username", usernameCorrect);
-            response.put("password", passwordCorrect);
+        response.put("username", usernameCorrect);
+        response.put("password", passwordCorrect);
 
-            logActivity.finishLogIn(usernameCorrect, sessionID);
-            verify(logActivity,  times(1)).finishLogIn(usernameCorrect, sessionID);
+        logActivity.finishLogIn(usernameCorrect, sessionID);
+        verify(logActivity, times(1)).finishLogIn(usernameCorrect, sessionID);
     }
 
     /**
      * Verifies the fields of the json object that
      * represent an item added to a cart
+     *
      * @throws JSONException
      */
     @Test
@@ -138,16 +143,48 @@ public class MockitoTestL {
 
 
         addCartActivity.addItem();
-        verify(addCartActivity,  times(1)).addItem();
+        verify(addCartActivity, times(1)).addItem();
+    }
+
+
+    /**
+     * ------------------------
+     * Mockito tests for demo 5
+     * ------------------------
+     */
+
+
+    /**
+     * Verifies the item and all of
+     * its fields were removed from cart
+     *
+     * @throws JSONException
+     */
+    @Test
+    public void clearCart_verify() throws JSONException {
+        CartAdapter cartAdapt = mock(CartAdapter.class);
+        // Create the cart JSON Object
+        String name = "Phone Charger";
+        String price = "25.50";
+        String user = "lkrohn";
+
+        JSONObject response = new JSONObject();
+        response.put("item name", name);
+        response.put("price", price);
+        response.put("seller", user);
+
+        cartAdapt.clearItems();
+        verify(cartAdapt, times(1)).clearItems();
     }
 
     /**
      * Verifies the fields of the json object that
      * will be posted to the dashboard as a new item
+     *
      * @throws JSONException
      */
     @Test
-    public void postItem_check() throws JSONException {
+    public void postItem2_verify() throws JSONException {
         NewPostActivity postActivity = mock(NewPostActivity.class);
 
         // Create the user JSON Object
@@ -166,7 +203,35 @@ public class MockitoTestL {
         response.put("image", imageCorrect);
 
         postActivity.postItem();
-        verify(postActivity,  times(1)).postItem();
+        verify(postActivity, times(1)).postItem();
+    }
+
+    /**
+     * Checks the fields of the json object that
+     * represent an item removed from the cart were actually removed
+     *
+     * @throws JSONException
+     */
+    @Test
+    public void removeFromCart_check() throws JSONException {
+        CartAdapter remCartActivity = mock(CartAdapter.class);
+
+        // Create the user JSON Object
+        String nameCorrect = "iphone";
+        String priceCorrect = "250.0";
+        String sellerNameCorrect = "fadelsh";
+        String refnumCorrect = "8";
+
+        //verify the fields are correct to add the item
+        JSONObject response = new JSONObject();
+        response.put("name", nameCorrect);
+        response.put("price", priceCorrect);
+        response.put("username", sellerNameCorrect);
+        response.put("refnum", refnumCorrect);
+
+
+        remCartActivity.removeItem();
+        verify(remCartActivity, times(1)).removeItem();
     }
 
 }

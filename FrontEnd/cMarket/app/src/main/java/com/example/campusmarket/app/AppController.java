@@ -4,6 +4,7 @@
 package com.example.campusmarket.app;
 
 import com.example.campusmarket.utils.LruBitmapCache;
+
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -36,6 +37,7 @@ public class AppController extends Application {
 
     /**
      * Returns the instance of this AppController
+     *
      * @return The instance
      */
     public static synchronized AppController getInstance() {
@@ -44,6 +46,7 @@ public class AppController extends Application {
 
     /**
      * returns the requestQueue, or a new one if doesn't exist
+     *
      * @return The RequestQueue
      */
     public RequestQueue getRequestQueue() {
@@ -56,6 +59,7 @@ public class AppController extends Application {
 
     /**
      * Loads images
+     *
      * @return an ImageLoader
      */
     public ImageLoader getImageLoader() {
@@ -69,6 +73,7 @@ public class AppController extends Application {
 
     /**
      * Adds request to the requestQueue
+     *
      * @param req
      * @param tag
      * @param <T>
@@ -81,6 +86,7 @@ public class AppController extends Application {
 
     /**
      * Cancels the request
+     *
      * @param tag
      */
     public void cancelPendingRequests(Object tag) {

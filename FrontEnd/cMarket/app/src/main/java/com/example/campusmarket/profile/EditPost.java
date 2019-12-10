@@ -57,6 +57,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
     /**
      * Creates this instance of EditPost.
+     *
      * @param savedInstanceState the instance of that class
      */
     @Override
@@ -83,6 +84,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
     /**
      * Finds the item json object by the given refnum
+     *
      * @param refnum the refnum of the item
      */
     private void findItemByRefnum(String refnum) {
@@ -121,7 +123,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
     /**
      * Initializes all of the edit text fields with the item's information
-     * @param obj  JSON Object representing the item
+     *
+     * @param obj JSON Object representing the item
      */
     private void initializeEditTextFields(JSONObject obj) {
         // initialize image
@@ -147,6 +150,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
      * Called when the submit button is clicked.
      * Posts the json item back to the database with the new name, price, category, and condition.
      * Uses the old json's user and refnum fields.
+     *
      * @param oldObject JSON object representing the item with OLD information
      */
     public void updateItemInformation(JSONObject oldObject) {
@@ -188,17 +192,17 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
     /**
      * Puts the item to the new database
+     *
      * @param js JSON Object representing the item to post
      */
-    private void make_update_request(final JSONObject js)
-    {
+    private void make_update_request(final JSONObject js) {
         String url = Const.URL_ITEM_UPDATE + "/";
         try {
             url += js.getString("refnum");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        url+= ("?sessid=" + UserActivity.sessionID);
+        url += ("?sessid=" + UserActivity.sessionID);
         showProgressDialog();
         // Make request for JSONObject
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
@@ -218,7 +222,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         }) {
 
             @Override
-            public Map<String, String> getHeaders()  {
+            public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
@@ -237,7 +241,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                     params.put("image", NewPostActivity.BitMapToString(bmImage));
                     params.put("fname", "img");
                     params.put("ftype", "image/png");
-                }  catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 return params;
@@ -251,8 +255,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     /**
      * Deletes the item that is currently being displayed
      */
-    private void deletePost()
-    {
+    private void deletePost() {
         // declaring urls from api
         String url = Const.URL_ITEM_DELETE + "/";
 
@@ -263,7 +266,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
             e.printStackTrace();
         }
 
-        url+= ("?sessid=" + UserActivity.sessionID);
+        url += ("?sessid=" + UserActivity.sessionID);
 
         showProgressDialog();
         // Make request for JSONObject - delete req
@@ -298,28 +301,25 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     /**
      * Parses the result of the PhotoPickerIntent.
      * Displays the filepath and a preview of the image on the NewPost page
+     *
      * @param requestCode the request code
-     * @param resultCode the result code
-     * @param data the data
+     * @param resultCode  the result code
+     * @param data        the data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK)
-        {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             // selected file from gallery
             uriImage = data.getData();
             bmImage = getPath(uriImage);
             String filePath = String.valueOf(bmImage);
 
-            if (filePath.equals("null"))
-            {
+            if (filePath.equals("null")) {
                 String failure = "Error in uploading picture";
                 tvUpload.setText(failure);
-            }
-            else
-            {
+            } else {
                 String success = "Image uploaded";
                 tvUpload.setText(success);
                 ivImage.setImageBitmap(bmImage);
@@ -329,6 +329,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
     /**
      * Returns the path to this iamge
+     *
      * @param uri The place where the image is from
      * @return the Bitmap of the image
      */
@@ -354,22 +355,18 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted already. Check if need to tell user why we need permission
             boolean rationale = ActivityCompat.shouldShowRequestPermissionRationale(EditPost.this, Manifest.permission.WRITE_CALENDAR);
-            if (rationale)
-            {
+            if (rationale) {
                 // then we need to show the rationale
                 String message = "Permission to gallery must be given to upload an image";
                 tvUpload.setText(message);
 
-            }
-            else
-            {
+            } else {
                 // don't need to show the rationale, just ask for permission
                 ActivityCompat.requestPermissions(EditPost.this, new String[]{
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_FROM_GALLERY);
             }
-        }
-        else {
+        } else {
             // Permission has already been granted, go ahead
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
@@ -379,13 +376,13 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
     /**
      * After we request permission, use what the user responded with.
-     * @param requestCode the request code
-     * @param permissions the permission array
+     *
+     * @param requestCode  the request code
+     * @param permissions  the permission array
      * @param grantResults the result of the permission grant
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PICK_FROM_GALLERY) {// If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -403,6 +400,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
      * Waits for the user to click a button on the screen.
      * If the button is "Submit," it updates that item's info
      * If the button is "Delete," it deletes that item
+     *
      * @param view Current view
      */
     @Override

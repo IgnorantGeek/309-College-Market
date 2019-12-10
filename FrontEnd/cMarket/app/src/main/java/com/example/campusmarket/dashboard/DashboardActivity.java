@@ -40,6 +40,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     Activity activity;
     List<DashItemsActivity> ItemList;
     private Button btnViewCart, btnNav;
+
     /**
      * Creates this instance of Dashboard
      *
@@ -126,14 +127,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
                 // if we are the seller of the item, do not display it
                 String sellerName = seller.getString("username");
-                if (sellerName.equals(UserActivity.loggedInUsername))
-                {
+                if (sellerName.equals(UserActivity.loggedInUsername)) {
                     continue;
                 }
 
+                String old_date = demoObject.getString("postedDate");
+                String date = convertDate(old_date);
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"), demoObject.getString("postedDate"),
+                        demoObject.getString("category"), date,
                         sellerName, demoObject.getString("refnum"), demoObject.getString("image"));
                 ItemList.add(item); // adding all of these new items for display
 
@@ -143,26 +145,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
                 // actually calling the adapter
                 listView.setAdapter(adapter);
-
-//                Searchable dash feature:
-//                etSearch.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable editable) {
-//                        // don't need to change anything here for now
-//
-//                    }
-//                });
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -174,11 +156,24 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
+    public String convertDate(String oldDate) {
+        String[] dateArr = oldDate.split("-");
+        if (dateArr.length != 3) return "";
+        String year = dateArr[0];
+        String day = dateArr[2];
+        int monthIndex = Integer.parseInt(dateArr[1]);
+        if (monthIndex < 1 || monthIndex > 12) return "";
+        String[] monthArr = {"January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"};
+        String month = monthArr[monthIndex - 1];
+        return month + " " + day + ", " + year;
+    }
+
 
     /**
      * Handles the action on button click
      *
-     * @param view
+     * @param view theView
      */
     @Override
     public void onClick(View view) {
