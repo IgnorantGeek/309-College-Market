@@ -51,7 +51,10 @@
 	    private String filename;
 	    
 	    @Column (name="filetype")
-	    private String filetype;
+        private String filetype;
+        
+        @Column (name = "checkout")
+        private int checkout;
 	    
 	    
 	    
@@ -188,7 +191,14 @@
 	    */
 	   public String getFiletype() {
 		   return this.filetype;
-	   }
+       }
+       
+       /**
+        * @return the checkout
+        */
+       public int getCheckout() {
+           return checkout;
+       }
 	   
 	   
 	   /**
@@ -274,7 +284,14 @@
 	    */
 	   public void setDatePosted(LocalDate date) {
 		   this.postdate=date;
-	   }
+       }
+       
+       /**
+        * @param checkout the checkout to set
+        */
+       public void setCheckout(int checkout) {
+           this.checkout = checkout;
+       }
 	   
 	   
 	   /**

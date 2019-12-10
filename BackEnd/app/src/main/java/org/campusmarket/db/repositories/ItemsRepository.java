@@ -1,9 +1,10 @@
-	package org.campusmarket.db.repositories;
-	
-	import java.util.ArrayList;
-	import java.util.Collection;
-	
-	import org.campusmarket.app.models.Item;
+package org.campusmarket.db.repositories;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.campusmarket.app.models.Item;
 	import org.springframework.data.jpa.repository.JpaRepository;
 	import org.springframework.data.jpa.repository.Query;
 	import org.springframework.data.repository.query.Param;
@@ -25,7 +26,11 @@
 		 * @return an item 
 		 */
 		Item findByRefnum(@Param("refnum") int refnum);
-		 
+         
+        @Override
+        @Query(nativeQuery = true, value = "SELECT * FROM items WHERE checkout=0")
+        List<Item> findAll();
+
 		/**
 	     * A method to search for items by their name (or part of the name)
 	     * @param name

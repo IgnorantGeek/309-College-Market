@@ -99,6 +99,7 @@
 				User u=users.findById(sessions.findUserBySession(sessid));
 				
 				Item item=new Item (name,price,category,cond, fileName, file.getContentType(), file.getBytes());
+				item.setCheckout(0);
 		
 				item.setUser(u);
 				items.save(item);
@@ -131,7 +132,7 @@
 			try
 			{	
 				User u=users.findById(sessions.findUserBySession(sessid));
-				
+				item.setCheckout(0);
 		
 				item.setUser(u);
 				items.save(item);
