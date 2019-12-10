@@ -25,6 +25,9 @@ public class Const {
     public static final String URL_CART_DELETE = "http://coms-309-jr-1.misc.iastate.edu:8080/carts/drop";
     public static final String URL_CART_CLEAR = "http://coms-309-jr-1.misc.iastate.edu:8080/carts/clear";
     public static final String URL_CHAT = "ws://coms-309-jr-1.misc.iastate.edu:8080/chat";
+    public static final String URL_CART_CHECKOUT = "http://coms-309-jr-1.misc.iastate.edu:8080/carts/checkout";
+    public static final String URL_GOT_PAYMENT = "http://coms-309-jr-1.misc.iastate.edu:8080/users/forsale/paid";
+    public static final String URL_GOT_ITEM = "http://coms-309-jr-1.misc.iastate.edu:8080/carts/recieved";
 
 
 }

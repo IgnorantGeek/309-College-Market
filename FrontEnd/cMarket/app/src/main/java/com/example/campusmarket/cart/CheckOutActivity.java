@@ -12,8 +12,8 @@ public class CheckOutActivity extends AppCompatActivity {
 
     private String sellers = "";
     private String itemNames = "";
-    private TextView tvSellers;
-    private TextView tvItemNames;
+    private String total;
+    private TextView tvSellers,tvItemNames, tvTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,7 @@ public class CheckOutActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String sellers = intent.getStringExtra("sellers");
         String itemNames = intent.getStringExtra("itemNames");
+        String total= intent.getStringExtra("total");
         if (sellers != null)
         {
             this.sellers = sellers;
@@ -31,7 +32,12 @@ public class CheckOutActivity extends AppCompatActivity {
         {
             this.itemNames = itemNames;
         }
+        if(total!=null)
+        {
+            this.total = total;
+        }
 
+        tvTotal = findViewById(R.id.tvTotalCheckout);
         tvSellers = findViewById(R.id.tvSellersCheckout);
         tvItemNames = findViewById(R.id.tvItemNamesCheckout);
 
@@ -45,5 +51,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private void displayCheckOutInfo() {
         tvSellers.setText(sellers);
         tvItemNames.setText(itemNames);
+        String moneyTotal = "$"+total;
+        tvTotal.setText(moneyTotal);
     }
 }

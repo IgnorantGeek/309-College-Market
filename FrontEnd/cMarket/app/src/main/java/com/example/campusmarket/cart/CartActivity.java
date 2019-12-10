@@ -11,10 +11,12 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.campusmarket.R;
 import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
@@ -27,15 +29,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity implements View.OnClickListener {
+import static com.example.campusmarket.app.AppController.TAG;
 
-    private Button checkOut;
+public class CartActivity extends AppCompatActivity  {
+
     private String TAG = CartActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String tag_json_arry = "jarray_req";
-    private String refnum;
-    private String sellersForCheckout;
-    private String itemNamesForCheckout;
 
     //    Button btnViewCart;
     ListView listView;
@@ -56,18 +56,10 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
-        checkOut = findViewById(R.id.btnCheckOut);
-        checkOut.setOnClickListener(this);
         listView = findViewById(R.id.listView);
         CartList = new ArrayList<>();
-//        Intent intent = getIntent();
-//        refnum =  intent.getStringExtra("refnum");
-
-        sellersForCheckout = "";
-        itemNamesForCheckout = "";
 
         makeJsonArryReq();
-
 
     }
 
@@ -132,8 +124,6 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 CartItemsActivity item = new CartItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), seller.getString("username"), demoObject.getString("refnum"));
                 CartList.add(item); // adding all of these new items for display
-                sellersForCheckout += (seller.get("username") + "\n");
-                itemNamesForCheckout += (demoObject.get("name") + "\n");
 
                 // setting up new adapter that will place items accordingly
                 final CartAdapter adapter = new CartAdapter(CartList, getApplicationContext());
@@ -152,18 +142,4 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
-    private void checkOut() {
-        Intent intent = new Intent(this, CheckOutActivity.class);
-        intent.putExtra("sellers", sellersForCheckout);
-        intent.putExtra("itemNames", itemNamesForCheckout);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.btnCheckOut)
-        {
-            checkOut();
-        }
-    }
 }

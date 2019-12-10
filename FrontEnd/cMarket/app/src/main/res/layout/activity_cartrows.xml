@@ -40,7 +40,7 @@
         <Button
             android:id="@+id/btnClear"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="145dp"
             android:text="Clear Cart" />
 
     </LinearLayout>
@@ -90,6 +90,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Remove from Cart" />
+
+            <Button
+                android:id="@+id/btnCheckOut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Checkout" />
+
+            <Button
+                android:id="@+id/btnItemReceived"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="I have received this item" />
 
             <!--            <Button-->
 <!--                android:id="@+id/btnContactSeller"-->

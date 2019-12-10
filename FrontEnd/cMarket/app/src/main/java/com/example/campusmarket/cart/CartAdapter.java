@@ -32,7 +32,8 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
     private Context mCtx;
     private Button btnRemove;
     private Button btnClear;
-    private String refnum;
+    private String refnum, price, name, seller;
+
 
     /** These methods need to be public since
      *  they are referenced in other classes
@@ -81,6 +82,10 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         btnRemove.setOnClickListener(this);
         btnClear = (Button) listViewItem.findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
+        Button checkout = listViewItem.findViewById(R.id.btnCheckOut);
+        checkout.setOnClickListener(this);
+        Button received = listViewItem.findViewById(R.id.btnItemReceived);
+        received.setOnClickListener(this);
 
         // getting the specified positions for the items
         CartItemsActivity item = CartList.get(position);
@@ -88,8 +93,11 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         // setting each parameter to text editable boxed
         name.setText(item.getName());
         price.setText(item.getPrice());
+        this.price = item.getPrice();
+        this.name = item.getName();
+        this.seller = item.getUser();
         user.setText(item.getUser());
-        refnum = item.getRefnum();
+        this.refnum = item.getRefnum();
 
         //returning the list of items as a whole
         return listViewItem;
@@ -161,6 +169,57 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
 
     }
 
+    private void checkOutRequest()
+    {
+        String url  = Const.URL_CART_CHECKOUT + "/" + refnum + "?sessid=" + UserActivity.sessionID;
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response.toString() + " posted");
+                        finishCheckout();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+    }
+
+    private void finishCheckout()
+    {
+        // go on to the next activity
+        Intent intent = new Intent(mCtx, CheckOutActivity.class);
+        intent.putExtra("sellers", seller);
+       intent.putExtra("itemNames", name);
+        intent.putExtra("total", price);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mCtx.startActivity(intent);
+    }
+
+    private void itemReceivedRequest() {
+        String url  = Const.URL_GOT_ITEM + "/" + refnum + "?sessid=" + UserActivity.sessionID;
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response.toString() + " posted");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+    }
+
     /**
      * Handles the action on button click.
      * If button is Remove, call removeItem function
@@ -184,6 +243,12 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
                 Intent intent2 = new Intent(mCtx, DashboardActivity.class);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mCtx.startActivity(intent2);
+                break;
+            case R.id.btnCheckOut:
+                checkOutRequest();
+                break;
+            case R.id.btnItemReceived:
+                itemReceivedRequest();
                 break;
             default:
                 break;
