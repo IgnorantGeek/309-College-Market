@@ -1,7 +1,9 @@
 	package org.campusmarket.app.models.services;
 	
 	import java.util.List;
-	import org.campusmarket.app.models.User;
+
+import org.campusmarket.app.models.Item;
+import org.campusmarket.app.models.User;
 	import org.campusmarket.db.repositories.ItemsRepository;
 	import org.campusmarket.db.repositories.UsersRepository;
 	import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,11 @@
 	    
 	    public void clearCart(int user_id) {
 	    	repo.removeEverythingFromCart(user_id);
-	    }
+		}
+		
+		public List<Integer> getShoppingCartItems(int user_id)
+		{
+			return repo.getShoppingCartItems(user_id);
+		}
 	    
 	}
