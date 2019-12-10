@@ -15,20 +15,26 @@
 	import org.springframework.http.HttpStatus;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PathVariable;
-	import org.springframework.web.bind.annotation.RequestBody;
 	import org.springframework.web.bind.annotation.RequestMapping;
 	import org.springframework.web.bind.annotation.RequestMethod;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.RestController;
 	import org.springframework.web.server.ResponseStatusException;
 	
+	enum Checkout
+    {
+        FORSALE,           // 0
+        CHECKOUT,          // 1
+        AWAITPAYMENT,	   // 2
+        AWAITRECIEVED;     // 3
+    }
 
 	/**
 	 * a class to represent the controller for users
 	 * @author fadelalshammasi
 	 * @author nheisler 
 	 */
-	@RequestMapping("/carts")
+	@RequestMapping("/cart")
 	@RestController
 	public class CartController
 	{
@@ -139,6 +145,10 @@
 	
 	        try
 	        {
+				for (Item item : loggedIn.getCart())
+				{
+					item.setCheckout(Checkout.FORSALE.ordinal());	
+				}
 	            users.removeEverythingFromCart(loggedIn.getId());
 	            log.info("User with ID: " + loggedIn.getId() + " cleared shopping cart.");
 	            users.save(loggedIn);
@@ -203,7 +213,59 @@
 	            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops! Something went wrong...");
 	        }
 	    }
-	
-	 
-	    
+		
+		@GetMapping("/checkout/{refnum}")
+        public boolean checkoutItem(@PathVariable("refnum") int refnum,
+                                    @RequestParam(name = "sessid", required = true) String sessid)
+        {
+            if (sessid.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            }
+
+            Session active = sessions.findBySessId(sessid);
+            
+            if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+            User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+            Item addItem = items.findByRefnum(refnum);
+
+            if (addItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+            if (loggedIn != null)
+            {
+                addItem.setCheckout(Checkout.AWAITPAYMENT.ordinal());
+                items.save(addItem);
+                return true;
+            }
+            return false;    
+		}
+		
+		@GetMapping("/recieved/{refnum}")
+        public boolean SetItemRecieved(@PathVariable("refnum") int refnum,
+                                    @RequestParam(name = "sessid", required = true) String sessid)
+        {
+            if (sessid.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+            }
+
+            Session active = sessions.findBySessId(sessid);
+            
+            if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+            User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+            Item addItem = items.findByRefnum(refnum);
+
+            if (addItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+            if (loggedIn != null)
+            {
+                items.delete(addItem);
+                return true;
+            }
+            return false;
+        }
 	}
