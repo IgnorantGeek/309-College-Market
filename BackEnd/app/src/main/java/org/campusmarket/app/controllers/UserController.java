@@ -81,12 +81,15 @@
 	        }
 	    }
 	    
+	    
 	    /**
 	     * A method to add an item to a users shopping cart
 	     * @param refnum the item number
 	     * @param sessid the session id of the user
 	     * @return true if add was successful
 	     */
+	    
+	    /*
 	    @RequestMapping("/cart/add/{refnum}")
 	    private boolean addToMyCart(@PathVariable("refnum") int refnum,
 	                               @RequestParam(name = "sessid", required = true) String sessid)
@@ -117,7 +120,7 @@
 	        }
 	        else return false;
         }
-
+*/
         @GetMapping("/cart/checkout/{refnum}")
         public boolean checkoutItem(@PathVariable("refnum") int refnum,
                                     @RequestParam(name = "sessid", required = true) String sessid)
@@ -315,6 +318,8 @@
 	     * @param sessid the session id of the user
 	     * @return true if drop was successful
 	     */
+	    
+	    /*
 	    @RequestMapping("/cart/drop/{refnum}")
 	    private boolean dropFromMyCart(@PathVariable("refnum") int refnum,
 	                                  @RequestParam(name = "sessid", required = true) String sessid)
@@ -345,13 +350,15 @@
 	        }
 	        else return false;
 	    }
-	
+	*/
 	    
 	    /**
 	     * A method to clear the contents of a users shopping cart
 	     * @param sessid the session id of the user
 	     * @return nothing (void)
 	     */
+	    
+	    /*
 	    @RequestMapping("/cart/clear")
 	    private void clearCartItems(@RequestParam(name = "sessid", required = true) String sessid)
 	    {
@@ -378,7 +385,7 @@
 	            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops! Something went wrong...");
 	        }
 	    }
-	
+	*/
 	    //4-GET requests 
 	    
 	    /**
@@ -424,6 +431,7 @@
 	        else return true;
 	    }
 	
+	    /*
 	    @RequestMapping(value = "/cart/count", method = RequestMethod.GET)
 	    private int getCartCount(@RequestParam(name = "sessid", required = true) String sessid)
 	    {
@@ -447,7 +455,8 @@
 	            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops! Something went wrong...");
 	        }
 	    }
-	
+	*/
+	    /*
 	    @RequestMapping("/cart/get")
 	    private List<Item> getMyCartItems(@RequestParam(name = "sessid", required = true) String sessid)
 	    {
@@ -479,7 +488,7 @@
 	        }
 	    }
 	
-	 
+	 */
 	     
 	    /**
 	     *  A method to get a user given his/her id
