@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CheckOutActivity"></activity>
+        <activity android:name=".cart.CheckOutActivity"></activity>
         <activity android:name=".profile.AccountSettingsActivity" />
         <activity android:name=".profile.EditPost" />
         <activity android:name=".profile.ProfileActivity" />

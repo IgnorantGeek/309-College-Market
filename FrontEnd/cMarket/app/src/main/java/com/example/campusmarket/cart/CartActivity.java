@@ -15,8 +15,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.campusmarket.CheckOutActivity;
-import com.example.campusmarket.MainActivity;
 import com.example.campusmarket.R;
 import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
@@ -36,6 +34,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog pDialog;
     private String tag_json_arry = "jarray_req";
     private String refnum;
+    private String sellersForCheckout;
+    private String itemNamesForCheckout;
+
     //    Button btnViewCart;
     ListView listView;
     Activity activity;
@@ -128,7 +129,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 CartItemsActivity item = new CartItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), seller.getString("username"), demoObject.getString("refnum"));
                 CartList.add(item); // adding all of these new items for display
-
+                sellersForCheckout += seller.get("username");
+                itemNamesForCheckout += demoObject.get("name");
 
                 // setting up new adapter that will place items accordingly
                 final CartAdapter adapter = new CartAdapter(CartList, getApplicationContext());
@@ -149,6 +151,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     private void checkOut() {
         Intent intent = new Intent(this, CheckOutActivity.class);
+        intent.putExtra("sellers", sellersForCheckout);
+        intent.putExtra("itemNames", itemNamesForCheckout);
         startActivity(intent);
     }
 
