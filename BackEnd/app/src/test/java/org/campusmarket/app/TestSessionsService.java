@@ -23,22 +23,13 @@ public class TestSessionsService extends TestServices
     @InjectMocks
     SessionService sessionService;
 
-    @Mock
-    SessionsRepository repo;
-
-    @Before
-    public void init()
-    {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
     public void TestNewSession()
     {
         User sellerOne=new User ("nheisler", "abc123","Nick","Heisler","nheisler@iastate.edu","isu", false);
         Session sess = new Session("123456789abcdefg", false);
 
-        repo.save(sess);
+        SessionsRepo.save(sess);
         if (sess != null && sellerOne != null) sellerOne.addSession(sess);
         Session s = new Session();
 
