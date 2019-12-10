@@ -210,7 +210,7 @@
 			oldItem.setPrice(item.getPrice());
 			oldItem.setCategory(item.getCategory());
 			oldItem.setCondition(item.getCondition());
-			oldItem.setImage(item.getImage());
+			oldItem.setImg(item.getImg());
 	    		
 	    }
 	    
@@ -455,9 +455,9 @@
 		        Item f = files.getFile(refnum);
 	
 		        return ResponseEntity.ok()
-		                .contentType(MediaType.parseMediaType(f.getFtype()))
-		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + f.getFname() + "\"")
-		                .body(new ByteArrayResource(f.getImage()));
+		                .contentType(MediaType.parseMediaType(f.getFiletype()))
+		                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + f.getFilename() + "\"")
+		                .body(new ByteArrayResource(f.getImg()));
 		    }
 	
 	}
