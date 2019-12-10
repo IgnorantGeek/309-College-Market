@@ -341,9 +341,9 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             js.put("price", (etPrice.getText()).toString());
             js.put("condition", (etCondition.getText()).toString());
             js.put("category", (etCategory.getText()).toString());
-            js.put("image", imageString);
-            js.put("fname", "img");
-            js.put("ftype", "image/png");
+            js.put("img", imageString);
+            js.put("filename", "img");
+            js.put("filetype", "image/png");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -384,9 +384,9 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 params.put("price", (etPrice.getText()).toString());
                 params.put("condition", (etCondition.getText()).toString());
                 params.put("category", (etCategory.getText()).toString());
-                params.put("image", imageString);
-                params.put("fname", "img");
-                params.put("ftype", "image/png");
+                params.put("img", imageString);
+                params.put("filename", "img");
+                params.put("filetype", "image/png");
                 return params;
             }
 

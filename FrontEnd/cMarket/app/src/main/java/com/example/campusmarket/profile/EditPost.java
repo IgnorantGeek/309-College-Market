@@ -100,7 +100,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                         objectToEdit = response;
                         String imageString = null;
                         try {
-                            imageString = objectToEdit.getString("image");
+                            imageString = objectToEdit.getString("img");
                             bmImage = NewPostActivity.StringToBitMap(imageString);
                             ivImage = findViewById(R.id.imgUploadImageEdit);
                             ivImage.setImageBitmap(bmImage);
