@@ -223,7 +223,7 @@
 	    }
 	    
 	    private void updateItemsFields(@RequestBody Item item, Item oldItem) {
-	    	      oldItem.setName(item.getName());
+	    	          oldItem.setName(item.getName());
 			oldItem.setPrice(item.getPrice());
 			oldItem.setCategory(item.getCategory());
 			oldItem.setCondition(item.getCondition());
