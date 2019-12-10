@@ -43,6 +43,8 @@
 	    Log log = LogFactory.getLog(SessionController.class);
 	    
 	    
+	    //1.POST requests
+	    
 	    /**
 	     * A method to post a new active session and generate a random 16 character session id
 	     * @param req
@@ -97,60 +99,8 @@
 	        }
 	    }
 	
-	    // Only for admins for now
-	    /**
-	     * A method to get the session for the user who is admin given their session IDs
-	     * @param getId
-	     * @param sessid
-	     * @return The session for admin 
-	     */
-	    @RequestMapping(value = "/sessid/{sess_id}", method = RequestMethod.GET)
-	    private Session findById(@PathVariable("sess_id") String getId, @RequestParam(name = "sessid", required = true) String sessid)
-	    {
-	        if (sessid.isEmpty())
-	        {
-	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-	        }
-	
-	        Session active = sessions.findBySessId(sessid);
-	        
-	        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-	
-	        if (active.getAdmin())
-	        {
-	            try
-	            {
-	                return sessions.findBySessId(getId);
-	            }
-	            catch (Exception e)
-	            {
-	                log.error(e.getMessage());
-	                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No session found with ID: " + getId);
-	            }
-	        }
-	        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is restricted to admin users, and the user in question.");
-	    }
-	
-	    // Only for admins
-	    /**
-	     * A method to get all the sessions for all users who are admins
-	     * @param sessid
-	     * @return  sessions for all users who are admins
-	     */
-	    @RequestMapping(value = "/all", method = RequestMethod.GET)
-	    private List<Session> getAll()
-	    {
-	        try
-	        {
-	            return sessions.findAll();
-	        }
-	        catch (Exception e)
-	        {
-	            log.error(e.getMessage());
-	            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No sessions found.");
-	        }
-	    }
-	
+	    //2.DELETE requests
+	    
 	    /**
 	     * A method to drop and end sessions given their session IDs
 	     * @param close_id
@@ -246,6 +196,64 @@
 	    //         }
 	    //     }
 	    // }
+	
+	    //3.GET requests
+	    
+	    // Only for admins for now
+	    /**
+	     * A method to get the session for the user who is admin given their session IDs
+	     * @param getId
+	     * @param sessid
+	     * @return The session for admin 
+	     */
+	    @RequestMapping(value = "/sessid/{sess_id}", method = RequestMethod.GET)
+	    private Session findById(@PathVariable("sess_id") String getId, @RequestParam(name = "sessid", required = true) String sessid)
+	    {
+	        if (sessid.isEmpty())
+	        {
+	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+	        }
+	
+	        Session active = sessions.findBySessId(sessid);
+	        
+	        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+	
+	        if (active.getAdmin())
+	        {
+	            try
+	            {
+	                return sessions.findBySessId(getId);
+	            }
+	            catch (Exception e)
+	            {
+	                log.error(e.getMessage());
+	                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No session found with ID: " + getId);
+	            }
+	        }
+	        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This function is restricted to admin users, and the user in question.");
+	    }
+	
+	    
+	    
+	    // Only for admins
+	    /**
+	     * A method to get all the sessions for all users who are admins
+	     * @param sessid
+	     * @return  sessions for all users who are admins
+	     */
+	    @RequestMapping(value = "/all", method = RequestMethod.GET)
+	    private List<Session> getAll()
+	    {
+	        try
+	        {
+	            return sessions.findAll();
+	        }
+	        catch (Exception e)
+	        {
+	            log.error(e.getMessage());
+	            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No sessions found.");
+	        }
+	    }
 	
 	    /**
 	     * A method to get all users given their userIDs

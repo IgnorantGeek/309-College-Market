@@ -61,25 +61,8 @@
 		
 		Log log = LogFactory.getLog(ItemController.class);
 		
+		//1. POST requests
 		
-		/**
-		 * A method to get all the items
-		 * @return a list of all items 
-		 */
-		@RequestMapping("/all")
-		private List<Item> getAll()
-		{
-			try 
-			{
-		    	return items.findAll();
-			}
-			catch (Exception e)
-			{
-	            log.error(e.getMessage());
-	            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items were found.");
-	        }
-	    }
-	
 		 /**
 		  * A method to post a new item 
 		  * @param the body of the item model class
@@ -165,7 +148,7 @@
 		}
 	
 	
-		
+		//2. PUT requests
 		
 		/**
 		 * A method to update an item 
@@ -231,6 +214,7 @@
 	    		
 	    }
 	    
+	    //3. DELETE requests
 	    
 	    /**
 	     * A method to delete an item
@@ -284,6 +268,59 @@
 			}
 			else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
 	    }
+	    
+	    /**
+	     * A method to delete all items in the campusmarket 
+	     * @param sessid
+	     */
+	    @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
+	    private void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
+	    {
+			if (sessid.isEmpty())
+	        {
+	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+	        }
+	
+	        Session active = sessions.findBySessId(sessid);
+	        
+	        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+	
+			if (active.getAdmin())
+			{
+				try
+				{
+					items.deleteAll(); 
+					log.info("User Table Cleared: all users removed.");
+				} 
+				catch (Exception e) 
+				{
+					log.error("No items in database to remove.");
+					throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No items in database to remove.");
+				}
+			}
+			else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
+	   }
+	    
+	    //4. GET requests
+	    
+	    /**
+		 * A method to get all the items
+		 * @return a list of all items 
+		 */
+		@RequestMapping("/all")
+		private List<Item> getAll()
+		{
+			try 
+			{
+		    	return items.findAll();
+			}
+			catch (Exception e)
+			{
+	            log.error(e.getMessage());
+	            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items were found.");
+	        }
+	    }
+	
 	    
 	    /**
 	     * A method to get all the items for a specific seller
@@ -405,40 +442,7 @@
 	    	}
 	    }
 	    
-	    /**
-	     * A method to delete all items in the campusmarket 
-	     * @param sessid
-	     */
-	    @RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
-	    private void deleteAll(@RequestParam(name = "sessid", required = true) String sessid)
-	    {
-			if (sessid.isEmpty())
-	        {
-	            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
-	        }
-	
-	        Session active = sessions.findBySessId(sessid);
-	        
-	        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
-	
-			if (active.getAdmin())
-			{
-				try
-				{
-					items.deleteAll(); 
-					log.info("User Table Cleared: all users removed.");
-				} 
-				catch (Exception e) 
-				{
-					log.error("No items in database to remove.");
-					throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No items in database to remove.");
-				}
-			}
-			else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
-	   }
-	    
-	    
-	 
+	  
 		 
 		 /**
 		  * A method to display(download if using the browser) the content of the file
