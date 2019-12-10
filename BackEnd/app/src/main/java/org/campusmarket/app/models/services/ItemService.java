@@ -78,6 +78,19 @@
 				 return itemsRepo.findByCondAndName(name, cond);
 			}
 		    
+		    public ArrayList<Item>findByCondAndCategoryAndPrice(@Param("cond") String cond, @Param("category")String category, @Param("price") double price){
+		    	return itemsRepo.findByCondAndCategoryAndPrice(cond, category, price);
+		    }
+
+		   public ArrayList<Item>findByCond(@Param("cond") String cond){
+			   return itemsRepo.findByCond(cond);
+		   }
+		   
+		   
+		  public ArrayList<Item>findByName(@Param("name") String name){
+			  return itemsRepo.findByName(name);
+			  
+		  }
 		    
 		}
 	
