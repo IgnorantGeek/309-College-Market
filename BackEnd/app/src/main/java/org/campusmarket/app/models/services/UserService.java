@@ -2,6 +2,7 @@
 	
 	import java.util.List;
 	import org.campusmarket.app.models.User;
+	import org.campusmarket.db.repositories.ItemsRepository;
 	import org.campusmarket.db.repositories.UsersRepository;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
@@ -15,14 +16,14 @@
 	public class UserService
 	{
 	    @Autowired
-		private UsersRepository repo;
+	    private UsersRepository repo;
 	    
 	
 	    /**
 	     * A method to get all users
 	     * @return a list of all users created 
 	     */
-	   public List<User> findAll()
+	    public List<User> findAll()
 	    {					
 		    return repo.findAll();
 	    }
@@ -32,7 +33,7 @@
 	     * @param email
 	     * @return the user that has that unique email
 	     */
-	   public User findByEmail(String email)
+	    public User findByEmail(String email)
 	    {
 	        return repo.findByEmail(email);
 	    }
@@ -47,7 +48,7 @@
 	        return repo.findById(id);
 	    }
 	    
-	   public int existsByUserName(String username) {
+	    public int existsByUserName(String username) {
 	    	return repo.existsByUserName(username);
 	    }
 	    
