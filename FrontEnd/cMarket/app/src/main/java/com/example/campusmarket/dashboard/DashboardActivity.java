@@ -131,9 +131,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     continue;
                 }
 
+                String old_date = demoObject.getString("postedDate");
+                String date = convertDate(old_date);
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"), demoObject.getString("postedDate"),
+                        demoObject.getString("category"), date,
                         sellerName, demoObject.getString("refnum"), demoObject.getString("image"));
                 ItemList.add(item); // adding all of these new items for display
 
@@ -154,11 +156,22 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
+    private String convertDate(String oldDate) {
+        String[] dateArr = oldDate.split("-");
+        String year = dateArr[0];
+        String day = dateArr[2];
+        int monthIndex = Integer.parseInt(dateArr[1]);
+        String[] monthArr = {"January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"};
+        String month = monthArr[monthIndex - 1];
+        return month + " " + day + ", " + year;
+    }
+
 
     /**
      * Handles the action on button click
      *
-     * @param view
+     * @param view theView
      */
     @Override
     public void onClick(View view) {
