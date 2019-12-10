@@ -387,17 +387,20 @@ public class EditPost extends ImageHandling implements View.OnClickListener {
     }
 
     private void receivedPayment() {
+        showProgressDialog();
         String url  = Const.URL_GOT_PAYMENT+ "/" + refnum + "?sessid=" + UserActivity.sessionID;
         StringRequest stringReq = new StringRequest(
                 Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, response.toString() + " posted");
+                        hideProgressDialog();
+                        Log.d(TAG, response.toString() + " success, received payment");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                hideProgressDialog();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         });

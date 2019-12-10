@@ -180,7 +180,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, response.toString() + " posted");
+                        Log.d(TAG, response.toString() + " success, check out");
                         finishCheckout();
                     }
                 }, new Response.ErrorListener() {
@@ -211,7 +211,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, response.toString() + " posted");
+                        Log.d(TAG, response.toString() + " success, item received ");
                     }
                 }, new Response.ErrorListener() {
             @Override
