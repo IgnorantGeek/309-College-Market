@@ -101,5 +101,10 @@
 	    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT * FROM shopping_carts WHERE user_id=:user_id AND item_id=:item_id)")
 	    @Transactional(readOnly = true)
 	    int existsInUserCart(@Param("user_id") int user_id, @Param("item_id") int item_id);
+	    
+	    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT * FROM shopping_carts WHERE item_id=:item_id)")
+	    @Transactional(readOnly = true)
+	    int existsInUserCartOnlyRefnum(@Param("item_id") int item_id);
+	    
 	}
 	
