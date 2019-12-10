@@ -146,39 +146,10 @@ public class MockitoTestL {
         verify(addCartActivity, times(1)).addItem();
     }
 
-//    /**
-//     * Verifies the fields of the json object that
-//     * will be posted to the dashboard as a new item
-//     *
-//     * @throws JSONException
-//     */
-//    @Test
-//    public void postItem_check() throws JSONException {
-//        NewPostActivity postActivity = mock(NewPostActivity.class);
-//
-//        // Create the user JSON Object
-//        String nameCorrect = "iphone";
-//        String priceCorrect = "250.0";
-//        String conditionCorrect = "used";
-//        String categoryCorrect = "electronics";
-//        String imageCorrect = "";
-//
-//        //verify the fields are correct to add the item
-//        JSONObject response = new JSONObject();
-//        response.put("name", nameCorrect);
-//        response.put("price", priceCorrect);
-//        response.put("condition", conditionCorrect);
-//        response.put("category", categoryCorrect);
-//        response.put("image", imageCorrect);
-//
-//        postActivity.postItem();
-//        verify(postActivity, times(1)).postItem();
-//    }
-//
 
     /**
      * ------------------------
-     * Mockito test for demo 5
+     * Mockito tests for demo 5
      * ------------------------
      */
 
@@ -206,5 +177,61 @@ public class MockitoTestL {
         verify(cartAdapt, times(1)).clearItems();
     }
 
+    /**
+     * Verifies the fields of the json object that
+     * will be posted to the dashboard as a new item
+     *
+     * @throws JSONException
+     */
+    @Test
+    public void postItem2_verify() throws JSONException {
+        NewPostActivity postActivity = mock(NewPostActivity.class);
+
+        // Create the user JSON Object
+        String nameCorrect = "iphone";
+        String priceCorrect = "250.0";
+        String conditionCorrect = "used";
+        String categoryCorrect = "electronics";
+        String imageCorrect = "";
+
+        //verify the fields are correct to add the item
+        JSONObject response = new JSONObject();
+        response.put("name", nameCorrect);
+        response.put("price", priceCorrect);
+        response.put("condition", conditionCorrect);
+        response.put("category", categoryCorrect);
+        response.put("image", imageCorrect);
+
+        postActivity.postItem();
+        verify(postActivity, times(1)).postItem();
+    }
+
+    /**
+     * Checks the fields of the json object that
+     * represent an item removed from the cart were actually removed
+     *
+     * @throws JSONException
+     */
+    @Test
+    public void removeFromCart_check() throws JSONException {
+        CartAdapter remCartActivity = mock(CartAdapter.class);
+
+        // Create the user JSON Object
+        String nameCorrect = "iphone";
+        String priceCorrect = "250.0";
+        String sellerNameCorrect = "fadelsh";
+        String refnumCorrect = "8";
+
+        //verify the fields are correct to add the item
+        JSONObject response = new JSONObject();
+        response.put("name", nameCorrect);
+        response.put("price", priceCorrect);
+        response.put("username", sellerNameCorrect);
+        response.put("refnum", refnumCorrect);
+
+
+        remCartActivity.removeItem();
+        verify(remCartActivity, times(1)).removeItem();
+    }
 
 }

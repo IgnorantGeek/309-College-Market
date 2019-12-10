@@ -327,12 +327,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             pDialog.hide();
     }
 
+    //making this public for testing purposes
     /**
      * Posts the new item to the database with the information
      * that the user filled in on the page.
      * Called once they click "Post"
      */
-    private void postItem() {
+    public void postItem() {
         // make json object
         String url = Const.URL_ITEM_NEW + "?sessid=" + UserActivity.sessionID;
         JSONObject js = new JSONObject();
