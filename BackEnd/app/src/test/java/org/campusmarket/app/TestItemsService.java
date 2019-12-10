@@ -1,5 +1,4 @@
-
-package org.campusmarket.app.models.services.tests;
+package org.campusmarket.app;
 import static org.junit.Assert.*;
 
 
@@ -13,24 +12,35 @@ import java.util.List;
 import org.campusmarket.app.models.Item;
 import org.campusmarket.app.models.services.ItemService;
 import org.campusmarket.app.models.User;
+import org.campusmarket.db.repositories.ItemsRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 
 
-
-public class TestItemsService extends TestServices {
+public class TestItemsService {
 	
 	@InjectMocks
 	private ItemService itemService;
 
 	
+	@Mock
+	private ItemsRepository repo;
+	
+	@Before
+	public void init() {
+		MockitoAnnotations.initMocks(this);
+	}
+
 	
 	@Test //test 1 ~FA
 	public void getItemByRefnumTest() {
-		when(super.itemsRepo.findByRefnum(1)).thenReturn(new Item (1,"Introduction to Algorithms",80.00,"Book", "Ok", 
+		when(repo.findByRefnum(1)).thenReturn(new Item (1,"Introduction to Algorithms",80.00,"Book", "Ok", 
 				new User("Fadelsh", "abc123","Fadel","Alshammasi","fadelsh@iastate.edu","isu", false)));
-		Item item=super.itemsRepo.findByRefnum(1);
+		Item item=itemService.findByRefnum(1);
 		
 		assertEquals("Introduction to Algorithms", item.getName());
 		assertEquals(80.00, item.getPrice(),0.01d);
@@ -57,12 +67,12 @@ public class TestItemsService extends TestServices {
 		lst.add(itemThree);
 		lst.add(itemFour);
 		
-		when (super.itemsRepo.findAll()).thenReturn(lst);
+		when (repo.findAll()).thenReturn(lst);
 		
 		List<Item>itemList=itemService.getAllItemList();
 		
 		assertEquals(4,itemList.size());
-		verify (super.itemsRepo, times(1)).findAll();
+		verify (repo, times(1)).findAll();
 		
 
 	}
@@ -84,7 +94,7 @@ public class TestItemsService extends TestServices {
 		lst.add(itemThree);
 	// I don't add itemTwo because the test will find items with SM as seller, not anything else
 			
-		when(super.itemsRepo.findBySeller("SM")).thenReturn(lst);
+		when(repo.findBySeller("SM")).thenReturn(lst);
 		
 		List<Item>itemList=itemService.findBySeller("SM");
 		List<Item>itemList2=itemService.findBySeller("SM"); //not using this list but only wanted to call findBySeller("SM") twice to test verify with times(2)
@@ -94,7 +104,7 @@ public class TestItemsService extends TestServices {
 		assertNotEquals("Fadelsh", itemList.get(0).getUser().getUsername());  //we didn't add the item belong to Fadelsh
 		assertEquals("SM", itemList.get(0).getUser().getUsername()); 
 		assertEquals(itemThree.getUser().getUsername(), itemList.get(1).getUser().getUsername()); //just another way of doing the first argument for itemThird 
-		verify(itemsRepo, times(2)).findBySeller("SM"); //was called twice
+		verify(repo, times(2)).findBySeller("SM"); //was called twice
 		
 	}
 	
@@ -119,7 +129,7 @@ ArrayList <Item> lst= new ArrayList<Item>();
 		lst.add(itemTwo);
 	
 		
-		when(super.itemsRepo.findByCondAndName("xBox", "new")).thenReturn(lst);
+		when(repo.findByCondAndName("xBox", "new")).thenReturn(lst);
 		
 		List<Item>itemList=itemService.findByCondAndName("xBox", "new");
 		List<Item>itemList2=itemService.findByCondAndName("xBox", "new");
@@ -135,7 +145,7 @@ ArrayList <Item> lst= new ArrayList<Item>();
 		assertEquals(itemFour.getCondition(),itemList.get(2).getCondition());
 		assertEquals(itemTwo.getName(),itemList.get(3).getName());
 		assertEquals(itemTwo.getCondition(),itemList.get(3).getCondition());
-		verify(super.itemsRepo,times(3)).findByCondAndName("xBox", "new");
+		verify(repo,times(3)).findByCondAndName("xBox", "new");
 
 
 		
@@ -158,16 +168,15 @@ ArrayList <Item> lst= new ArrayList<Item>();
 		lst.add(itemThree);
 		lst.add(itemFour);
 		
-		when(super.itemsRepo.findByCategory("Video games")).thenReturn(lst);
+		when(repo.findByCategory("Video games")).thenReturn(lst);
 		
 		List<Item>itemList=itemService.findByCategory("Video games");
 		assertEquals(2,itemList.size());
 		assertEquals(itemThree.getCategory(), itemList.get(0).getCategory());
 		assertEquals(itemFour.getCategory(), itemList.get(1).getCategory());
-		verify(super.itemsRepo,times(1)).findByCategory("Video games");
+		verify(repo,times(1)).findByCategory("Video games");
 		
 	}
 	
 	
 }
-

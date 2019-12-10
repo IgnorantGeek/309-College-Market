@@ -1,5 +1,4 @@
-
-package org.campusmarket.app.models.services.tests;
+package org.campusmarket.app;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,27 +12,36 @@ import java.util.List;
 
 import org.campusmarket.app.models.User;
 import org.campusmarket.app.models.services.UserService;
+import org.campusmarket.db.repositories.UsersRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 /**
  * A  class to perform mockito tests for users
- * @author nheisler, fadelsh
+ * @author nheisler
  *
  */
-
-
-
-public class TestUsersService extends TestServices {
-	
+public class TestUsersService
+{
     @InjectMocks
     UserService userService;
 
+    @Mock
+    UsersRepository repo;
+
+    @Before
+    public void init()
+    {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test // test 1 NH
     public void getUserByEmailTest()
     {
-        when(super.UsersRepo.findByEmail("nheisler@iastate.edu")).thenReturn(new User("nheisler",
+        when(repo.findByEmail("nheisler@iastate.edu")).thenReturn(new User("nheisler",
                                                                            "testpw",
                                                                            "Nick",
                                                                            "Heisler",
@@ -65,7 +73,7 @@ public class TestUsersService extends TestServices {
         list.add(second);
         list.add(third);
 
-        when(super.UsersRepo.findAll()).thenReturn(list);
+        when(repo.findAll()).thenReturn(list);
 
         List<User> testList = userService.findAll();
 
@@ -77,7 +85,7 @@ public class TestUsersService extends TestServices {
     @Test // test 3 NH
     public void GetUserByIdTest()
     {
-        when(super.UsersRepo.findById(1)).thenReturn(new User("nheisler",
+        when(repo.findById(1)).thenReturn(new User("nheisler",
                                                    "testpw",
                                                    "Nick",
                                                    "Heisler",
@@ -101,7 +109,7 @@ public class TestUsersService extends TestServices {
     @Test //test 1 FA- Demo4
 	public void existsByUserName() {
     	User u= new User ("fadelsh","password","Fadel","Alshammasi","fadelsh@iastate.edu","ISU",false);
-    	when(super.UsersRepo.existsByUserName("fadelsh")).thenReturn (1);
+    	when(repo.existsByUserName("fadelsh")).thenReturn (1);
     	
     	int test=userService.existsByUserName(u.getUsername());
     	int test2=userService.existsByUserName("smitra");
@@ -109,7 +117,7 @@ public class TestUsersService extends TestServices {
         	
     	 assertEquals(1, test);
     	 assertEquals(0, test2);
-    	 verify(super.UsersRepo, times(1)).existsByUserName("fadelsh");
+    	 verify(repo, times(1)).existsByUserName("fadelsh");
     	
     }
     
