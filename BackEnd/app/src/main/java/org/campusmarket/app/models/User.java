@@ -356,5 +356,14 @@
 	    public void addItem(Item i)
 	    {
 	        this.cart.add(i);
-	    }
+		}
+		
+		/**
+	     * A method to drop an item to the users shopping cart
+	     * @param i
+	     */
+	    public void dropItem(Item i)
+	    {
+	        this.cart.remove(i);
+		}
 	}
