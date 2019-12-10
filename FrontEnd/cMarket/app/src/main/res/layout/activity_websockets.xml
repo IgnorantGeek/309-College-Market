@@ -8,77 +8,99 @@
     tools:context="com.example.campusmarket.WebSockets">
 
     <EditText
-        android:id="@+id/et2"
-        android:layout_width="406dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="17dp"
+        android:id="@+id/etMessage"
+        android:layout_width="237dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="276dp"
         android:hint="Enter your Message"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessageBox" />
+
+    <TextView
+        android:id="@+id/tvMessageBox"
+        android:layout_width="352dp"
+        android:layout_height="43dp"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt1" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <Button
-        android:id="@+id/bt1"
-        android:layout_width="414dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="22dp"
-        android:text="Connect to Messaging"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et1" />
+        android:id="@+id/btnSendMessage"
+        android:layout_width="114dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="296dp"
+        android:text="Send"
+        app:layout_constraintStart_toEndOf="@+id/etMessage"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessageBox" />
 
-    <EditText
-        android:id="@+id/et1"
-        android:layout_width="408dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
-        android:hint="@string/Username"
-        android:textSize="20dp"
+    <TextView
+        android:id="@+id/tvContactSeller"
+        android:layout_width="213dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:text="Direct Message"
+        android:textColor="#673AB7"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUsersDM"
+        android:layout_width="298dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:textColor="#673AB7"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvContactSeller" />
 
     <TextView
-        android:id="@+id/tx1"
-        android:layout_width="408dp"
-        android:layout_height="254dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="27dp"
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
         android:text="Conversation:"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textColor="#673AB7"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvUsersDM" />
 
-    <Button
-        android:id="@+id/bt2"
-        android:layout_width="411dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="22dp"
-        android:text="Send"
+    <ScrollView
+        android:id="@+id/scrollViewDM"
+        android:layout_width="345dp"
+        android:layout_height="274dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/etMessage"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.857"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:layout_constraintVertical_bias="1.0">
 
-    <TextView
-        android:id="@+id/tvContactSeller"
-        android:layout_width="158dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="27dp"
-        android:text="Contact Seller"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/et1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

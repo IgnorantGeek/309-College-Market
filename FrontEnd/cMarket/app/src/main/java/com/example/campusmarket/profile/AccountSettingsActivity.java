@@ -1,4 +1,4 @@
-package com.example.campusmarket;
+package com.example.campusmarket.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.campusmarket.MainActivity;
+import com.example.campusmarket.R;
+import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
@@ -35,6 +38,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
 
     /**
      * Creates this instance of AccountSettings
+     *
      * @param savedInstanceState
      */
     @Override
@@ -72,11 +76,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     /**
      * Finds the ID of the user with the given username.
      * Once it finds it, it calls deleteAccount() to delete the user.
+     *
      * @param username the username of the user to be deleted
      */
-    public void findByID(String username)
-    {
-        String url = Const.URL_USER_USERNAME + "/" + username +"?sessid=" + UserActivity.sessionID;
+    private void findByID(String username) {
+        String url = Const.URL_USER_USERNAME + "/" + username + "?sessid=" + UserActivity.sessionID;
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -103,11 +107,12 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
 
     /**
      * Deletes the account of the user with the id
+     *
      * @param ID the ID of the user to delete
      */
-    public void deleteAccount(String ID)
-    {
+    private void deleteAccount(String ID) {
         String url = Const.URL_USER_DELETE + "/" + ID + "?sessid=" + UserActivity.sessionID;
+        //to delete cart item  "refnum"
         showProgressDialog();
         // Make request for JSONObject
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
@@ -122,12 +127,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "ERROR IN DELETE ACCOUNT ");
-                if (error == null )
-                {
+                if (error == null) {
                     Log.d(TAG, "ERROR is null ");
                     return;
                 }
-                if ( error.networkResponse == null) {
+                if (error.networkResponse == null) {
                     Log.d(TAG, "ERROR network response is null");
                     return;
                 }
@@ -136,7 +140,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                 //final String statusCode = String.valueOf(error.networkResponse.statusCode);
                 //get response body and parse with appropriate encoding
                 try {
-                    body = new String(error.networkResponse.data,"UTF-8");
+                    body = new String(error.networkResponse.data, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     // exception
                 }
@@ -151,7 +155,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         startActivity(new Intent(AccountSettingsActivity.this,
                 MainActivity.class));
     }
-
 
     @Override
     public void onClick(View view) {

@@ -3,43 +3,36 @@ package org.campusmarket.app;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.campusmarket.app.models.User;
-import org.campusmarket.app.models.UserService;
-import org.campusmarket.db.repositories.UsersRepository;
-import org.junit.Before;
+import org.campusmarket.app.models.services.UserService;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 /**
  * A  class to perform mockito tests for users
- * @author nheisler
+ * @author nheisler, fadelsh
  *
  */
-public class TestUsersService
-{
+
+
+
+public class TestUsersService extends TestServices {
+	
     @InjectMocks
     UserService userService;
 
-    @Mock
-    UsersRepository repo;
-
-    @Before
-    public void init()
-    {
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test // test 1 NH
     public void getUserByEmailTest()
     {
-        when(repo.findByEmail("nheisler@iastate.edu")).thenReturn(new User("nheisler",
+        when(super.UsersRepo.findByEmail("nheisler@iastate.edu")).thenReturn(new User("nheisler",
                                                                            "testpw",
                                                                            "Nick",
                                                                            "Heisler",
@@ -71,7 +64,7 @@ public class TestUsersService
         list.add(second);
         list.add(third);
 
-        when(repo.findAll()).thenReturn(list);
+        when(super.UsersRepo.findAll()).thenReturn(list);
 
         List<User> testList = userService.findAll();
 
@@ -83,7 +76,7 @@ public class TestUsersService
     @Test // test 3 NH
     public void GetUserByIdTest()
     {
-        when(repo.findById(1)).thenReturn(new User("nheisler",
+        when(super.UsersRepo.findById(1)).thenReturn(new User("nheisler",
                                                    "testpw",
                                                    "Nick",
                                                    "Heisler",
@@ -101,4 +94,25 @@ public class TestUsersService
         assertEquals("Iowa State University", test.getUniversity());
         assertTrue(test.getAdmin());
     }
+    
+    
+    
+    @Test //test 1 FA- Demo4
+	public void existsByUserName() {
+    	User u= new User ("fadelsh","password","Fadel","Alshammasi","fadelsh@iastate.edu","ISU",false);
+    	when(super.UsersRepo.existsByUserName("fadelsh")).thenReturn (1);
+    	
+    	int test=userService.existsByUserName(u.getUsername());
+    	int test2=userService.existsByUserName("smitra");
+
+        	
+    	 assertEquals(1, test);
+    	 assertEquals(0, test2);
+    	 verify(super.UsersRepo, times(1)).existsByUserName("fadelsh");
+    	
+    }
+    
+
+    
+    
 }

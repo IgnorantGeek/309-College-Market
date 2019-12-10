@@ -1,4 +1,4 @@
-package com.example.campusmarket;
+package com.example.campusmarket.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.campusmarket.R;
+import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
@@ -34,13 +36,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Button accSettings;
     private String TAG = ProfileActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-    private String  tag_json_arry = "jarray_req";
+    private String tag_json_arry = "jarray_req";
     private LinearLayout item_layout;
     private ArrayList<JSONObject> myItems = new ArrayList<>();
     private ArrayList<Button> myButtons = new ArrayList<>();
 
     /**
      * Creates this instance of ProfileActivity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -53,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
-        item_layout =  findViewById(R.id.profile_item_layout);
+        item_layout = findViewById(R.id.profile_item_layout);
         item_layout.setOrientation(LinearLayout.VERTICAL);
 
         // start the request and create the buttons
@@ -73,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Displays all of the items that this user has sold by making a request
-     *     to the url "items/seller/their_username"
+     * to the url "items/seller/their_username"
      */
     private void showSoldItemsProfile() {
         String url = Const.URL_ITEM_SELLER + "/" + UserActivity.loggedInUsername;
@@ -103,11 +106,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Parse the JSON item array so you only add the item names.
+     *
      * @param response
      */
     private void addItemNames(JSONArray response) {
-        for (int i = 0; i < response.length(); i++)
-        {
+        for (int i = 0; i < response.length(); i++) {
             try {
                 JSONObject obj = response.getJSONObject(i);
                 String theString = obj.getString("name");
@@ -128,20 +131,25 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Create a listener for each button and goes to a new activity when it is clicked
+     *
      * @param buttons
      * @param items
      */
-    private void createListeners(ArrayList<Button> buttons, ArrayList<JSONObject> items)
-    {
-        for (int i = 0; i < buttons.size(); i++)
-        {
+    private void createListeners(ArrayList<Button> buttons, ArrayList<JSONObject> items) {
+        for (int i = 0; i < buttons.size(); i++) {
             Button b = buttons.get(i);
             final JSONObject o = items.get(i);
             b.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View v) {
                     Intent intent = new Intent(ProfileActivity.this, EditPost.class);
-                    String message = o.toString();
-                    intent.putExtra("ExtraMessage", message);
+                    //String message = o.toString();
+                    String refnum = "";
+                    try {
+                        refnum = o.getString("refnum");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    intent.putExtra("refnum", refnum);
                     startActivity(intent);
                 }
             });
@@ -150,6 +158,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * When the user clicks on the Account Settings button, brings the user to that activity
+     *
      * @param view
      */
     @Override

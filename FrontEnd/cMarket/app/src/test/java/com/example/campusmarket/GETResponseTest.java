@@ -4,6 +4,9 @@ package com.example.campusmarket;
 import android.os.Build;
 import android.view.View;
 
+import com.example.campusmarket.login.LoginActivity;
+import com.example.campusmarket.login.RegisterActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -15,7 +18,6 @@ import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,7 +31,8 @@ import static org.mockito.Mockito.when;
 public class GETResponseTest {
 
     private View.OnClickListener onClickListener;
-    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Test
     public void register_response_test1() throws JSONException {
@@ -80,12 +83,11 @@ public class GETResponseTest {
 
 
         regActivity.finishSignUp(usernameCorrect, sessionID);
-        verify(regActivity,  times(1)).finishSignUp(usernameCorrect, sessionID);
+        verify(regActivity, times(1)).finishSignUp(usernameCorrect, sessionID);
     }
 
     @Test
-    public void valid_syntax_login()
-    {
+    public void valid_syntax_login() {
         LoginActivity logActivity = mock(LoginActivity.class);
         String usernameCorrect = "Sponge123";
         String passwordCorrect = "Password123";

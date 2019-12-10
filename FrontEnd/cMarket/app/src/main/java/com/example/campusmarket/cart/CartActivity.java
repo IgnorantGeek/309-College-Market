@@ -1,20 +1,19 @@
-package com.example.campusmarket;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.campusmarket.cart;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.campusmarket.R;
+import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
@@ -25,35 +24,35 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Activity that represents the market dashboard.
- * You can view all items for sale in the market on this page
- */
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
-    private String TAG = DashboardActivity.class.getSimpleName();
+public class CartActivity extends AppCompatActivity {
+
+    private String TAG = CartActivity.class.getSimpleName();
     private ProgressDialog pDialog;
-    private String  tag_json_arry = "jarray_req";
+    private String tag_json_arry = "jarray_req";
+    private String refnum;
+    //    Button btnViewCart;
     ListView listView;
     Activity activity;
-    List<DashItemsActivity> ItemList;
-//    Button btnContactSeller;
+    List<CartItemsActivity> CartList;
 
     /**
      * Creates this instance of Dashboard
+     *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_cart);
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
 
         listView = findViewById(R.id.listView);
-        ItemList = new ArrayList<>();
-//        btnContactSeller = findViewById(R.id.btnContactSeller);
+        CartList = new ArrayList<>();
+//        Intent intent = getIntent();
+//        refnum =  intent.getStringExtra("refnum");
 
         makeJsonArryReq();
 
@@ -77,10 +76,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * Making json array request post
-     * */
+     */
     private void makeJsonArryReq() {
         showProgressDialog();
-        JsonArrayRequest req = new JsonArrayRequest(Const.URL_ITEM_ALL,
+        String url = Const.URL_CART_ALL + "?sessid=" + UserActivity.sessionID;
+        JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -104,11 +104,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * Parse the JSON item array so you only add the item names.
+     *
      * @param response
      */
     private void addItemNames(JSONArray response) {
-        for (int i = 0; i < response.length(); i++)
-        {
+        for (int i = 0; i < response.length(); i++) {
             try {
 
                 // declaring new json object
@@ -116,38 +116,17 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 // declaring what parameters will be added
                 String s = demoObject.getString("user");
                 JSONObject seller = new JSONObject(s);
-                DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
-                        demoObject.getString("price"), demoObject.getString("condition"),
-                        demoObject.getString("category"), seller.getString("username") );
-                ItemList.add(item); // adding all of these new items for display
-
+                CartItemsActivity item = new CartItemsActivity(demoObject.getString("name"),
+                        demoObject.getString("price"), seller.getString("username"), demoObject.getString("refnum"));
+                CartList.add(item); // adding all of these new items for display
 
 
                 // setting up new adapter that will place items accordingly
-                final DashAdapter adapter = new DashAdapter(ItemList, getApplicationContext());
+                final CartAdapter adapter = new CartAdapter(CartList, getApplicationContext());
 
                 // actually calling the adapter
                 listView.setAdapter(adapter);
 
-//                Searchable dash feature:
-//                etSearch.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                        DashboardActivity.this.arrayadapter.getFilter().filter(charSequence);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable editable) {
-//                        // don't need to change anything here for now
-//
-//                    }
-//                });
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -158,16 +137,5 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
-
-
-    @Override
-    public void onClick(View view) {
-//        if (view.getId() == R.id.btnContactSeller) {
-//            startActivity(new Intent(DashboardActivity.this,
-//                    WebSockets.class));
-//        }
-
-    }
-
 
 }
