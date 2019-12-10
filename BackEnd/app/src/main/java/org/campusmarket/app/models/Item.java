@@ -170,7 +170,7 @@
 	    * @return fdata
 	    */
 	    
-	   public byte[] getImage() {
+	   public byte[] getImg() {
 		   return this.img;
 	   }
 	   
@@ -178,7 +178,7 @@
 	    * A getter method to get the name of the  file(image) 
 	    * @return fname
 	    */
-	   public String getFname() {
+	   public String getFilename() {
 		   return this.filename;
 	   }
 	   
@@ -186,7 +186,7 @@
 	    * A getter to get the type of the file (pdf,png,...etc)
 	    * @return
 	    */
-	   public String getFtype() {
+	   public String getFiletype() {
 		   return this.filetype;
 	   }
 	   
@@ -247,7 +247,7 @@
 	    * A setter method to change the image 
 	    * @param fdata
 	    */
-	   public void setImage(byte[]img) {
+	   public void setImg(byte[]img) {
 		   this.img=img;
 	   }
 	   
@@ -256,7 +256,7 @@
 	    * A setter method to change the type of the image 
 	    * @param ftype
 	    */
-	   public void setFtype(String filetype) {
+	   public void setFiletype(String filetype) {
 		   this.filetype=filetype;
 	   }
 	   
@@ -265,7 +265,7 @@
 	    * A setter method to change the name of the image 
 	    * @param fname
 	    */
-	   public void setFname(String filename) {
+	   public void setFilename(String filename) {
 		   this.filename=filename;
 	   }
 	   /**
