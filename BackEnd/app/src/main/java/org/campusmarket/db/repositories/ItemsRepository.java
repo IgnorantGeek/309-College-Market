@@ -38,7 +38,7 @@ import org.campusmarket.app.models.Item;
 	     */
 		@Query(nativeQuery = true, value="SELECT * FROM items WHERE name LIKE %:name% ORDER BY price")
 	    @Transactional(readOnly = true)
-		Collection<Item>findByName(@Param("name") String name);
+		ArrayList<Item>findByName(@Param("name") String name);
 	    
 		/**
 	     * A method to search for items by their name (or part of the name)
@@ -56,7 +56,7 @@ import org.campusmarket.app.models.Item;
 	     */
 	    @Query(nativeQuery = true, value="SELECT * FROM items WHERE cond=:cond ORDER BY price")
 	    @Transactional(readOnly = true)
-	    Collection<Item>findByCond(@Param("cond") String cond);
+	    ArrayList<Item>findByCond(@Param("cond") String cond);
 	
 	    /**
 	     * a method to search for items using their names AND conditions 
@@ -77,7 +77,7 @@ import org.campusmarket.app.models.Item;
 	     */
 	    @Query(nativeQuery = true, value="SELECT * FROM items WHERE cond=:cond AND category=:category AND price<=:price ORDER BY price")
 	    @Transactional(readOnly = true)
-	    Collection<Item>findByCondAndCategoryAndPrice(@Param("cond") String cond, @Param("category")String category, @Param("price") double price);
+	   ArrayList<Item>findByCondAndCategoryAndPrice(@Param("cond") String cond, @Param("category")String category, @Param("price") double price);
 	    
 	    
 	    /**
