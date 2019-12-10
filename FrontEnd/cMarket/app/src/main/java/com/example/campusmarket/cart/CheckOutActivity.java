@@ -10,8 +10,8 @@ import com.example.campusmarket.R;
 
 public class CheckOutActivity extends AppCompatActivity {
 
-    private String sellers = "sellers";
-    private String itemNames = "itemNames";
+    private String sellers = "";
+    private String itemNames = "";
     private TextView tvSellers;
     private TextView tvItemNames;
 

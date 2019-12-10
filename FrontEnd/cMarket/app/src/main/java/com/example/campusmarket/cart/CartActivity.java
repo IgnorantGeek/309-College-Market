@@ -63,6 +63,9 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 //        Intent intent = getIntent();
 //        refnum =  intent.getStringExtra("refnum");
 
+        sellersForCheckout = "";
+        itemNamesForCheckout = "";
+
         makeJsonArryReq();
 
 
@@ -129,8 +132,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                 CartItemsActivity item = new CartItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), seller.getString("username"), demoObject.getString("refnum"));
                 CartList.add(item); // adding all of these new items for display
-                sellersForCheckout += seller.get("username");
-                itemNamesForCheckout += demoObject.get("name");
+                sellersForCheckout += (seller.get("username") + "\n");
+                itemNamesForCheckout += (demoObject.get("name") + "\n");
 
                 // setting up new adapter that will place items accordingly
                 final CartAdapter adapter = new CartAdapter(CartList, getApplicationContext());
