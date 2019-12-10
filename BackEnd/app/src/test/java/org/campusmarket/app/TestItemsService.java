@@ -69,7 +69,7 @@
 		@Test //test 3 ~FA
 		public void getBySellerTest() {
 			
-	        ArrayList <Item> lst= new ArrayList<Item>();
+	          ArrayList <Item> lst= new ArrayList<Item>();
 			
 			User sellerOne=new User ("Fadelsh", "abc123","Fadel","Alshammasi","fadelsh@iastate.edu","isu", false);
 			User sellerTwo= new User ("SM", "Coms309","Simanta","Mitra","smitra@iastate.edu","isu", true);
@@ -99,7 +99,8 @@
 		
 		@Test // //test 2 FA- Demo4
 		public void getByNameAndCondTest() {
-	ArrayList <Item> lst= new ArrayList<Item>();
+		    
+	        ArrayList <Item> lst= new ArrayList<Item>();
 			
 			User sellerOne=new User ("Fadelsh", "abc123","Fadel","Alshammasi","fadelsh@iastate.edu","isu", false);
 			User sellerTwo= new User ("SM", "Coms309","Simanta","Mitra","smitra@iastate.edu","isu", true);
@@ -143,7 +144,7 @@
 		@Test //test 3 FA- Demo4
 		public void getByCategoryTest() {
 			
-		ArrayList <Item> lst= new ArrayList<Item>();
+		    ArrayList <Item> lst= new ArrayList<Item>();
 			
 			User sellerOne=new User ("Fadelsh", "abc123","Fadel","Alshammasi","fadelsh@iastate.edu","isu", false);
 			User sellerTwo= new User ("SM", "Coms309","Simanta","Mitra","smitra@iastate.edu","isu", true);
