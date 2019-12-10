@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.campusmarket.app.models.Item;
 import org.campusmarket.app.models.User;
 import org.campusmarket.app.models.services.UserService;
 import org.junit.Test;
@@ -114,5 +115,48 @@ public class TestUsersService extends TestServices {
     
 
     
-    
+    @Test
+    public void testAddToCart()
+    {
+        User u = new User("nheisler","testpw","Nick","Heisler","nheisler@iastate.edu","Iowa State University",true);
+        u.setId(1);
+        Item itemOne=new Item (1,"Cat",999.99,"Pet", "in good shape", u);
+
+        u.addItem(itemOne);
+
+        List<Integer> lst = new ArrayList<Integer>();
+        lst.add(1);
+
+        when (super.UsersRepo.getShoppingCartItems(u.getId())).thenReturn(lst);
+
+        List<Integer> ret = userService.getShoppingCartItems(u.getId());
+
+        assertEquals(itemOne.getRefnum(), ret.get(0).intValue());
+    }
+
+    @Test
+    public void testDropFromCart()
+    {
+        User u = new User("nheisler","testpw","Nick","Heisler","nheisler@iastate.edu","Iowa State University",true);
+        u.setId(1);
+        Item itemOne=new Item (1,"Cat",999.99,"Pet", "in good shape", u);
+
+        u.addItem(itemOne);
+
+        List<Integer> lst = new ArrayList<Integer>();
+        lst.add(1);
+
+        when (super.UsersRepo.getShoppingCartItems(u.getId())).thenReturn(lst);
+
+        List<Integer> ret = userService.getShoppingCartItems(u.getId());
+
+        assertEquals(itemOne.getRefnum(), ret.get(0).intValue());
+
+        u.dropItem(itemOne);
+        lst.clear();
+
+        ret = userService.getShoppingCartItems(u.getId());
+
+        assertEquals(0, ret.size());
+    }
 }

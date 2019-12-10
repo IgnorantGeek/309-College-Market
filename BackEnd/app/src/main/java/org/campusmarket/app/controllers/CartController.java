@@ -257,13 +257,14 @@
 
             User loggedIn = users.findById(sessions.findUserBySession(sessid));
 
-            Item addItem = items.findByRefnum(refnum);
+            Item dropItem = items.findByRefnum(refnum);
 
-            if (addItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+            if (dropItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
 
             if (loggedIn != null)
             {
-                items.delete(addItem);
+				loggedIn.dropItem(dropItem);;
+                items.delete(dropItem);
                 return true;
             }
             return false;
