@@ -115,7 +115,7 @@ public class TestUsersService extends TestServices {
     
 
     
-    @Test
+    @Test // test 1 NH - Demo5
     public void testAddToCart()
     {
         User u = new User("nheisler","testpw","Nick","Heisler","nheisler@iastate.edu","Iowa State University",true);
@@ -134,7 +134,7 @@ public class TestUsersService extends TestServices {
         assertEquals(itemOne.getRefnum(), ret.get(0).intValue());
     }
 
-    @Test
+    @Test // test 1 NH - Demo5
     public void testDropFromCart()
     {
         User u = new User("nheisler","testpw","Nick","Heisler","nheisler@iastate.edu","Iowa State University",true);

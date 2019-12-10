@@ -23,7 +23,7 @@ public class TestSessionsService extends TestServices
     @InjectMocks
     SessionService sessionService;
 
-    @Test
+    @Test // test 3 - NH - Demo5
     public void TestNewSession()
     {
         User sellerOne=new User ("nheisler", "abc123","Nick","Heisler","nheisler@iastate.edu","isu", false);
