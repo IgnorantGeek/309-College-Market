@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,11 +28,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.campusmarket.NewPostActivity;
 import com.example.campusmarket.R;
 import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
+import com.example.campusmarket.utils.ImageHandling;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,14 +42,17 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.campusmarket.app.AppController.TAG;
+
 /**
  * Activity for editing a user's item post
  */
-public class EditPost extends AppCompatActivity implements View.OnClickListener {
+public class EditPost extends ImageHandling implements View.OnClickListener {
 
     private String TAG = EditPost.class.getSimpleName();
     EditText etName, etPrice, etCondition, etCategory;
     JSONObject objectToEdit;
+    private String refnum;
     Button btnSubmit, btnDelete, btnImage;
     private ProgressDialog pDialog;
     private ImageView ivImage;
@@ -70,7 +76,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
         // get the item's current information from the last activity
         Intent intent = getIntent();
-        String refnum = intent.getStringExtra("refnum");
+        refnum = intent.getStringExtra("refnum");
         findItemByRefnum(refnum);
 
         // make buttons clickable
@@ -80,6 +86,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         btnDelete.setOnClickListener(this);
         btnImage = findViewById(R.id.btnUploadImageEdit);
         btnImage.setOnClickListener(this);
+        Button payment = findViewById(R.id.btnPayment);
+        payment.setOnClickListener(this);
     }
 
     /**
@@ -100,8 +108,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                         objectToEdit = response;
                         String imageString = null;
                         try {
-                            imageString = objectToEdit.getString("image");
-                            bmImage = NewPostActivity.StringToBitMap(imageString);
+                            imageString = objectToEdit.getString("img");
+                            bmImage = StringToBitMap(imageString);
                             ivImage = findViewById(R.id.imgUploadImageEdit);
                             ivImage.setImageBitmap(bmImage);
                         } catch (JSONException e) {
@@ -163,9 +171,9 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
             toAdd.put("category", (etCategory.getText()).toString());
             toAdd.put("user", oldObject.getJSONObject("user"));
             toAdd.put("condition", (etCondition.getText()).toString());
-            toAdd.put("image", NewPostActivity.BitMapToString(bmImage));
-            toAdd.put("fname", "img");
-            toAdd.put("ftype", "image/png");
+            toAdd.put("img", BitMapToString(bmImage));
+            toAdd.put("filename", "img");
+            toAdd.put("filetype", "image/png");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -238,9 +246,9 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                     params.put("category", js.getString("category"));
                     params.put("user", js.getString("user"));
                     params.put("condition", js.getString("condition"));
-                    params.put("image", NewPostActivity.BitMapToString(bmImage));
-                    params.put("fname", "img");
-                    params.put("ftype", "image/png");
+                    params.put("img", BitMapToString(bmImage));
+                    params.put("filename", "img");
+                    params.put("filetype", "image/png");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -328,24 +336,6 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     }
 
     /**
-     * Returns the path to this iamge
-     *
-     * @param uri The place where the image is from
-     * @return the Bitmap of the image
-     */
-    private Bitmap getPath(Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String filePath = cursor.getString(column_index);
-        // cursor.close();
-        // Convert file path into bitmap image using below line.
-        return BitmapFactory.decodeFile(filePath);
-    }
-
-    /**
      * Checks if we have permission to view user's photos.
      * If we do, then starts PhotoPickerIntent (built-in from Android)
      */
@@ -396,6 +386,28 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    private void receivedPayment() {
+        showProgressDialog();
+        String url  = Const.URL_GOT_PAYMENT+ "/" + refnum + "?sessid=" + UserActivity.sessionID;
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        hideProgressDialog();
+                        Log.d(TAG, response.toString() + " success, received payment");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hideProgressDialog();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+    }
+
     /**
      * Waits for the user to click a button on the screen.
      * If the button is "Submit," it updates that item's info
@@ -418,6 +430,9 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                 break;
             case R.id.btnUploadImageEdit:
                 selectImage();
+                break;
+            case R.id.btnPayment:
+                receivedPayment();
                 break;
             default:
                 break;

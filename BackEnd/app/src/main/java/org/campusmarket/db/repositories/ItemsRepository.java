@@ -27,9 +27,13 @@ import org.campusmarket.app.models.Item;
 		 */
 		Item findByRefnum(@Param("refnum") int refnum);
          
-        @Override
-        @Query(nativeQuery = true, value = "SELECT * FROM items WHERE checkout=0")
+     
         List<Item> findAll();
+        
+        
+       
+        @Query(nativeQuery = true, value = "SELECT * FROM items WHERE checkout=0")
+        List<Item> findItemdCheckout();
 
 		/**
 	     * A method to search for items by their name (or part of the name)

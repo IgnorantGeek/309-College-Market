@@ -316,7 +316,7 @@
 		 * A method to get all the items
 		 * @return a list of all items 
 		 */
-		@RequestMapping("/all")
+		@RequestMapping("/all/admin")
 		private List<Item> getAll()
 		{
 			try 
@@ -330,6 +330,21 @@
 	        }
 	    }
 	
+		@RequestMapping("/all")
+		private List<Item> getItemsCheckedOut()
+		{
+			try 
+			{
+		    	return items. findItemdCheckout();
+			}
+			catch (Exception e)
+			{
+	            log.error(e.getMessage());
+	            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No items were found.");
+	        }
+	    }
+	
+		
 	    
 	    /**
 	     * A method to get all the items for a specific seller
