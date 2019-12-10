@@ -7,12 +7,29 @@
     tools:context=".profile.EditPost">
 
     <EditText
+        android:id="@+id/etEditCategory"
+        android:layout_width="149dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toEndOf="@+id/etEditCondition"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <EditText
         android:id="@+id/etEditName"
         android:layout_width="149dp"
         android:layout_height="42dp"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
@@ -25,29 +42,121 @@
         android:layout_height="42dp"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-    <EditText
-        android:id="@+id/etEditCategory"
-        android:layout_width="149dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="16dp"
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginRight="112dp"
+        android:text="Category:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEditPrice" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="100dp"
+        android:text="Item Name:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="Price:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text=""
+        android:text="Condition:"
+        app:layout_constraintEnd_toStartOf="@+id/textView12"
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEditName" />
+
+    <Button
+        android:id="@+id/btnEditSubmit"
+        android:layout_width="150dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="60dp"
+        android:text="Submit Changes"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toEndOf="@+id/etEditCondition"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintHorizontal_bias="0.114"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnUploadImageEdit" />
+
+    <Button
+        android:id="@+id/btnEditDelete"
+        android:layout_width="149dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="60dp"
+        android:text="Delete Post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnUploadImageEdit" />
+
+    <Button
+        android:id="@+id/btnUploadImageEdit"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="#03A9F4"
+        android:text="Upload an image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEditCategory" />
+
+    <ImageView
+        android:id="@+id/imgUploadImageEdit"
+        android:layout_width="144dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnUploadImageEdit"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEditCondition"
+        app:srcCompat="@drawable/market_cartoon" />
+
+    <TextView
+        android:id="@+id/tvUploadImageEdit"
+        android:layout_width="326dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="20dp"
+        android:text="No Image Uploaded"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/imgUploadImageEdit"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/etEditPrice"
@@ -55,7 +164,7 @@
         android:layout_height="42dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="28dp"
         android:layout_marginRight="28dp"
         android:ems="10"
@@ -65,17 +174,6 @@
         app:layout_constraintHorizontal_bias="0.939"
         app:layout_constraintStart_toEndOf="@+id/etEditName"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginRight="116dp"
-        android:text="Category:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditPrice" />
 
     <TextView
         android:id="@+id/textView9"
@@ -91,101 +189,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="44dp"
-        android:text="Item Name:"
+    <Button
+        android:id="@+id/btnPayment"
+        android:layout_width="293dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:background="#59673AB7"
+        android:text="I have received payment for this item "
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.593"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Price:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Condition:"
-        app:layout_constraintEnd_toStartOf="@+id/textView12"
-        app:layout_constraintHorizontal_bias="0.144"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditName" />
-
-    <Button
-        android:id="@+id/btnEditSubmit"
-        android:layout_width="150dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="76dp"
-        android:text="Submit Changes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.114"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUploadImageEdit" />
-
-    <Button
-        android:id="@+id/btnEditDelete"
-        android:layout_width="149dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="76dp"
-        android:text="Delete Post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUploadImageEdit" />
-
-    <Button
-        android:id="@+id/btnUploadImageEdit"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:background="#03A9F4"
-        android:text="Upload an image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditCategory" />
-
-    <ImageView
-        android:id="@+id/imgUploadImageEdit"
-        android:layout_width="144dp"
-        android:layout_height="104dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/btnUploadImageEdit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEditCondition"
-        app:srcCompat="@drawable/market_cartoon" />
-
-    <TextView
-        android:id="@+id/tvUploadImageEdit"
-        android:layout_width="326dp"
-        android:layout_height="27dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginRight="48dp"
-        android:layout_marginBottom="8dp"
-        android:text="No Image Uploaded"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/imgUploadImageEdit"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

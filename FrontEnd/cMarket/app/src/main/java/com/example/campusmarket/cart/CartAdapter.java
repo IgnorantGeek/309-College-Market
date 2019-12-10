@@ -22,6 +22,7 @@ import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.dashboard.DashboardActivity;
 import com.example.campusmarket.utils.Const;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static com.example.campusmarket.app.AppController.TAG;
@@ -95,6 +96,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         price.setText(item.getPrice());
         this.price = item.getPrice();
         this.name = item.getName();
+        Log.d(TAG, "WATCHING ITEM: " + this.name);
         this.seller = item.getUser();
         user.setText(item.getUser());
         this.refnum = item.getRefnum();
@@ -214,7 +216,27 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Log.d(TAG, "Error in item received");
+                if (error == null) {
+                    Log.d(TAG, "ERROR is null ");
+                    return;
+                }
+                if (error.networkResponse == null) {
+                    Log.d(TAG, "ERROR network response is null");
+                    return;
+                }
+
+                String body = "";
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+                Log.d(TAG, "ERROR BODY: " + body);
             }
         });
         // Adding request to request queue

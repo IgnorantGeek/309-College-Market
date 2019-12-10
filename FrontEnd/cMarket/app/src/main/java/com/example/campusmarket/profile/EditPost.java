@@ -27,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.campusmarket.NewPostActivity;
 import com.example.campusmarket.R;
 import com.example.campusmarket.UserActivity;
@@ -39,6 +40,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.campusmarket.app.AppController.TAG;
+
 /**
  * Activity for editing a user's item post
  */
@@ -47,6 +50,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
     private String TAG = EditPost.class.getSimpleName();
     EditText etName, etPrice, etCondition, etCategory;
     JSONObject objectToEdit;
+    private String refnum;
     Button btnSubmit, btnDelete, btnImage;
     private ProgressDialog pDialog;
     private ImageView ivImage;
@@ -70,7 +74,7 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
 
         // get the item's current information from the last activity
         Intent intent = getIntent();
-        String refnum = intent.getStringExtra("refnum");
+        refnum = intent.getStringExtra("refnum");
         findItemByRefnum(refnum);
 
         // make buttons clickable
@@ -80,6 +84,8 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         btnDelete.setOnClickListener(this);
         btnImage = findViewById(R.id.btnUploadImageEdit);
         btnImage.setOnClickListener(this);
+        Button payment = findViewById(R.id.btnPayment);
+        payment.setOnClickListener(this);
     }
 
     /**
@@ -396,6 +402,25 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    private void receivedPayment() {
+        String url  = Const.URL_GOT_PAYMENT+ "/" + refnum + "?sessid=" + UserActivity.sessionID;
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response.toString() + " posted");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+    }
+
     /**
      * Waits for the user to click a button on the screen.
      * If the button is "Submit," it updates that item's info
@@ -418,6 +443,9 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                 break;
             case R.id.btnUploadImageEdit:
                 selectImage();
+                break;
+            case R.id.btnPayment:
+                receivedPayment();
                 break;
             default:
                 break;
