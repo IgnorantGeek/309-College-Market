@@ -22,13 +22,6 @@
 	import org.springframework.web.bind.annotation.RestController;
 	import org.springframework.web.server.ResponseStatusException;
 	
-	enum Checkout
-    {
-        FORSALE,           // 0
-        CHECKOUT,          // 1
-        AWAITPAYMENT,	   // 2
-        AWAITRECIEVED;     // 3
-    }
 
 	
 	/**
@@ -251,7 +244,7 @@
 
             if (loggedIn != null && addItem.getUser().compareTo(loggedIn))
             {
-                addItem.setCheckout(Checkout.AWAITRECIEVED.ordinal());
+                addItem.setCheckout(3);
                 items.save(addItem);
                 return true;
             }
