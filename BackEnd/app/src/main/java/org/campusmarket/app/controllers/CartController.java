@@ -242,7 +242,7 @@
             return false;    
 		}
 		
-		@GetMapping("/recieved/{refnum}")
+		@GetMapping("/received/{refnum}")
         public boolean SetItemRecieved(@PathVariable("refnum") int refnum,
                                     @RequestParam(name = "sessid", required = true) String sessid)
         {
