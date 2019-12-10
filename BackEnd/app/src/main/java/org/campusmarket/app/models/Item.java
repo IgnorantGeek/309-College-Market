@@ -25,7 +25,8 @@ import org.springframework.core.style.ToStringCreator;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 
-public class Item {
+public class Item 
+{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "refnum")
@@ -53,6 +54,8 @@ public class Item {
     @Column (name="ftype")
     private String ftype;
     
+    @Column (name="checkout")
+    private int checkout;
     
     
     @Lob @Basic(fetch = FetchType.LAZY)
@@ -68,8 +71,6 @@ public class Item {
 
   
 
-  
-    
     /**
      * Default constructor 
      */
@@ -198,6 +199,13 @@ public class Item {
    public LocalDate getPostedDate() {
 	   return this.postdate;
    }
+
+   /**
+    * @return the checkout
+    */
+   public int getCheckout() {
+       return checkout;
+   }
    
    /**
     * A setter method to change the refnum of an item 
@@ -274,6 +282,13 @@ public class Item {
     */
    public void setDatePosted(LocalDate date) {
 	   this.postdate=date;
+   }
+
+   /**
+    * @param checkout the checkout to set
+    */
+   public void setCheckout(int checkout) {
+       this.checkout = checkout;
    }
    
    

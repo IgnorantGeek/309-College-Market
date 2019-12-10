@@ -23,6 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 
+enum Checkout
+{
+    FORSALE,           // 0
+    CHECKOUT,          // 1
+	AWAITPAYMENT,	   // 2
+	AWAITRECIEVED;     // 3
+}
+
 
 /**
  * a class to represent the controller for users
@@ -210,6 +218,8 @@ public class UserController
 
         if (users.existsInUserCart(loggedIn.getId(), refnum) == 1)
         {
+            dropItem.setCheckout(Checkout.FORSALE.ordinal());
+            items.save(dropItem);
             users.removeItemFromCart(loggedIn.getId(), refnum);
             log.info("User with ID: " + loggedIn.getId() + " dropped item with refnum: " + refnum + " from shopping cart.");
             users.save(loggedIn);
@@ -245,6 +255,8 @@ public class UserController
 
         if (loggedIn != null)
         {
+            addItem.setCheckout(Checkout.CHECKOUT.ordinal());
+            items.save(addItem);
             loggedIn.addItem(addItem);
             log.info("User with ID: " + loggedIn.getId() + " added item with refnum: " + refnum + " to shopping cart.");
             users.save(loggedIn);
@@ -252,7 +264,90 @@ public class UserController
         }
         else return false;
     }
-     
+
+    @GetMapping("/cart/checkout/{refnum}")
+    public boolean checkoutItem(@PathVariable("refnum") int refnum,
+                                @RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        Item addItem = items.findByRefnum(refnum);
+
+        if (addItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+        if (loggedIn != null)
+        {
+            addItem.setCheckout(Checkout.AWAITPAYMENT.ordinal());
+            items.save(addItem);
+            return true;
+        }
+        return false;    
+    }
+
+    @GetMapping("/forsale/paid/{refnum}")
+    public boolean SetItemPaid(@PathVariable("refnum") int refnum,
+                               @RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        Item addItem = items.findByRefnum(refnum);
+
+        if (addItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+        if (loggedIn != null && addItem.getUser().compareTo(loggedIn))
+        {
+            addItem.setCheckout(Checkout.AWAITRECIEVED.ordinal());
+            items.save(addItem);
+            return true;
+        }
+        return false;
+    }
+
+    @GetMapping("/cart/recieved/{refnum}")
+    public boolean SetItemRecieved(@PathVariable("refnum") int refnum,
+                                   @RequestParam(name = "sessid", required = true) String sessid)
+    {
+        if (sessid.isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request Invalid: Empty value for required parameter 'sessid'.");
+        }
+
+        Session active = sessions.findBySessId(sessid);
+        
+        if (active == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an active session with id: " + sessid);
+
+        User loggedIn = users.findById(sessions.findUserBySession(sessid));
+
+        Item addItem = items.findByRefnum(refnum);
+
+        if (addItem == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an item with refnum: " + refnum);
+
+        if (loggedIn != null)
+        {
+            items.delete(addItem);
+            return true;
+        }
+        return false;
+    }
+
     /**
      *  A method to get a user given his/her id
      * @param id

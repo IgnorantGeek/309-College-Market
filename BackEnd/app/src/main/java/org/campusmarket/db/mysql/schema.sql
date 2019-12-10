@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS items(
 	ftype VARCHAR (30),
 	fdata LONGBLOB,
 	postdate DATE NOT NULL,
+    checkout INT UNSIGNED NOT NULL,
 	FOREIGN KEY (seller) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 ) engine=InnoDB;
 

@@ -116,6 +116,7 @@ public class ItemController
 			User u=users.findById(sessions.findUserBySession(sessid));
 			
 			Item item=new Item (name,price,category,cond, fileName, file.getContentType(), file.getBytes());
+			item.setCheckout(0);
 	
 			item.setUser(u);
 			items.save(item);
@@ -148,6 +149,7 @@ public class ItemController
 		try
 		{	
 			User u=users.findById(sessions.findUserBySession(sessid));
+			item.setCheckout(0);
 			
 	
 			item.setUser(u);
@@ -296,7 +298,7 @@ public class ItemController
     		log.error(e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This user has no items for sale.");
     	}
-    }
+	}
      
       /**
        * A method to search item by their name (or part of the name)
