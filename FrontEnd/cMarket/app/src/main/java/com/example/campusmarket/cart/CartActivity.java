@@ -2,16 +2,21 @@ package com.example.campusmarket.cart;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.campusmarket.R;
 import com.example.campusmarket.UserActivity;
 import com.example.campusmarket.app.AppController;
@@ -24,12 +29,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity {
+import static com.example.campusmarket.app.AppController.TAG;
+
+public class CartActivity extends AppCompatActivity  {
 
     private String TAG = CartActivity.class.getSimpleName();
     private ProgressDialog pDialog;
     private String tag_json_arry = "jarray_req";
-    private String refnum;
+
     //    Button btnViewCart;
     ListView listView;
     Activity activity;
@@ -51,8 +58,6 @@ public class CartActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         CartList = new ArrayList<>();
-//        Intent intent = getIntent();
-//        refnum =  intent.getStringExtra("refnum");
 
         makeJsonArryReq();
 
@@ -119,7 +124,6 @@ public class CartActivity extends AppCompatActivity {
                 CartItemsActivity item = new CartItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), seller.getString("username"), demoObject.getString("refnum"));
                 CartList.add(item); // adding all of these new items for display
-
 
                 // setting up new adapter that will place items accordingly
                 final CartAdapter adapter = new CartAdapter(CartList, getApplicationContext());

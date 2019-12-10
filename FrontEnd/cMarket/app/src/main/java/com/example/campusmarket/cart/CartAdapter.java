@@ -1,6 +1,7 @@
 package com.example.campusmarket.cart;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.dashboard.DashboardActivity;
 import com.example.campusmarket.utils.Const;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static com.example.campusmarket.app.AppController.TAG;
@@ -32,7 +34,9 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
     private Context mCtx;
     private Button btnRemove;
     private Button btnClear;
-    private String refnum;
+    private String refnum, price, name, seller;
+    private ProgressDialog pDialog;
+
 
     /** These methods need to be public since
      *  they are referenced in other classes
@@ -50,6 +54,9 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         super(mCtx, R.layout.activity_cartrows, CartList);
         this.CartList = CartList;
         this.mCtx = mCtx;
+        pDialog = new ProgressDialog(mCtx);
+        pDialog.setMessage("Loading...");
+
     }
 
     /**
@@ -62,6 +69,8 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
 
         // aids in specifically placing items
         LayoutInflater inflater = LayoutInflater.from(mCtx);
@@ -81,6 +90,10 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         btnRemove.setOnClickListener(this);
         btnClear = (Button) listViewItem.findViewById(R.id.btnClear);
         btnClear.setOnClickListener(this);
+        Button checkout = listViewItem.findViewById(R.id.btnCheckOut);
+        checkout.setOnClickListener(this);
+        Button received = listViewItem.findViewById(R.id.btnItemReceived);
+        received.setOnClickListener(this);
 
         // getting the specified positions for the items
         CartItemsActivity item = CartList.get(position);
@@ -88,8 +101,12 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         // setting each parameter to text editable boxed
         name.setText(item.getName());
         price.setText(item.getPrice());
+        this.price = item.getPrice();
+        this.name = item.getName();
+        Log.d(TAG, "WATCHING ITEM: " + this.name);
+        this.seller = item.getUser();
         user.setText(item.getUser());
-        refnum = item.getRefnum();
+        this.refnum = item.getRefnum();
 
         //returning the list of items as a whole
         return listViewItem;
@@ -162,6 +179,100 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
 
     }
 
+    private void checkOutRequest()
+    {
+        //showProgressDialog();
+        String url  = Const.URL_CART_CHECKOUT + "/" + refnum + "?sessid=" + UserActivity.sessionID;
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //hideProgressDialog();
+                        Log.d(TAG, response.toString() + " success, check out");
+                        finishCheckout();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //hideProgressDialog();
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+    }
+
+    private void finishCheckout()
+    {
+        // go on to the next activity
+        Intent intent = new Intent(mCtx, CheckOutActivity.class);
+        intent.putExtra("sellers", seller);
+       intent.putExtra("itemNames", name);
+        intent.putExtra("total", price);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mCtx.startActivity(intent);
+    }
+
+
+    /**
+     * Shows progress dialog during request
+     */
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    /**
+     * Hides progress dialog during request
+     */
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
+
+    private void itemReceivedRequest() {
+        //showProgressDialog();
+        String url  = Const.URL_GOT_ITEM + "/" + refnum + "?sessid=" + UserActivity.sessionID;
+        StringRequest stringReq = new StringRequest(
+                Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //hideProgressDialog();
+                        Log.d(TAG, response.toString() + " success, item received ");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error in item received");
+                if (error == null) {
+                    //hideProgressDialog();
+                    Log.d(TAG, "ERROR is null ");
+                    return;
+                }
+                if (error.networkResponse == null) {
+                    Log.d(TAG, "ERROR network response is null");
+                    return;
+                }
+
+                String body = "";
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+                Log.d(TAG, "ERROR BODY: " + body);
+            }
+        });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(stringReq, "jobj_req");
+    }
+
     /**
      * Handles the action on button click.
      * If button is Remove, call removeItem function
@@ -185,6 +296,12 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
                 Intent intent2 = new Intent(mCtx, DashboardActivity.class);
                 intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mCtx.startActivity(intent2);
+                break;
+            case R.id.btnCheckOut:
+                checkOutRequest();
+                break;
+            case R.id.btnItemReceived:
+                itemReceivedRequest();
                 break;
             default:
                 break;
