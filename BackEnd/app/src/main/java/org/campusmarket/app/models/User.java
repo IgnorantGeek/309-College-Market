@@ -1,7 +1,8 @@
 	package org.campusmarket.app.models;
 	
 	import java.io.Serializable;
-	import java.util.Set;
+import java.util.HashSet;
+import java.util.Set;
 	
 	import javax.persistence.CascadeType;
 	import javax.persistence.Column;
@@ -67,12 +68,12 @@
 	               orphanRemoval = true)
 	    @JoinTable(name = "user_sessions", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "sess_id"))
 	    @JsonIgnore()
-	    private Set<Session> sessions;
+	    private Set<Session> sessions = new HashSet<>();
 	
 	    @OneToMany()
 	    @JoinTable(name = "shopping_carts", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
 	    @JsonIgnore()
-	    private Set<Item> cart;
+	    private Set<Item> cart = new HashSet<>();
 	
 	    
 	    /*--- Constructors ---*/
@@ -365,5 +366,5 @@
 	    public void dropItem(Item i)
 	    {
 	        this.cart.remove(i);
-		}
+	    }
 	}
