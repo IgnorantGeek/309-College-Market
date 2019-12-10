@@ -255,9 +255,17 @@
 			{
 				try 
 				{
-					int buyerId=users.getBuyerId(refnum);
-					users.removeItemFromCart(buyerId, refnum);
-					items.deleteById(refnum);
+					
+					if(users.existsInUserCartOnlyRefnum(refnum)==0) {
+						items.deleteById(refnum);
+					}
+					else {
+						int buyerId=users.getBuyerId(refnum);
+						users.removeItemFromCart(buyerId, refnum);
+						items.deleteById(refnum);
+					}
+					
+					
 					log.info(" success: the item with a reference number of " + refnum +" was deleted");
 					
 				}
