@@ -61,7 +61,7 @@
 		     * @param id
 		     * @return the file found otherwise throwing an exception
 		     */
-		    public Item getFile(int refnum) {
+		public Item getFile(int refnum) {
 		    	try {
 		        return itemsRepo.findByRefnum(refnum);
 		    	}
@@ -70,11 +70,11 @@
 		    		throw new MyFileNotFoundException("Couldn't find file with id " + refnum);
 		    	}
 		    }
-		    public ArrayList<Item>findByCategory( @Param("category") String category){
+		public ArrayList<Item>findByCategory( @Param("category") String category){
 				 return itemsRepo.findByCategory(category);
 			}
 			  
-		    public ArrayList<Item>findByCondAndName( @Param("name") String name, @Param("cond") String cond){
+		public ArrayList<Item>findByCondAndName( @Param("name") String name, @Param("cond") String cond){
 				 return itemsRepo.findByCondAndName(name, cond);
 			}
 		    
