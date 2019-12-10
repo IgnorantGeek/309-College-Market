@@ -134,7 +134,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 DashItemsActivity item = new DashItemsActivity(demoObject.getString("name"),
                         demoObject.getString("price"), demoObject.getString("condition"),
                         demoObject.getString("category"), demoObject.getString("postedDate"),
-                        sellerName, demoObject.getString("refnum"), demoObject.getString("image"));
+                        sellerName, demoObject.getString("refnum"), demoObject.getString("img"));
                 ItemList.add(item); // adding all of these new items for display
 
 

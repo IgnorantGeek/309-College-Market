@@ -163,9 +163,9 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
             toAdd.put("category", (etCategory.getText()).toString());
             toAdd.put("user", oldObject.getJSONObject("user"));
             toAdd.put("condition", (etCondition.getText()).toString());
-            toAdd.put("image", NewPostActivity.BitMapToString(bmImage));
-            toAdd.put("fname", "img");
-            toAdd.put("ftype", "image/png");
+            toAdd.put("img", NewPostActivity.BitMapToString(bmImage));
+            toAdd.put("filename", "img");
+            toAdd.put("filetype", "image/png");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -238,9 +238,9 @@ public class EditPost extends AppCompatActivity implements View.OnClickListener 
                     params.put("category", js.getString("category"));
                     params.put("user", js.getString("user"));
                     params.put("condition", js.getString("condition"));
-                    params.put("image", NewPostActivity.BitMapToString(bmImage));
-                    params.put("fname", "img");
-                    params.put("ftype", "image/png");
+                    params.put("img", NewPostActivity.BitMapToString(bmImage));
+                    params.put("filename", "img");
+                    params.put("filetype", "image/png");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
