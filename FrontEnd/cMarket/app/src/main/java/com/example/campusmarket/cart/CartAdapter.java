@@ -1,6 +1,7 @@
 package com.example.campusmarket.cart;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -34,6 +35,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
     private Button btnRemove;
     private Button btnClear;
     private String refnum, price, name, seller;
+    private ProgressDialog pDialog;
 
 
     /** These methods need to be public since
@@ -52,6 +54,9 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         super(mCtx, R.layout.activity_cartrows, CartList);
         this.CartList = CartList;
         this.mCtx = mCtx;
+        pDialog = new ProgressDialog(mCtx);
+        pDialog.setMessage("Loading...");
+
     }
 
     /**
@@ -64,6 +69,8 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
 
         // aids in specifically placing items
         LayoutInflater inflater = LayoutInflater.from(mCtx);
@@ -174,18 +181,21 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
 
     private void checkOutRequest()
     {
+        //showProgressDialog();
         String url  = Const.URL_CART_CHECKOUT + "/" + refnum + "?sessid=" + UserActivity.sessionID;
         StringRequest stringReq = new StringRequest(
                 Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        //hideProgressDialog();
                         Log.d(TAG, response.toString() + " success, check out");
                         finishCheckout();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                //hideProgressDialog();
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         });
@@ -204,13 +214,32 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
         mCtx.startActivity(intent);
     }
 
+
+    /**
+     * Shows progress dialog during request
+     */
+    private void showProgressDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    /**
+     * Hides progress dialog during request
+     */
+    private void hideProgressDialog() {
+        if (pDialog.isShowing())
+            pDialog.hide();
+    }
+
     private void itemReceivedRequest() {
+        //showProgressDialog();
         String url  = Const.URL_GOT_ITEM + "/" + refnum + "?sessid=" + UserActivity.sessionID;
         StringRequest stringReq = new StringRequest(
                 Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        //hideProgressDialog();
                         Log.d(TAG, response.toString() + " success, item received ");
                     }
                 }, new Response.ErrorListener() {
@@ -218,6 +247,7 @@ public class CartAdapter extends ArrayAdapter<CartItemsActivity> implements View
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error in item received");
                 if (error == null) {
+                    //hideProgressDialog();
                     Log.d(TAG, "ERROR is null ");
                     return;
                 }
