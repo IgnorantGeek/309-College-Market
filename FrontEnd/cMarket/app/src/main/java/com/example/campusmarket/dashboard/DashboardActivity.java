@@ -156,11 +156,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 //        msgResponse.setText(message); --> // we no longer want the whole message to display since items are not their own entities
     }
 
-    private String convertDate(String oldDate) {
+    public String convertDate(String oldDate) {
         String[] dateArr = oldDate.split("-");
+        if (dateArr.length != 3) return "";
         String year = dateArr[0];
         String day = dateArr[2];
         int monthIndex = Integer.parseInt(dateArr[1]);
+        if (monthIndex < 1 || monthIndex > 12) return "";
         String[] monthArr = {"January", "February", "March", "April", "May", "June", "July",
                 "August", "September", "October", "November", "December"};
         String month = monthArr[monthIndex - 1];
