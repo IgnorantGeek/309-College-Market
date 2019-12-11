@@ -141,6 +141,7 @@ public class NewPostActivity extends ImageHandling implements View.OnClickListen
             String converted = BitMapToString(bitmap);
             Log.d(TAG, converted);
             Bitmap bconverted = StringToBitMap(converted);
+            //Bitmap resized = Bitmap.createScaledBitmap(bconverted,(int)(bconverted.getWidth()*0.8), (int)(bconverted.getHeight()*0.8), true);
 
             if (filePath.equals("null")) {
                 String failure = "Error in uploading picture";

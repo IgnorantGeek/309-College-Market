@@ -20,6 +20,7 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.example.campusmarket.MainActivity;
 import com.example.campusmarket.R;
 import com.example.campusmarket.UserActivity;
+import com.example.campusmarket.WebSockets;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
@@ -211,8 +212,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * @param username User's username
      */
     public void finishLogIn(String username, String sessionID) {
-        Intent intent = new Intent(this, UserActivity.class);
+        Intent intent = new Intent(this, WebSockets.class);
         intent.putExtra(MainActivity.EXTRA_MESSAGE, username);
+        intent.putExtra("firstLogIn", "true");
         intent.putExtra("sessionID", sessionID);
         startActivity(intent);
     }

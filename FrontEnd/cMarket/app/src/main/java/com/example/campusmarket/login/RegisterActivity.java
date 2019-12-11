@@ -15,6 +15,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.campusmarket.MainActivity;
 import com.example.campusmarket.R;
 import com.example.campusmarket.UserActivity;
+import com.example.campusmarket.WebSockets;
 import com.example.campusmarket.app.AppController;
 import com.example.campusmarket.utils.Const;
 
@@ -269,12 +270,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     public void finishSignUp(String username, String sessionID) {
         // sending user to the next page by creating a new intent
-        Intent intent = new Intent(this, UserActivity.class);
+        Intent intent = new Intent(this, WebSockets.class);
         EditText editText = (EditText) findViewById(R.id.etUsername);
         String message = editText.getText().toString();
         // stores username and displays it in a welcome message on the next page;
         intent.putExtra(MainActivity.EXTRA_MESSAGE, message);
         intent.putExtra("sessionID", sessionID);
+        intent.putExtra("firstLogIn", "true");
         startActivity(intent);
     }
 }

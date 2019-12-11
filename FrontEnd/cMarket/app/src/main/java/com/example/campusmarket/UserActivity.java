@@ -38,7 +38,15 @@ public class UserActivity extends Activity implements OnClickListener {
         if (sessMessage != null) {
             sessionID = intent.getStringExtra("sessionID");
         }
+
+
         Log.d("This is the sessionID: ", sessionID);
+//        String firstLogIn =  intent.getStringExtra("firstLogIn");
+//        if (firstLogIn != null)
+//        {
+//            startActivity(new Intent(UserActivity.this,WebSockets.class));
+//            finish();
+//        }
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.usernameWelcome);

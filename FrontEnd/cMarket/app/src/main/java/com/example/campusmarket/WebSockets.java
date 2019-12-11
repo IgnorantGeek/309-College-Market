@@ -65,6 +65,7 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
             names.setText(namesString);
         }
 
+
         // initialize variables
         btnSend =  findViewById(R.id.btnSendMessage);
         etMessage =  findViewById(R.id.etMessage);
@@ -73,6 +74,12 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
         messageLayout.setOrientation(LinearLayout.VERTICAL);
 
 
+        String firstLogIn =  intent.getStringExtra("firstLogIn");
+        if (firstLogIn != null)
+        {
+            UserActivity.loggedInUsername = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+            UserActivity.sessionID =intent.getStringExtra("sessionID");
+        }
         String previousMessage = intent.getStringExtra("message");
         if (previousMessage != null)
         {
@@ -84,6 +91,19 @@ public class WebSockets extends AppCompatActivity implements View.OnClickListene
 
         // connect the user who is logged in (so they don't type in their own username)
         connectUser(UserActivity.sessionID);
+
+        if (firstLogIn != null)
+        {
+            String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+            String sessionID = intent.getStringExtra("sessionID");
+            Intent intent2 = new Intent(WebSockets.this,UserActivity.class);
+            intent2.putExtra(MainActivity.EXTRA_MESSAGE, message);
+            intent2.putExtra("sessionID", sessionID);
+            startActivity(intent2);
+            finish();
+        }
+
+
     }
 
     public void notifyMe(String seller, String buyer, String message)
